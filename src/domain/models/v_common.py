@@ -1,5 +1,6 @@
 from uuid import UUID as _UUID
 from datetime import datetime as _datetime, timezone as _timezone
+from urllib.parse import urlparse
 
 class UUID:
     __slots__ = ("_value",)
@@ -69,6 +70,9 @@ class DateTime:
     def to_iso(self) -> str:
         return self._value.isoformat()
 
+    def to_date(self) -> str:
+        return self._value.date().isoformat()
+
     def __str__(self) -> str:
         return self._value.isoformat()
 
@@ -77,6 +81,32 @@ class DateTime:
 
     def __eq__(self, other) -> bool:
         return isinstance(other, DateTime) and self._value == other._value
+
+    def __hash__(self) -> int:
+        return hash(self._value)
+
+
+class HttpUrl:
+    __slots__ = ("_value",)
+
+    def __init__(self, value: str):
+        value = value.strip()
+        if not value:
+            raise ValueError("URL cannot be empty.")
+        parsed = urlparse(value)
+        if not (parsed.scheme and parsed.netloc):
+            raise ValueError(f"Invalid URL: {value}")
+        self._value = value
+
+    @property
+    def value(self) -> str:
+        return self._value
+
+    def __str__(self) -> str:
+        return self._value
+
+    def __eq__(self, other) -> bool:
+        return isinstance(other, HttpUrl) and self._value == other._value
 
     def __hash__(self) -> int:
         return hash(self._value)
