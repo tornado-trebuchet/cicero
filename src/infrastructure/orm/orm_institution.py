@@ -15,7 +15,7 @@ class InstitutionORM(Base):
     __tablename__ = "institutions"
     
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    country_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("countries.id", ondelete="CASCADE"), nullable=False)
+    country_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("countries.id"), nullable=False)
     institution_type: Mapped[InstitutionTypeEnum] = mapped_column(PG_ENUM(InstitutionTypeEnum, name="institution_type_enum"), nullable=False)
     metadata_data: Mapped[Dict[str, Any]] = mapped_column(JSONB, nullable=False, default={})
     
@@ -27,8 +27,6 @@ class InstitutionORM(Base):
     protocols: Mapped[List["ProtocolORM"]] = relationship(
         "ProtocolORM",
         back_populates="institution",
-        cascade="all, delete-orphan",
-        passive_deletes=True
     )
 
     __table_args__ = (

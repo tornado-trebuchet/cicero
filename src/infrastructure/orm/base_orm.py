@@ -1,15 +1,13 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
 from sqlalchemy import create_engine, MetaData
-from sqlalchemy.orm import declarative_base, sessionmaker, DeclarativeBase
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
 if TYPE_CHECKING:
     from sqlalchemy.engine import Engine
     from sqlalchemy.orm import Session
 
 class Base(DeclarativeBase):
-    """Base class for all ORM models with modern SQLAlchemy 2.0 typing support."""
     pass
 
 metadata = MetaData()

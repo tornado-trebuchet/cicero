@@ -52,3 +52,13 @@ class ISpeechRepository(ABC):
         Will cascade delete Text but preserve Speaker for other speeches.
         """
         pass
+
+    @abstractmethod
+    def get_by_date_range(self, start_date, end_date) -> List[Speech]:
+        """Get all speeches whose protocol date is within the given range."""
+        pass
+
+    @abstractmethod
+    def get_by_period(self, period_id: UUID) -> List[Speech]:
+        """Get all speeches for a given period (via protocol's period_id)."""
+        pass

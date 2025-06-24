@@ -1,6 +1,6 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, List, Optional
-from sqlalchemy import Column, String, Boolean, Integer, Text, ForeignKey, Index, UniqueConstraint
+from sqlalchemy import String, Boolean, Integer, ForeignKey, Index, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base
@@ -40,8 +40,7 @@ class RegexPatternORM(Base):
     )
 
     __table_args__ = (
-        UniqueConstraint('country_id', 'institution_id', 'period_id', 'version', 
-                        name='uq_regex_pattern_scope_version'),
+        UniqueConstraint('country_id', 'institution_id', 'period_id', 'version', name='uq_regex_pattern_scope_version'),
         Index('idx_regex_country_institution', 'country_id', 'institution_id'),
         Index('idx_regex_active', 'is_active'),
         Index('idx_regex_version', 'version'),

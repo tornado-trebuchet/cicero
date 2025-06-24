@@ -1,9 +1,6 @@
-"""
-Country ORM implementation.
-"""
 from __future__ import annotations
 from typing import TYPE_CHECKING, List
-from sqlalchemy import Column, String, Index
+from sqlalchemy import Index
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM as PG_ENUM
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base

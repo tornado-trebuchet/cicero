@@ -15,6 +15,7 @@ from src.domain.models.v_common import UUID
 from src.infrastructure.orm.orm_speech import SpeechORM
 from src.infrastructure.orm.orm_speaker import SpeakerORM
 from src.infrastructure.orm.orm_text import TextORM
+from src.infrastructure.orm.orm_protocol import ProtocolORM
 from src.infrastructure.mappers.m_speech import SpeechMapper
 from src.infrastructure.mappers.m_speaker import SpeakerMapper
 from src.infrastructure.mappers.m_text import TextMapper
@@ -164,6 +165,27 @@ class SpeechRepository(ISpeechRepository):
         # Speaker is preserved as it may be referenced by other speeches
         self._session.delete(orm_speech)
         self._session.flush()
+    
+    def get_by_date_range(self, start_date, end_date) -> List[Speech]:
+        """Get all speeches whose protocol date is within the given range."""
+        orm_speeches = self._session.query(SpeechORM).join(SpeechORM.protocol).options(
+            joinedload(SpeechORM.author),
+            joinedload(SpeechORM.text)
+        ).filter(
+            ProtocolORM.date >= start_date,
+            ProtocolORM.date <= end_date
+        ).all()
+        return [self._rehydrate_speech_aggregate(orm_speech) for orm_speech in orm_speeches]
+
+    def get_by_period(self, period_id: UUID) -> List[Speech]:
+        """Get all speeches for a given period (via protocol's period_id)."""
+        orm_speeches = self._session.query(SpeechORM).join(SpeechORM.protocol).options(
+            joinedload(SpeechORM.author),
+            joinedload(SpeechORM.text)
+        ).filter(
+            ProtocolORM.period_id == period_id.value
+        ).all()
+        return [self._rehydrate_speech_aggregate(orm_speech) for orm_speech in orm_speeches]
     
     def _rehydrate_speech_aggregate(self, orm_speech: SpeechORM) -> Speech:
         """
