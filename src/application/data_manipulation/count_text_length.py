@@ -1,7 +1,3 @@
-"""
-Text length counting module for calculating word counts and text metrics.
-Supports multiple counting methods and language-aware metrics.
-"""
 import re
 from typing import Dict, Any, Optional, Tuple
 from dataclasses import dataclass
@@ -14,7 +10,6 @@ from src.config import DataManipulationConfig
 
 @dataclass
 class TextMetrics:
-    """Container for various text metrics."""
     word_count: int
     character_count: int
     character_count_no_spaces: int
@@ -25,7 +20,6 @@ class TextMetrics:
     average_word_length: float
     
     def to_dict(self) -> Dict[str, Any]:
-        """Convert metrics to dictionary."""
         return {
             'word_count': self.word_count,
             'character_count': self.character_count,
@@ -51,13 +45,11 @@ class TextLengthCounter(BaseManipulator[Text, TextMetrics]):
     - Average word length calculation
     """
     
-    def __init__(self, config: Optional[DataManipulationConfig] = None):
-        """Initialize text length counter."""
+    def __init__(self, config: DataManipulationConfig):
         super().__init__(config)
         self._counting_patterns = self._initialize_counting_patterns()
     
     def _initialize_counting_patterns(self) -> Dict[str, re.Pattern]:
-        """Initialize regex patterns for counting operations."""
         patterns = {
             # Word boundaries (whitespace-based)
             'whitespace_words': re.compile(r'\S+'),
@@ -80,13 +72,11 @@ class TextLengthCounter(BaseManipulator[Text, TextMetrics]):
         return patterns
     
     def _count_words_whitespace(self, text: str) -> int:
-        """Count words using whitespace-based method."""
         if not text.strip():
             return 0
         return len(self._counting_patterns['whitespace_words'].findall(text))
     
     def _count_words_linguistic(self, text: str, language: LanguageEnum) -> int:
-        """Count words using linguistic method with language-specific rules."""
         if not text.strip():
             return 0
         
@@ -97,23 +87,17 @@ class TextLengthCounter(BaseManipulator[Text, TextMetrics]):
         lang_config = self._get_language_config(language)
         
         if language == LanguageEnum.DE:
-            # German compound word handling could be added here
-            # For now, treat hyphenated words as single words
             words = [word for word in words if len(word) > 1 or word.lower() in ['a', 'i']]
         
         elif language == LanguageEnum.FR:
-            # French-specific word counting
-            # Handle contractions and elisions
             words = [word for word in words if len(word) > 1 or word.lower() in ['a', 'à', 'y']]
         
         return len(words)
     
     def _count_words_tokenized(self, tokens: list[str]) -> int:
-        """Count words from pre-tokenized text."""
         if not tokens:
             return 0
         
-        # Filter out empty tokens and apply length constraints
         valid_tokens = [
             token for token in tokens 
             if (token.strip() and 
@@ -124,7 +108,6 @@ class TextLengthCounter(BaseManipulator[Text, TextMetrics]):
         return len(valid_tokens)
     
     def _count_characters(self, text: str, include_whitespace: bool = True, include_punctuation: bool = True) -> int:
-        """Count characters with configurable inclusions."""
         if not text:
             return 0
         
@@ -137,13 +120,11 @@ class TextLengthCounter(BaseManipulator[Text, TextMetrics]):
         return len(text)
     
     def _count_tokens(self, text: str) -> Tuple[int, int]:
-        """Count total and unique tokens."""
         if not text.strip():
             return 0, 0
         
         tokens = self._counting_patterns['tokens'].findall(text.lower())
         
-        # Apply token length constraints
         valid_tokens = [
             token for token in tokens 
             if (len(token) >= self.config.tokenization.min_token_length and
@@ -156,7 +137,6 @@ class TextLengthCounter(BaseManipulator[Text, TextMetrics]):
         return total_tokens, unique_tokens
     
     def _count_sentences(self, text: str, language: LanguageEnum) -> int:
-        """Count sentences with language-specific rules."""
         if not text.strip():
             return 0
         
@@ -168,20 +148,18 @@ class TextLengthCounter(BaseManipulator[Text, TextMetrics]):
         if text.strip() and not re.search(r'[.!?]\s*$', text.strip()):
             sentence_count += 1
         
-        return max(1, sentence_count)  # At least 1 sentence if there's text
+        return max(1, sentence_count)
     
     def _count_paragraphs(self, text: str) -> int:
-        """Count paragraphs based on line breaks."""
         if not text.strip():
             return 0
         
         paragraphs = self._counting_patterns['paragraphs'].split(text)
         paragraph_count = len([p for p in paragraphs if p.strip()])
         
-        return max(1, paragraph_count)  # At least 1 paragraph if there's text
+        return max(1, paragraph_count)
     
     def _calculate_average_word_length(self, text: str, word_count: int) -> float:
-        """Calculate average word length."""
         if word_count == 0:
             return 0.0
         
@@ -193,28 +171,17 @@ class TextLengthCounter(BaseManipulator[Text, TextMetrics]):
         return total_length / len(words)
     
     def process_single(self, data: Text, context: ProcessingContext) -> TextMetrics:
-        """
-        Process a single Text entity to calculate metrics.
-        
-        Args:
-            data: Text entity to analyze
-            context: Processing context
-            
-        Returns:
-            TextMetrics with calculated metrics
-        """
+
         if not self._validate_input(data, context):
             return TextMetrics(0, 0, 0, 0, 0, 0, 0, 0.0)
         
         # Use clean text if available, otherwise raw text
         text_to_analyze = data.clean_text or data.raw_text
-        
+        language = data.language_code
+
         if not text_to_analyze or not text_to_analyze.strip():
             self.logger.warning("Empty text provided for counting")
             return TextMetrics(0, 0, 0, 0, 0, 0, 0, 0.0)
-        
-        # Detect language
-        language = data.language_code or self._detect_language(text_to_analyze, context)
         
         operation_name = f"count_text_metrics_{language}"
         
@@ -229,9 +196,7 @@ class TextLengthCounter(BaseManipulator[Text, TextMetrics]):
             elif count_method == "linguistic":
                 word_count = self._count_words_linguistic(text_to_analyze, language)
             else:
-                # Fallback to whitespace method
                 word_count = self._count_words_whitespace(text_to_analyze)
-                self.logger.debug(f"Using fallback whitespace method for word counting")
             
             # Character counting
             char_count = self._count_characters(
@@ -273,30 +238,6 @@ class TextLengthCounter(BaseManipulator[Text, TextMetrics]):
             self.logger.debug(f"Text metrics calculated: {metrics.to_dict()}")
             
             return metrics
-    
-    def count_raw_text(self, raw_text: str, language: Optional[LanguageEnum] = None) -> TextMetrics:
-        """
-        Convenience method to count metrics for raw text directly.
-        
-        Args:
-            raw_text: Raw text to analyze
-            language: Optional language hint
-            
-        Returns:
-            TextMetrics with calculated metrics
-        """
-        from src.domain.models.v_common import UUID
-        
-        # Create temporary Text entity
-        temp_text = Text(
-            id=UUID.new(),
-            speech_id=UUID.new(),
-            raw_text=raw_text,
-            language_code=language
-        )
-        
-        context = ProcessingContext(language=language)
-        return self.process_single(temp_text, context)
     
     def update_text_entity_metrics(self, text_entity: Text, context: Optional[ProcessingContext] = None) -> Text:
         """

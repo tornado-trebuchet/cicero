@@ -1,20 +1,11 @@
-"""
-Configuration management for the Cicero application.
-Centralized configuration for all data manipulation parameters.
-"""
 from typing import Dict, Any, Optional, List
 from pathlib import Path
 from dataclasses import dataclass, field
-from src.domain.models.v_enums import LanguageEnum, CountryEnum
+from src.domain.models.v_enums import LanguageEnum
 
 
 @dataclass
 class TextProcessingConfig:
-    """Configuration for text processing operations."""
-    # Language-specific settings
-    default_language: LanguageEnum = LanguageEnum.DE
-    language_detection_threshold: float = 0.8
-    
     # Text cleaning parameters
     remove_extra_whitespace: bool = True
     normalize_unicode: bool = True
@@ -28,10 +19,9 @@ class TextProcessingConfig:
 
 @dataclass
 class TokenizationConfig:
-    """Configuration for tokenization operations."""
     # Basic tokenization
     lowercase_tokens: bool = True
-    remove_punctuation: bool = False
+    remove_punctuation: bool = True
     min_token_length: int = 1
     max_token_length: int = 100
     
@@ -45,7 +35,6 @@ class TokenizationConfig:
 
 @dataclass
 class SpeakerExtractionConfig:
-    """Configuration for speaker extraction operations."""
     # Pattern matching
     use_active_patterns_only: bool = True
     pattern_priority_order: List[str] = field(default_factory=lambda: ["period_specific", "institution_specific", "country_specific"])
@@ -53,16 +42,11 @@ class SpeakerExtractionConfig:
     # Speaker metadata extraction
     extract_party_info: bool = True
     extract_role_info: bool = True
-    normalize_speaker_names: bool = True
-    
-    # Fallback settings
-    use_fallback_patterns: bool = True
-    max_extraction_attempts: int = 3
+    normalize_speaker_names: bool = False
 
 
 @dataclass
 class CountingConfig:
-    """Configuration for text counting operations."""
     # Word counting methods
     count_method: str = "whitespace"  # Options: "whitespace", "tokenized", "linguistic"
     exclude_stopwords: bool = False  # Will be used when stopwords are implemented
@@ -77,7 +61,6 @@ class CountingConfig:
 
 @dataclass
 class LoggingConfig:
-    """Configuration for logging and progress reporting."""
     # Logging levels
     default_log_level: str = "INFO"
     file_log_level: str = "DEBUG"
@@ -125,13 +108,11 @@ class DataManipulationConfig:
     
     @classmethod
     def from_dict(cls, config_dict: Dict[str, Any]) -> 'DataManipulationConfig':
-        """Create configuration from dictionary."""
         # Implementation for loading from file/environment
         return cls()
     
     @classmethod
     def default(cls) -> 'DataManipulationConfig':
-        """Get default configuration."""
         return cls()
     
     def get_language_config(self, language: LanguageEnum) -> Dict[str, Any]:
@@ -156,7 +137,6 @@ _config_instance: Optional[DataManipulationConfig] = None
 
 
 def get_config() -> DataManipulationConfig:
-    """Get the global configuration instance."""
     global _config_instance
     if _config_instance is None:
         _config_instance = DataManipulationConfig.default()
@@ -164,6 +144,5 @@ def get_config() -> DataManipulationConfig:
 
 
 def set_config(config: DataManipulationConfig) -> None:
-    """Set the global configuration instance."""
     global _config_instance
     _config_instance = config
