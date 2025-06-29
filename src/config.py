@@ -1,7 +1,7 @@
 from typing import Dict, Any, Optional, List
 from pathlib import Path
 from dataclasses import dataclass, field
-from src.domain.models.v_enums import LanguageEnum
+from domain.models.common.v_enums import LanguageEnum
 
 
 @dataclass

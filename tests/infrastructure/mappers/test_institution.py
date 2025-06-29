@@ -1,14 +1,14 @@
 import unittest
 import uuid
-from src.infrastructure.mappers.m_institution import InstitutionMapper
-from src.infrastructure.orm.orm_institution import InstitutionORM
-from src.domain.models.e_institution import Institution
-from src.domain.models.v_common import UUID
-from src.domain.models.v_enums import InstitutionTypeEnum
-from src.domain.models.ve_metadata_plugin import MetadataPlugin
-from src.infrastructure.orm.orm_country import CountryORM
-from src.domain.models.v_enums import CountryEnum
-from src.infrastructure.orm.orm_period import PeriodORM
+from infrastructure.mappers.context.m_institution import InstitutionMapper
+from infrastructure.orm.context.orm_institution import InstitutionORM
+from domain.models.context.e_institution import Institution
+from domain.models.common.v_common import UUID
+from domain.models.common.v_enums import InstitutionTypeEnum
+from domain.models.common.ve_metadata_plugin import MetadataPlugin
+from infrastructure.orm.context.orm_country import CountryORM
+from domain.models.common.v_enums import CountryEnum
+from infrastructure.orm.context.orm_period import PeriodORM
 from datetime import datetime, timezone
 
 def make_institution_orm():
@@ -34,8 +34,8 @@ def make_institution_orm():
     )
 
 def make_domain_entity():
-    from src.domain.models.ve_period import Period
-    from src.domain.models.v_common import DateTime
+    from domain.models.context.ve_period import Period
+    from domain.models.common.v_common import DateTime
     period = Period(
         id=UUID(str(uuid.uuid4())),
         start_date=DateTime(datetime(2017, 10, 24, tzinfo=timezone.utc)),

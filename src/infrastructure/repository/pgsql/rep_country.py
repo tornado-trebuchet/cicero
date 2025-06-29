@@ -8,12 +8,12 @@ from typing import Optional, List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 
-from src.domain.irepository.i_country import ICountryRepository
-from src.domain.models.e_country import Country
-from src.domain.models.v_common import UUID
-from src.domain.models.v_enums import CountryEnum
-from src.infrastructure.orm.orm_country import CountryORM
-from src.infrastructure.mappers.m_country import CountryMapper
+from domain.irepository.context.i_country import ICountryRepository
+from domain.models.context.e_country import Country
+from domain.models.common.v_common import UUID
+from domain.models.common.v_enums import CountryEnum
+from infrastructure.orm.context.orm_country import CountryORM
+from infrastructure.mappers.context.m_country import CountryMapper
 
 
 class CountryRepository(ICountryRepository):

@@ -8,11 +8,11 @@ from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 
-from src.domain.irepository.i_protocol import IProtocolRepository
-from src.domain.models.e_protocol import Protocol
-from src.domain.models.v_common import UUID
-from src.infrastructure.orm.orm_protocol import ProtocolORM
-from src.infrastructure.mappers.m_protocol import ProtocolMapper
+from domain.irepository.context.i_protocol import IProtocolRepository
+from domain.models.text.e_protocol import Protocol
+from domain.models.common.v_common import UUID
+from infrastructure.orm.context.orm_protocol import ProtocolORM
+from infrastructure.mappers.context.m_protocol import ProtocolMapper
 
 
 class ProtocolRepository(IProtocolRepository):

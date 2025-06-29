@@ -11,16 +11,16 @@ from typing import Optional, List
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import NoResultFound
 
-from src.domain.irepository.i_institution import IInstitutionRepository
-from src.domain.models.e_institution import Institution
-from src.domain.models.ve_period import Period
-from src.domain.models.v_common import UUID
-from src.domain.models.v_enums import InstitutionTypeEnum
-from src.infrastructure.orm.orm_institution import InstitutionORM
-from src.infrastructure.orm.orm_period import PeriodORM
-from src.infrastructure.orm.orm_protocol import ProtocolORM
-from src.infrastructure.mappers.m_institution import InstitutionMapper
-from src.infrastructure.mappers.m_period import PeriodMapper
+from domain.irepository.context.i_institution import IInstitutionRepository
+from domain.models.context.e_institution import Institution
+from domain.models.context.ve_period import Period
+from domain.models.common.v_common import UUID
+from domain.models.common.v_enums import InstitutionTypeEnum
+from infrastructure.orm.context.orm_institution import InstitutionORM
+from infrastructure.orm.context.orm_period import PeriodORM
+from infrastructure.orm.context.orm_protocol import ProtocolORM
+from infrastructure.mappers.context.m_institution import InstitutionMapper
+from infrastructure.mappers.context.m_period import PeriodMapper
 
 
 class InstitutionRepository(IInstitutionRepository):

@@ -4,8 +4,8 @@ import json
 import re
 from pathlib import Path
 from src.domain.models.e_regex_pattern import RegexPattern
-from src.domain.models.v_common import UUID
-from src.domain.models.v_enums import CountryEnum
+from domain.models.common.v_common import UUID
+from domain.models.common.v_enums import CountryEnum
 from src.domain.irepository.i_regex_pattern import IRegexPatternRepository
 
 #what the fuck is this?!!

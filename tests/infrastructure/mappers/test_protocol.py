@@ -1,11 +1,11 @@
 import unittest
 import uuid
 from datetime import datetime, timezone
-from src.infrastructure.mappers.m_protocol import ProtocolMapper
-from src.infrastructure.orm.orm_protocol import ProtocolORM
-from src.domain.models.e_protocol import Protocol
-from src.domain.models.v_common import UUID, DateTime, HttpUrl
-from src.domain.models.v_enums import ProtocolTypeEnum, ExtensionEnum
+from infrastructure.mappers.context.m_protocol import ProtocolMapper
+from infrastructure.orm.context.orm_protocol import ProtocolORM
+from domain.models.text.e_protocol import Protocol
+from domain.models.common.v_common import UUID, DateTime, HttpUrl
+from domain.models.common.v_enums import ProtocolTypeEnum, ExtensionEnum
 
 def make_protocol_orm():
     return ProtocolORM(

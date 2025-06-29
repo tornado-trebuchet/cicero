@@ -1,10 +1,10 @@
 import unittest
 import uuid
 from datetime import datetime, timezone
-from src.infrastructure.mappers.m_period import PeriodMapper
-from src.infrastructure.orm.orm_period import PeriodORM
-from src.domain.models.ve_period import Period
-from src.domain.models.v_common import UUID, DateTime
+from infrastructure.mappers.context.m_period import PeriodMapper
+from infrastructure.orm.context.orm_period import PeriodORM
+from domain.models.context.ve_period import Period
+from domain.models.common.v_common import UUID, DateTime
 
 def make_period_orm():
     return PeriodORM(

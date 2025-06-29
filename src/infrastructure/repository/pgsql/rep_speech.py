@@ -7,18 +7,18 @@ from typing import Optional, List
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import NoResultFound
 
-from src.domain.irepository.i_speech import ISpeechRepository
-from src.domain.models.e_speech import Speech
-from src.domain.models.ve_speaker import Speaker
-from src.domain.models.ve_text import Text
-from src.domain.models.v_common import UUID
-from src.infrastructure.orm.orm_speech import SpeechORM
-from src.infrastructure.orm.orm_speaker import SpeakerORM
-from src.infrastructure.orm.orm_text import TextORM
-from src.infrastructure.orm.orm_protocol import ProtocolORM
-from src.infrastructure.mappers.m_speech import SpeechMapper
-from src.infrastructure.mappers.m_speaker import SpeakerMapper
-from src.infrastructure.mappers.m_text import TextMapper
+from domain.irepository.text.i_speech import ISpeechRepository
+from domain.models.text.e_speech import Speech
+from domain.models.context.ve_speaker import Speaker
+from domain.models.text.ve_text import Text
+from domain.models.common.v_common import UUID
+from infrastructure.orm.text.orm_speech import SpeechORM
+from infrastructure.orm.context.orm_speaker import SpeakerORM
+from infrastructure.orm.text.orm_text import TextORM
+from infrastructure.orm.context.orm_protocol import ProtocolORM
+from infrastructure.mappers.text.m_speech import SpeechMapper
+from infrastructure.mappers.context.m_speaker import SpeakerMapper
+from infrastructure.mappers.text.m_text import TextMapper
 
 
 class SpeechRepository(ISpeechRepository):
