@@ -3,6 +3,9 @@ from domain.models.common.v_common import UUID, DateTime, HttpUrl
 from domain.models.common.base_model import Entity
 from domain.models.common.v_enums import ProtocolTypeEnum, ExtensionEnum
 from domain.models.text.v_protocol_text import ProtocolText
+from domain.models.text.v_agenda import Agenda
+from domain.models.context.ve_period import Period
+
 class Protocol(Entity):
     """
     Represents a protocol (e.g., parliamentary session record) in the domain model.
@@ -15,17 +18,19 @@ class Protocol(Entity):
         protocol_type: ProtocolTypeEnum,
         date: DateTime,
         protocol_text: ProtocolText,
-        period: Optional[UUID] = None,
+        agenda: Optional[Agenda] = None,
+        period: Optional[Period] = None,
         file_source: Optional[HttpUrl] = None,
         metadata: Optional[dict] = None,
     ):
         super().__init__(id)
         self._institution_id = institution_id
-        self._period = period
+        self._period = period if period is not None else None
         self._extension = extension
         self._file_source = file_source
         self._protocol_type = protocol_type
         self._protocol_text = protocol_text
+        self._agenda = agenda if agenda is not None else None
         self._date = date
         self._metadata = metadata if metadata is not None else {}
 
@@ -38,11 +43,11 @@ class Protocol(Entity):
         self._institution_id = value
 
     @property
-    def period(self) -> Optional[UUID]:
+    def period(self) -> Optional[Period]:
         return self._period
 
     @period.setter
-    def period(self, value: Optional[UUID]):
+    def period(self, value: Optional[Period]):
         self._period = value
 
     @property

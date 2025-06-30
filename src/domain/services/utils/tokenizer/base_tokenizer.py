@@ -15,7 +15,7 @@ class Tokenizer(ABC):
         pass
 
     @abstractmethod
-    def do_spacy_magic(self, clean_text: CleanText) -> Tokens:
+    def tokenize_external_lib(self, clean_text: CleanText) -> Tokens:
         """
         Perform any necessary preprocessing or magic using spaCy.
         This method should be implemented by subclasses.

@@ -92,57 +92,8 @@ class RepositoryConfig:
     max_concurrent_operations: int = 5
 
 
+
 @dataclass
-class DataManipulationConfig:
-    """Main configuration class for all data manipulation operations."""
-    text_processing: TextProcessingConfig = field(default_factory=TextProcessingConfig)
-    tokenization: TokenizationConfig = field(default_factory=TokenizationConfig)
-    speaker_extraction: SpeakerExtractionConfig = field(default_factory=SpeakerExtractionConfig)
-    counting: CountingConfig = field(default_factory=CountingConfig)
-    logging: LoggingConfig = field(default_factory=LoggingConfig)
-    repository: RepositoryConfig = field(default_factory=RepositoryConfig)
+class APIConfig:
+    pass
     
-    # Global settings
-    enable_language_detection: bool = True
-    enable_performance_monitoring: bool = True
-    
-    @classmethod
-    def from_dict(cls, config_dict: Dict[str, Any]) -> 'DataManipulationConfig':
-        # Implementation for loading from file/environment
-        return cls()
-    
-    @classmethod
-    def default(cls) -> 'DataManipulationConfig':
-        return cls()
-    
-    def get_language_config(self, language: LanguageEnum) -> Dict[str, Any]:
-        """Get language-specific configuration."""
-        base_config = {
-            LanguageEnum.DE: {
-                "sentence_splitting": True,
-                "compound_splitting": False,
-                "case_sensitive": False
-            },
-            LanguageEnum.FR: {
-                "sentence_splitting": True,
-                "compound_splitting": False,
-                "case_sensitive": False
-            }
-        }
-        return base_config.get(language, {})
-
-
-# Global configuration instance
-_config_instance: Optional[DataManipulationConfig] = None
-
-
-def get_config() -> DataManipulationConfig:
-    global _config_instance
-    if _config_instance is None:
-        _config_instance = DataManipulationConfig.default()
-    return _config_instance
-
-
-def set_config(config: DataManipulationConfig) -> None:
-    global _config_instance
-    _config_instance = config

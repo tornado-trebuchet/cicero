@@ -7,7 +7,7 @@ from domain.models.text.v_raw_text import RawText
 from domain.models.text.v_clean_text import CleanText
 from domain.models.text.v_tokenized_text import Tokens
 from domain.models.text.v_ngram_tokens import NGramTokens
-
+from domain.models.text.v_speech_sentences import SpeechSentences
 
 class Text(Entity):
     """Value Object (very special, proud and mutable VO) for speech text and its linguistic features."""
@@ -19,6 +19,7 @@ class Text(Entity):
         language_code: LanguageEnum,
         clean_text: Optional[CleanText] = None,
         tokens: Optional[Tokens] = None,
+        sentences: Optional[SpeechSentences] = None,
         ngram_tokens: Optional[NGramTokens] = None,
         text_metrics: Optional[TextMetrics] = None,
     ):
@@ -28,6 +29,7 @@ class Text(Entity):
         self._raw_text = raw_text
         self._clean_text = clean_text if clean_text is not None else CleanText()
         self._tokens = tokens if tokens is not None else Tokens()
+        self._sentences = sentences if sentences is not None else SpeechSentences()
         self._ngram_tokens = ngram_tokens if ngram_tokens is not None else NGramTokens()
         self._text_metrics = text_metrics if text_metrics is not None else None
 
@@ -72,6 +74,14 @@ class Text(Entity):
         self._tokens = value
 
     @property
+    def sentences(self) -> Optional[SpeechSentences]:
+        return self._sentences
+    
+    @sentences.setter
+    def sentences(self, value: SpeechSentences):
+        self._sentences = value
+
+    @property
     def ngram_tokens(self) -> Optional[NGramTokens]:
         return self._ngram_tokens
 
@@ -86,6 +96,15 @@ class Text(Entity):
     @text_metrics.setter
     def text_metrics(self, value: TextMetrics):
         self._text_metrics = value
+
+    def split_sentences(self) -> SpeechSentences:
+        """Splits the clean text into sentences."""
+        if not self._clean_text:
+            raise ValueError("Clean text is not set.")
+        sentences = self._clean_text.split_sentences()
+        self._sentences = SpeechSentences(sentences=sentences)
+        return self._sentences
+
 
     def __repr__(self) -> str:
         return f"<TextVO lang={self._language_code} words={self._text_metrics}>"

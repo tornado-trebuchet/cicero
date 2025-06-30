@@ -1,8 +1,8 @@
 import re
 from src.domain.models.common.v_enums import LanguageEnum, InstitutionTypeEnum, CountryEnum, ExtensionEnum, ProtocolTypeEnum
-from src.domain.services.utils.regex.base_regex import BaseRegexPattern
+from src.domain.services.utils.regex.base_regex import RegexPattern
 
-class BundestagGeneralRegex(BaseRegexPattern):
+class BundestagGeneralRegex(RegexPattern):
     country_code = CountryEnum.GERMANY
     institution_code = InstitutionTypeEnum.PARLIAMENT
     language_code = LanguageEnum.DE

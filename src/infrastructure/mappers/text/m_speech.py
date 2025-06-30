@@ -1,4 +1,3 @@
-from typing import Optional
 from domain.models.text.e_speech import Speech
 from domain.models.context.ve_speaker import Speaker
 from domain.models.text.ve_text import Text
@@ -23,13 +22,13 @@ class SpeechMapper:
         return SpeechORM(
             id=domain_entity.id.value,
             protocol_id=domain_entity.protocol_id.value,
-            author_id=domain_entity.author.id.value, 
+            author_id=domain_entity.speaker.id.value, 
             metrics_data=metrics_data,
             metadata_data=domain_entity.metadata._data if domain_entity.metadata else {}
         )
     
     @staticmethod
-    def to_domain(orm_entity: SpeechORM, author: Speaker, text: Text) -> Speech:
+    def to_domain(orm_entity: SpeechORM, speaker: Speaker, text: Text) -> Speech:
 
         metrics = None
         metrics_data = getattr(orm_entity, 'metrics_data', None)
@@ -45,7 +44,7 @@ class SpeechMapper:
         return Speech(
             id=UUID(str(orm_entity.id)),
             protocol_id=UUID(str(orm_entity.protocol_id)),
-            author=author,
+            speaker=speaker,
             text=text,
             metrics=metrics,
             metadata=MetadataPlugin(metadata_data)

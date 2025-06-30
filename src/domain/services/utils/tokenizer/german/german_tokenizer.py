@@ -2,6 +2,7 @@ from src.domain.services.utils.tokenizer.base_tokenizer import Tokenizer
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.models.text.v_clean_text import CleanText
 from src.domain.models.text.v_tokenized_text import Tokens
+import spacy
 # importing spacy
 
 class GermanTokenizer(Tokenizer):
@@ -14,9 +15,8 @@ class GermanTokenizer(Tokenizer):
     def language_code(self) -> LanguageEnum:
         return LanguageEnum.DE
 
-    def do_spacy_magic(self, clean_text: CleanText) -> Tokens:
+    def tokenize_external_lib(self, clean_text: CleanText) -> Tokens:
         #lazy loading that shitter
-        import spacy
         nlp = spacy.load('de_core_news_sm')
         doc = nlp(clean_text.text)
         tokens = [token.text for token in doc]

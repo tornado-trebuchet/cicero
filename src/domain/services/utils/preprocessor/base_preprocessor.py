@@ -12,7 +12,7 @@ class Preprocessor(ABC):
         pass
 
     @classmethod
-    def find_by_specifications(cls, language_code):
+    def find_by_specifications(cls, language_code: LanguageEnum):
         """
         Find a preprocessor class matching the given specifications.
         Returns the class if found, else None.

@@ -1,4 +1,3 @@
-# filepath: /home/janeendaredevil/LocalCode/cicero/src/infrastructure/repository/pgsql/rep_protocol.py
 """
 PostgreSQL implementation of the Protocol repository.
 Protocol references but does not own Period (Period belongs to Institution aggregate).
@@ -83,7 +82,6 @@ class ProtocolRepository(IProtocolRepository):
         orm_protocol.extension = protocol.extension
         orm_protocol.file_source = str(protocol.file_source) if protocol.file_source else None
         orm_protocol.protocol_type = protocol.protocol_type
-        orm_protocol.regex_pattern_id = protocol.speech_regex.value if protocol.speech_regex else None
         orm_protocol.date = protocol.date.value
         orm_protocol.metadata_data = protocol.metadata
         

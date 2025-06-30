@@ -34,3 +34,7 @@ class CleanText:
     def num_sentences(self) -> int:       
         sentences = re.split(r'[.!?]+', self.text)
         return len([s for s in sentences if s.strip()])
+    
+    def split_sentences(self) -> list[str]:
+        sentences = re.split(r'[.!?]+', self.text)
+        return [s.strip() for s in sentences if s.strip()]

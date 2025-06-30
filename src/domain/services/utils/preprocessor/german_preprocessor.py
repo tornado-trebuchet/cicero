@@ -8,7 +8,7 @@ class GermanPreprocessor(Preprocessor):
     language_code = LanguageEnum.DE
 
     def process(self, raw_text: RawText) -> CleanText:
-        text = raw_text.value
+        text = raw_text.text
         text = text.strip()
         text = ' '.join(text.split())  
         text = text.lower()

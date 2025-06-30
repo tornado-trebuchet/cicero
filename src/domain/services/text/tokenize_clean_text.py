@@ -1,6 +1,6 @@
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.models.text.v_clean_text import CleanText
-from domain.models.text.v_tokenized_text import Tokens
+from src.domain.models.text.v_tokenized_text import Tokens
 from src.domain.services.text.base_text_service import TextService
 from src.domain.services.utils.tokenizer.base_tokenizer import Tokenizer
 from src.domain.services.utils.stopwords.base_stopwords import Stopwords
@@ -15,6 +15,7 @@ class TokenizeCleanText(TextService):
         self.stopwords = self.pick_stopwords(self.language_code).get_stopwords()
 
     def pick_tokenizer(self, language_code: LanguageEnum) -> type:
+        """From utils"""
         tokenizer_cls = Tokenizer.find_by_specifications(language_code)
         if tokenizer_cls is not None:
             return tokenizer_cls
@@ -22,6 +23,7 @@ class TokenizeCleanText(TextService):
             raise ValueError(f"No tokenizer found for language code: {language_code}")
         
     def pick_stopwords(self, language_code: LanguageEnum):
+        """From utils"""
         stopwords_cls = Stopwords.find_by_specifications(language_code)
         if stopwords_cls is not None:
             return stopwords_cls(language_code)
@@ -29,6 +31,6 @@ class TokenizeCleanText(TextService):
             raise ValueError(f"No stopwords found for language code: {language_code}")
 
     def process(self, clean_text: CleanText) -> Tokens:
-        tokens = self.tokenizer.do_spacy_magic(clean_text)
+        tokens = self.tokenizer.tokenize_external_lib(clean_text)
         filtered_tokens = [token for token in tokens.tokens if token.lower() not in self.stopwords]
         return Tokens(tokens=filtered_tokens)
