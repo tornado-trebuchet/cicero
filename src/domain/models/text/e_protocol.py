@@ -1,10 +1,10 @@
 from typing import Optional
-from domain.models.common.v_common import UUID, DateTime, HttpUrl
-from domain.models.common.base_model import Entity
-from domain.models.common.v_enums import ProtocolTypeEnum, ExtensionEnum
-from domain.models.text.v_protocol_text import ProtocolText
-from domain.models.text.v_agenda import Agenda
-from domain.models.context.ve_period import Period
+from src.domain.models.common.v_common import UUID, DateTime, HttpUrl
+from src.domain.models.common.base_model import Entity
+from src.domain.models.common.v_enums import ProtocolTypeEnum, ExtensionEnum
+from src.domain.models.text.v_protocol_text import ProtocolText
+from src.domain.models.text.v_agenda import Agenda
+from src.domain.models.context.ve_period import Period
 
 class Protocol(Entity):
     """

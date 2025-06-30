@@ -1,9 +1,9 @@
 from typing import List, Optional
-from domain.models.common.v_common import UUID
-from domain.models.common.base_model import Entity
-from domain.models.context.ve_period import Period
-from domain.models.common.v_enums import InstitutionTypeEnum
-from domain.models.common.ve_metadata_plugin import MetadataPlugin
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.base_model import Entity
+from src.domain.models.context.ve_period import Period
+from src.domain.models.common.v_enums import InstitutionTypeEnum
+from src.domain.models.common.ve_metadata_plugin import MetadataPlugin
 
 class Institution(Entity):
     """
@@ -12,20 +12,20 @@ class Institution(Entity):
     def __init__(
         self,
         id: UUID,
-        state_id: UUID,
+        country_id: UUID,
         institution_type: InstitutionTypeEnum,
         periodisation: List[Period],
         metadata: MetadataPlugin,
     ):
         super().__init__(id)
-        self._state_id = state_id
+        self._country_id = country_id
         self._institution_type = institution_type
         self._periodisation = periodisation if periodisation is not None else []
         self._metadata = metadata if metadata is not None else MetadataPlugin({})
 
     @property
-    def state_id(self) -> UUID:
-        return self._state_id
+    def country_id(self) -> UUID:
+        return self._country_id
 
     @property
     def institution_type(self) -> InstitutionTypeEnum:

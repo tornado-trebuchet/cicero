@@ -1,6 +1,6 @@
 from typing import Optional
-from domain.models.common.v_common import UUID, DateTime
-from domain.models.common.base_model import Entity
+from src.domain.models.common.v_common import UUID, DateTime
+from src.domain.models.common.base_model import Entity
 
 class Period(Entity):
     """ 

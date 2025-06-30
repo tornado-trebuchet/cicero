@@ -1,45 +1,65 @@
+from typing import Optional
 from abc import ABC, abstractmethod
-from typing import Any
-from domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum
-from domain.models.text.e_protocol import Protocol
+from src.domain.models.common.v_enums import CountryEnum
+from src.domain.models.context.e_institution import Institution
+from src.domain.models.text.e_protocol import Protocol
+from src.domain.models.common.v_common import HttpUrl
+from src.domain.models.context.ve_period import Period
+from src.infrastructure.external.base_response import Response
+
+from src.config import APIConfig
 
 class API(ABC):
-    """
-    Base class for external APIs.
-    Enforces contract for country, institution, and endpoint specification.
-    """
+    """Base class for external APIs."""
+
+    @abstractmethod
+    def __init__(
+        self,
+        config: APIConfig,
+        country: CountryEnum,
+        institution: Institution
+    ) -> None:
+        """Initialize the API with shared required parameters."""
+        self._country = country
+        self._institution = institution
+
     @property
     @abstractmethod
     def country(self) -> CountryEnum:
-        """
-        The country for the API (as a CountryEnum).
-        This value should be constant for each API implementation.
-        """
-        ...
+        """Country for the API."""
+        return self._country
 
     @property
     @abstractmethod
-    def institution(self) -> InstitutionTypeEnum:
-        """
-        The institution that determines the concrete URL (as an InstitutionTypeEnum).
-        This value should be constant for each API implementation.
-        """
-        ...
+    def institution(self) -> Institution:
+        """Institution type for the API."""
+        return self._institution
 
     @property
     @abstractmethod
     def endpoint_spec(self) -> str:
-        """
-        The endpoint specification (e.g., period).
-        This value should be constant for each API implementation.
-        """
+        """Endpoint specification string. URL for fetching a protocol"""
         ...
 
     @abstractmethod
-    def fetch_protocol(self, *args, **kwargs) -> Protocol:
-        """
-        Fetch data from the external API.
-        Should return domain model objects (e.g., Protocol).
-        This method must be implemented by subclasses.
-        """
-        raise NotImplementedError("Subclasses must implement this method.")
+    def build_request(
+        self,
+        protocol_spec: str,
+        period: Optional[Period] = None,
+        params: Optional[dict] = None
+    ) -> HttpUrl:
+        """Construct the request URL for the API call."""
+        ...
+
+    @abstractmethod
+    def fetch_protocol(
+        self,
+        url: HttpUrl
+    ) -> Response:
+        """Fetch data from the external API using the constructed URL."""
+        ...
+
+    @abstractmethod
+    def parse_response(self, response: Response) -> Protocol:
+        """Parse the API response and convert it to a Protocol domain object."""
+        ...

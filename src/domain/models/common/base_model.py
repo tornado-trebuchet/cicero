@@ -1,5 +1,5 @@
 from abc import ABC
-from domain.models.common.v_common import UUID
+from src.domain.models.common.v_common import UUID
 
 class Entity(ABC):
     """Base class for entities."""

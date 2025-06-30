@@ -1,69 +1,121 @@
 from src.infrastructure.external.base_api import API
-from domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum
-from domain.models.text.e_protocol import Protocol
-from infrastructure.external.germany.response_mapper import response_to_domain # MAPPER
+from src.infrastructure.external.base_response import Response
+from src.domain.models.common.v_enums import CountryEnum, ExtensionEnum, ProtocolTypeEnum
+from src.domain.models.common.v_common import HttpUrl, UUID, DateTime
+from src.domain.models.text.e_protocol import Protocol
+from src.domain.models.context.e_institution import Institution
+from src.domain.models.context.ve_period import Period
+from src.domain.models.text.v_protocol_text import ProtocolText
+from src.domain.models.text.v_agenda import Agenda
+from src.config import APIConfig
+from typing import Any, Optional, cast
+from urllib.parse import urlencode
 import requests
-from typing import List, Optional, Dict, Any
-from dataclasses import dataclass
-
-api_url = "https://search.dip.bundestag.de/api/v1/plenarprotokoll-text"
-api_key = "OSOegLs.PR2lwJ1dwCeje9vTj7FPOt3hvpYKtwKkhw"
-
-@dataclass
-class Response:
-    """
-    Parsed response does not represent an internal structure of the actual respons
-    """
-    date: Optional[str] = None # from response | datum
-    title: Optional[str] = None # from response | titel
-    link: Optional[str] = None # from response | fundstelle -> pdf_url
-    agenda: Optional[Dict[str, Any]] = None # from response | vorgangsbezug -> titel, vorgangstyp
-    text: Optional[str] = None # from response | text
 
 class BundestagAPI(API):
-    """
-    API for fetching data from the German Bundestag.
-    """
+    """API for fetching data from the German Bundestag."""
+
+    def __init__(
+        self,
+        config: APIConfig,
+        country: CountryEnum,
+        institution: Institution
+    ) -> None:
+        super().__init__(config, country, institution)
+        self._base_url = getattr(config, 'BASE_URL', None)
+        self._api_key = getattr(config, 'API_KEY', None)
+        self._country = country
+        self._institution = institution
 
     @property
     def country(self) -> CountryEnum:
-        return CountryEnum.GERMANY
+        return self._country
 
     @property
-    def institution(self) -> InstitutionTypeEnum:
-        return InstitutionTypeEnum.PARLIAMENT
+    def institution(self) -> Institution:
+        return self._institution
 
     @property
     def endpoint_spec(self) -> str:
         return "plenarprotokoll-text"
 
-    def parse_response(self, response: Dict[str, Any]) -> Response:
-        """
-        Parses the raw response from the Bundestag API into a structured Response object.
-        """
-        return Response(
-            date=response.get('datum'), # specify
-            title=response.get('titel'), # specify 
-            link=response.get('fundstelle', {}).get('pdf_url'),
-            agenda=response.get('vorgangsbezug'), # fix 
-            text=response.get('text')
-        )
+    def build_request(
+        self,
+        protocol_spec: str,
+        period: Optional[Period] = None,
+        params: Optional[dict] = None
+    ) -> HttpUrl:
+        """Construct the request URL for the Bundestag plenarprotokoll-text endpoint."""
+        base_url = f"{self._base_url}/{self.endpoint_spec}"
+        query = {}
+        if protocol_spec:
+            query["f.dokumentnummer"] = protocol_spec
+        if period is not None:
+            query["f.wahlperiode"] = str(period)
+        if params:
+            query.update(params)
+        url = base_url
+        if query:
+            url += "?" + urlencode(query, doseq=True)
+        return HttpUrl(url)
 
-
-    def fetch_protocol(self, **params) -> Protocol:
-        """
-        Fetches plenary protocols from the Bundestag API 
-        and returns a list of mapped Protocol domain objects.
-        """
-        request_config = params.get('request_config', None)  # Placeholder for future config
-
-        headers = {"Authorization": f"ApiKey {api_key}"}
-        response = requests.get(api_url, params=params, headers=headers)
+    def fetch_protocol(
+        self,
+        url: HttpUrl
+    ) -> Response:
+        headers = {"Authorization": f"ApiKey {self._api_key}"} if self._api_key else {}
+        response = requests.get(str(url), headers=headers)
         response.raise_for_status()
         data = response.json()
-        protocol_dict = self.parse_response(data)
-        protocol = response_to_domain(protocol_dict)
-        return protocol
+        date = data.get('datum')
+        title = data.get('titel')
+        link = data.get('fundstelle', {}).get('pdf_url')
+        agenda = data.get('vorgangsbezug')
+        text = data.get('text')
+        missing = [
+            name for name, value in [
+                ("date", date),
+                ("title", title),
+                ("link", link),
+                ("agenda", agenda),
+                ("text", text)
+            ] if value is None
+        ]
+        if missing:
+            raise ValueError(f"Missing required fields in response: {', '.join(missing)}")
+        return Response(
+            date=str(date),
+            title=str(title),
+            link=str(link),
+            agenda=cast(dict[str, Any], agenda),
+            text=str(text)
+        )
+
+    def parse_response(self, response: Response) -> Protocol:
+        protocol_id = UUID.new()
+        institution_id = self.institution.id
+        extension = ExtensionEnum.PDF  
+        protocol_type = ProtocolTypeEnum.PLENARY 
+        date = DateTime(response.date)  
+        protocol_text = ProtocolText(response.text)
+        agenda = Agenda(response.agenda or {})  
+        period: Optional[Period] = None
+        file_source = HttpUrl(response.link) if response.link else None
+        metadata = {}  
+
+        return Protocol(
+            id=protocol_id,
+            institution_id=institution_id,
+            extension=extension,
+            protocol_type=protocol_type,
+            date=date,
+            protocol_text=protocol_text,
+            agenda=agenda,
+            period=period,
+            file_source=file_source,
+            metadata=metadata
+        )
+
 
 
 

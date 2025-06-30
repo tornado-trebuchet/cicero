@@ -1,6 +1,6 @@
-from domain.models.common.v_common import UUID
-from domain.models.common.base_model import Entity
-from domain.models.common.v_enums import CountryEnum
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.base_model import Entity
+from src.domain.models.common.v_enums import CountryEnum
 
 class Country(Entity):
     """

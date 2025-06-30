@@ -1,7 +1,7 @@
 from typing import Dict, Any, Optional, List
 from pathlib import Path
 from dataclasses import dataclass, field
-from domain.models.common.v_enums import LanguageEnum
+from src.domain.models.common.v_enums import LanguageEnum
 
 
 @dataclass
@@ -92,8 +92,9 @@ class RepositoryConfig:
     max_concurrent_operations: int = 5
 
 
-
 @dataclass
 class APIConfig:
-    pass
-    
+    BASE_URL: str = "https://search.dip.bundestag.de/api/v1/"
+    API_KEY: str = "OSOegLs.PR2lwJ1dwCeje9vTj7FPOt3hvpYKtwKkhw"
+    TIMEOUT: int = 10  
+    MAX_RETRIES: int = 3
