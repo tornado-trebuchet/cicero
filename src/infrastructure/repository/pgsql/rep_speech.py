@@ -15,7 +15,7 @@ from domain.models.common.v_common import UUID
 from infrastructure.orm.text.orm_speech import SpeechORM
 from infrastructure.orm.context.orm_speaker import SpeakerORM
 from infrastructure.orm.text.orm_text import TextORM
-from infrastructure.orm.context.orm_protocol import ProtocolORM
+from infrastructure.orm.text.orm_protocol import ProtocolORM
 from infrastructure.mappers.text.m_speech import SpeechMapper
 from infrastructure.mappers.context.m_speaker import SpeakerMapper
 from infrastructure.mappers.text.m_text import TextMapper

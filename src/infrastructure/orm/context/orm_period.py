@@ -9,7 +9,7 @@ from src.domain.models.common.v_enums import CountryEnum
 import uuid
 
 if TYPE_CHECKING:
-    from src.infrastructure.orm.context.orm_protocol import ProtocolORM
+    from infrastructure.orm.text.orm_protocol import ProtocolORM
 
 class PeriodORM(Base):
     __tablename__ = "periods"

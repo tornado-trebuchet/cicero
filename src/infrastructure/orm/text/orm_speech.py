@@ -1,13 +1,13 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, Optional, Dict, Any
-from sqlalchemy import Column, ForeignKey, Index
+from sqlalchemy import ForeignKey, Index
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, JSONB
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base
 import uuid
 
 if TYPE_CHECKING:
-    from infrastructure.orm.context.orm_protocol import ProtocolORM
+    from infrastructure.orm.text.orm_protocol import ProtocolORM
     from infrastructure.orm.context.orm_speaker import SpeakerORM
     from infrastructure.orm.text.orm_text import TextORM
 

@@ -9,7 +9,7 @@ import uuid
 
 if TYPE_CHECKING:
     from src.infrastructure.orm.context.orm_country import CountryORM
-    from src.infrastructure.orm.context.orm_protocol import ProtocolORM
+    from infrastructure.orm.text.orm_protocol import ProtocolORM
 
 class InstitutionORM(Base):
     __tablename__ = "institutions"

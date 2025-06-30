@@ -18,7 +18,7 @@ from domain.models.common.v_common import UUID
 from domain.models.common.v_enums import InstitutionTypeEnum
 from infrastructure.orm.context.orm_institution import InstitutionORM
 from infrastructure.orm.context.orm_period import PeriodORM
-from infrastructure.orm.context.orm_protocol import ProtocolORM
+from infrastructure.orm.text.orm_protocol import ProtocolORM
 from infrastructure.mappers.context.m_institution import InstitutionMapper
 from infrastructure.mappers.context.m_period import PeriodMapper
 
@@ -130,14 +130,10 @@ class InstitutionRepository(IInstitutionRepository):
         ).one()
         
         # Update basic fields
-        orm_institution.country_id = institution.state_id.value
+        orm_institution.country_id = institution.country_id.value
         orm_institution.institution_type = institution.institution_type
         orm_institution.metadata_data = institution.metadata._data if institution.metadata else {}
         
-        # Note: Period synchronization is complex since periods might be shared
-        # across multiple institutions through protocols. For now, we don't
-        # automatically sync periods - they should be managed through
-        # add_period_to_institution/remove_period_from_institution methods
         
         self._session.flush()
     
@@ -187,8 +183,4 @@ class InstitutionRepository(IInstitutionRepository):
                 f"because it's still referenced by {protocol_count} protocol(s)"
             )
         
-        # If no protocols reference this period for this institution,
-        # we could delete the period entirely if it's not used elsewhere
-        # For safety, we just leave the period but it will no longer
-        # appear in the institution's periodisation
         pass

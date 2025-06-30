@@ -44,7 +44,6 @@ class FrancePartyEnum(str, Enum):
     EELV = "EELV"
     MODEM = "MODEM"
 
-# shit doesn't work
 class PartyEnumRegistry:
     _registry = {
         CountryEnum.GERMANY: GermanyPartyEnum,

@@ -1,16 +1,12 @@
-"""
-PostgreSQL implementation of the Protocol repository.
-Protocol references but does not own Period (Period belongs to Institution aggregate).
-"""
 from typing import Optional, List
 from datetime import datetime
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 
-from domain.irepository.context.i_protocol import IProtocolRepository
+from domain.irepository.text.i_protocol import IProtocolRepository
 from domain.models.text.e_protocol import Protocol
 from domain.models.common.v_common import UUID
-from infrastructure.orm.context.orm_protocol import ProtocolORM
+from infrastructure.orm.text.orm_protocol import ProtocolORM
 from infrastructure.mappers.context.m_protocol import ProtocolMapper
 
 
@@ -71,20 +67,26 @@ class ProtocolRepository(IProtocolRepository):
         self._session.flush()  # Ensure ID is generated
     
     def update(self, protocol: Protocol) -> None:
-        """Update a protocol."""
-        orm_protocol = self._session.query(ProtocolORM).filter(
+        """Update a protocol in the database using explicit field assignments.
+        
+        FIXME: This method is error-prone and should be refactored to use explicit helpers for value object unwrapping and type conversions.
+        """
+        orm_protocol: ProtocolORM = self._session.query(ProtocolORM).filter(
             ProtocolORM.id == protocol.id.value
         ).one()
-        
-        # Update fields
-        orm_protocol.institution_id = protocol.institution_id.value
-        orm_protocol.period_id = protocol.period.value if protocol.period else None
-        orm_protocol.extension = protocol.extension
+
+        # Update fields with explicit unwrapping and type handling
+        orm_protocol.institution_id = protocol.institution_id.value  # UUID -> DB UUID
+        # FIXME: period may be a value object or None; clarify type and unwrap as needed
+        orm_protocol.period_id = protocol.period.id.value if protocol.period else None
+        orm_protocol.extension = protocol.extension  # str
+        # FIXME: file_source may be a value object; clarify and unwrap as needed
         orm_protocol.file_source = str(protocol.file_source) if protocol.file_source else None
-        orm_protocol.protocol_type = protocol.protocol_type
-        orm_protocol.date = protocol.date.value
+        orm_protocol.protocol_type = protocol.protocol_type  # str or enum
+        orm_protocol.date = protocol.date.value  # Date value object -> DB date
+        # FIXME: metadata may be a dict, JSON, or value object; clarify and unwrap as needed
         orm_protocol.metadata_data = protocol.metadata
-        
+
         self._session.flush()
     
     def delete(self, id: UUID) -> None:
