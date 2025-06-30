@@ -5,10 +5,11 @@ from sqlalchemy import String, DateTime, Index, CheckConstraint
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base
+from src.domain.models.common.v_enums import CountryEnum
 import uuid
 
 if TYPE_CHECKING:
-    from infrastructure.orm.context.orm_protocol import ProtocolORM
+    from src.infrastructure.orm.context.orm_protocol import ProtocolORM
 
 class PeriodORM(Base):
     __tablename__ = "periods"
@@ -32,5 +33,5 @@ class PeriodORM(Base):
         Index('idx_period_dates', 'start_date', 'end_date'),
         Index('idx_period_name', 'name'),
     )
-    
+
 

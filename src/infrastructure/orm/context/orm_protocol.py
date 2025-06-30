@@ -5,13 +5,13 @@ from sqlalchemy import String, DateTime, ForeignKey, Index
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, JSONB, ENUM as PG_ENUM
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base
-from domain.models.common.v_enums import ProtocolTypeEnum, ExtensionEnum
+from src.domain.models.common.v_enums import ProtocolTypeEnum, ExtensionEnum
 import uuid
 
 if TYPE_CHECKING:
-    from infrastructure.orm.context.orm_institution import InstitutionORM
-    from infrastructure.orm.context.orm_period import PeriodORM
-    from infrastructure.orm.text.orm_speech import SpeechORM
+    from src.infrastructure.orm.context.orm_institution import InstitutionORM
+    from src.infrastructure.orm.context.orm_period import PeriodORM
+    from src.infrastructure.orm.text.orm_speech import SpeechORM
 
 class ProtocolORM(Base):
     __tablename__ = "protocols"
@@ -48,4 +48,4 @@ class ProtocolORM(Base):
         Index('idx_protocol_type', 'protocol_type'),
         Index('idx_protocol_institution_date', 'institution_id', 'date'),
     )
-    
+

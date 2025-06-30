@@ -1,14 +1,14 @@
 import unittest
 import uuid
-from infrastructure.mappers.context.m_institution import InstitutionMapper
-from infrastructure.orm.context.orm_institution import InstitutionORM
-from domain.models.context.e_institution import Institution
-from domain.models.common.v_common import UUID
-from domain.models.common.v_enums import InstitutionTypeEnum
-from domain.models.common.ve_metadata_plugin import MetadataPlugin
-from infrastructure.orm.context.orm_country import CountryORM
-from domain.models.common.v_enums import CountryEnum
-from infrastructure.orm.context.orm_period import PeriodORM
+from src.infrastructure.mappers.context.m_institution import InstitutionMapper
+from src.infrastructure.orm.context.orm_institution import InstitutionORM
+from src.domain.models.context.e_institution import Institution
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_enums import InstitutionTypeEnum
+from src.domain.models.common.ve_metadata_plugin import MetadataPlugin
+from src.infrastructure.orm.context.orm_country import CountryORM
+from src.domain.models.common.v_enums import CountryEnum
+from src.infrastructure.orm.context.orm_period import PeriodORM
 from datetime import datetime, timezone
 
 def make_institution_orm():
@@ -45,7 +45,7 @@ def make_domain_entity():
     )
     return Institution(
         id=UUID(str(uuid.uuid4())),
-        state_id=UUID(str(uuid.uuid4())),
+        country_id=UUID(str(uuid.uuid4())),
         institution_type=InstitutionTypeEnum.FEDERAL_ASSEMBLY,
         periodisation=[period],
         metadata=MetadataPlugin({"baz": "qux", "founded": 1848})
@@ -56,7 +56,7 @@ class TestInstitutionMapper(unittest.TestCase):
         orm_entity = make_institution_orm()
         domain_entity = InstitutionMapper.to_domain(orm_entity)
         self.assertEqual(domain_entity.id.value, orm_entity.id)
-        self.assertEqual(domain_entity.state_id.value, orm_entity.country_id)
+        self.assertEqual(domain_entity.country_id.value, orm_entity.country_id)
         self.assertEqual(domain_entity.institution_type.value, orm_entity.institution_type)
         self.assertEqual(domain_entity.metadata._data, orm_entity.metadata_data)
 
@@ -64,7 +64,7 @@ class TestInstitutionMapper(unittest.TestCase):
         domain_entity = make_domain_entity()
         orm_entity = InstitutionMapper.to_orm(domain_entity)
         self.assertEqual(orm_entity.id, domain_entity.id.value)
-        self.assertEqual(orm_entity.country_id, domain_entity.state_id.value)
+        self.assertEqual(orm_entity.country_id, domain_entity.country_id.value)
         self.assertEqual(orm_entity.institution_type, domain_entity.institution_type.value)
         self.assertEqual(orm_entity.metadata_data, domain_entity.metadata._data)
 
@@ -74,7 +74,7 @@ class TestInstitutionMapper(unittest.TestCase):
         orm_entity = InstitutionMapper.to_orm(original_domain)
         mapped_domain = InstitutionMapper.to_domain(orm_entity)
         self.assertEqual(original_domain.id.value, mapped_domain.id.value)
-        self.assertEqual(original_domain.state_id.value, mapped_domain.state_id.value)
+        self.assertEqual(original_domain.country_id.value, mapped_domain.country_id.value)
         self.assertEqual(original_domain.institution_type, mapped_domain.institution_type)
         self.assertEqual(original_domain.metadata._data, mapped_domain.metadata._data)
 

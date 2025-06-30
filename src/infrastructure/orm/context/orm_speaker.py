@@ -5,11 +5,11 @@ from sqlalchemy import String, Date, Index
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM as PG_ENUM
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base
-from domain.models.common.v_enums import GenderEnum
+from src.domain.models.common.v_enums import GenderEnum
 import uuid
 
 if TYPE_CHECKING:
-    from infrastructure.orm.text.orm_speech import SpeechORM
+    from src.infrastructure.orm.text.orm_speech import SpeechORM
 
 class SpeakerORM(Base):
     __tablename__ = "speakers"

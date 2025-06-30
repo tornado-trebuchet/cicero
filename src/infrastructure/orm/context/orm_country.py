@@ -4,11 +4,11 @@ from sqlalchemy import Index
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM as PG_ENUM
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base
-from domain.models.common.v_enums import CountryEnum
+from src.domain.models.common.v_enums import CountryEnum
 import uuid
 
 if TYPE_CHECKING:
-    from infrastructure.orm.context.orm_institution import InstitutionORM
+    from src.infrastructure.orm.context.orm_institution import InstitutionORM
 
 class CountryORM(Base):
     __tablename__ = "countries"
@@ -27,4 +27,3 @@ class CountryORM(Base):
     __table_args__ = (
         Index('idx_country_name', 'name'),
     )
-    

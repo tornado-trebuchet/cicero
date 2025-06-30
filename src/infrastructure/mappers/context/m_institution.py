@@ -1,8 +1,8 @@
-from domain.models.context.e_institution import Institution
-from domain.models.common.v_common import UUID
-from domain.models.common.v_enums import InstitutionTypeEnum
-from domain.models.common.ve_metadata_plugin import MetadataPlugin
-from infrastructure.orm.context.orm_institution import InstitutionORM
+from src.domain.models.context.e_institution import Institution
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_enums import InstitutionTypeEnum
+from src.domain.models.common.ve_metadata_plugin import MetadataPlugin
+from src.infrastructure.orm.context.orm_institution import InstitutionORM
 
 
 class InstitutionMapper:
@@ -11,7 +11,7 @@ class InstitutionMapper:
     def to_orm(domain_entity: Institution) -> InstitutionORM:
         return InstitutionORM(
             id=domain_entity.id.value,
-            country_id=domain_entity.state_id.value,  
+            country_id=domain_entity.country_id.value,  # FIXED: use country_id
             institution_type=domain_entity.institution_type,
             metadata_data=domain_entity.metadata._data if domain_entity.metadata else {}
         )
@@ -24,7 +24,7 @@ class InstitutionMapper:
         
         return Institution(
             id=UUID(str(orm_entity.id)),
-            state_id=UUID(str(orm_entity.country_id)),  # Map back to state_id for domain
+            country_id=UUID(str(orm_entity.country_id)),  # FIXED: use country_id
             institution_type=InstitutionTypeEnum(orm_entity.institution_type),
             periodisation=[],  # Load separately if needed
             metadata=MetadataPlugin(metadata_data)

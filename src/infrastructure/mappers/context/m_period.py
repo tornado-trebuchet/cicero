@@ -1,6 +1,6 @@
-from domain.models.context.ve_period import Period
-from domain.models.common.v_common import UUID, DateTime
-from infrastructure.orm.context.orm_period import PeriodORM
+from src.domain.models.context.ve_period import Period
+from src.domain.models.common.v_common import UUID, DateTime
+from src.infrastructure.orm.context.orm_period import PeriodORM
 
 
 class PeriodMapper:

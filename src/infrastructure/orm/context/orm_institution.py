@@ -4,12 +4,12 @@ from sqlalchemy import ForeignKey, Index
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, JSONB, ENUM as PG_ENUM
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base
-from domain.models.common.v_enums import InstitutionTypeEnum
+from src.domain.models.common.v_enums import InstitutionTypeEnum
 import uuid
 
 if TYPE_CHECKING:
-    from infrastructure.orm.context.orm_country import CountryORM
-    from infrastructure.orm.context.orm_protocol import ProtocolORM
+    from src.infrastructure.orm.context.orm_country import CountryORM
+    from src.infrastructure.orm.context.orm_protocol import ProtocolORM
 
 class InstitutionORM(Base):
     __tablename__ = "institutions"
@@ -36,4 +36,4 @@ class InstitutionORM(Base):
     )
 
 
-    
+

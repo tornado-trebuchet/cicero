@@ -67,11 +67,16 @@ class BundestagAPI(API):
         response = requests.get(str(url), headers=headers)
         response.raise_for_status()
         data = response.json()
-        date = data.get('datum')
-        title = data.get('titel')
-        link = data.get('fundstelle', {}).get('pdf_url')
-        agenda = data.get('vorgangsbezug')
-        text = data.get('text')
+        # Bundestag API returns a dict with 'documents' key containing a list
+        documents = data.get('documents', [])
+        if not documents:
+            raise ValueError("No documents found in response")
+        doc = documents[0]
+        date = doc.get('fundstelle', {}).get('datum') or doc.get('datum')
+        title = doc.get('titel')
+        link = doc.get('fundstelle', {}).get('pdf_url')
+        agenda = doc.get('vorgangsbezug')
+        text = doc.get('text')
         missing = [
             name for name, value in [
                 ("date", date),
