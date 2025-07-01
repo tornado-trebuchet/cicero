@@ -16,7 +16,7 @@ class SpeechORM(Base):
     
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     protocol_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("protocols.id", ondelete="CASCADE"), nullable=False)
-    author_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speakers.id", ondelete="CASCADE"), nullable=False)
+    speaker_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speakers.id", ondelete="CASCADE"), nullable=False)
     metrics_data: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
     metadata_data: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
     
@@ -25,7 +25,7 @@ class SpeechORM(Base):
         "ProtocolORM", 
         back_populates="speeches"
     )
-    author: Mapped["SpeakerORM"] = relationship(
+    speaker: Mapped["SpeakerORM"] = relationship(
         "SpeakerORM", 
         back_populates="speeches"
     )
@@ -39,7 +39,7 @@ class SpeechORM(Base):
 
     __table_args__ = (
         Index('idx_speech_protocol', 'protocol_id'),
-        Index('idx_speech_author', 'author_id'),
-        Index('idx_speech_protocol_author', 'protocol_id', 'author_id'),
+        Index('idx_speech_speaker', 'speaker_id'),
+        Index('idx_speech_protocol_speaker', 'protocol_id', 'speaker_id'),
     )
     

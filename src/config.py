@@ -14,7 +14,6 @@ class TextProcessingConfig:
     
     # Encoding settings
     default_encoding: str = "utf-8"
-    fallback_encodings: List[str] = field(default_factory=lambda: ["latin-1", "cp1252"])
 
 
 @dataclass
@@ -98,3 +97,12 @@ class APIConfig:
     API_KEY: str = "OSOegLs.PR2lwJ1dwCeje9vTj7FPOt3hvpYKtwKkhw"
     TIMEOUT: int = 10  
     MAX_RETRIES: int = 3
+
+
+@dataclass
+class DatabaseConfig:
+    """Configuration for database integration."""
+    database_url: str = "sqlite:///../cicero_dev.db"  # FIXME: Replace with env var or config for prod
+    echo: bool = False
+    pool_pre_ping: bool = True
+    pool_recycle: int = 3600

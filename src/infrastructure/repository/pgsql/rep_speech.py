@@ -1,8 +1,3 @@
-# filepath: /home/janeendaredevil/LocalCode/cicero/src/infrastructure/repository/pgsql/rep_speech.py
-"""
-PostgreSQL implementation of the Speech repository.
-Speech is an aggregate that requires full rehydration with Speaker and Text entities.
-"""
 from typing import Optional, List
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import NoResultFound
@@ -32,7 +27,7 @@ class SpeechRepository(ISpeechRepository):
         try:
             # Load speech with related entities using joinedload for efficiency
             orm_speech = self._session.query(SpeechORM).options(
-                joinedload(SpeechORM.author),
+                joinedload(SpeechORM.speaker),
                 joinedload(SpeechORM.text)
             ).filter(SpeechORM.id == id.value).one()
             
@@ -43,7 +38,7 @@ class SpeechRepository(ISpeechRepository):
     def get_by_protocol_id(self, protocol_id: UUID) -> List[Speech]:
         """Get all fully rehydrated speeches for a protocol."""
         orm_speeches = self._session.query(SpeechORM).options(
-            joinedload(SpeechORM.author),
+            joinedload(SpeechORM.speaker),
             joinedload(SpeechORM.text)
         ).filter(SpeechORM.protocol_id == protocol_id.value).all()
         
@@ -52,16 +47,16 @@ class SpeechRepository(ISpeechRepository):
     def get_by_speaker_id(self, speaker_id: UUID) -> List[Speech]:
         """Get all fully rehydrated speeches by a specific speaker."""
         orm_speeches = self._session.query(SpeechORM).options(
-            joinedload(SpeechORM.author),
+            joinedload(SpeechORM.speaker),
             joinedload(SpeechORM.text)
-        ).filter(SpeechORM.author_id == speaker_id.value).all()
+        ).filter(SpeechORM.speaker_id == speaker_id.value).all()
         
         return [self._rehydrate_speech_aggregate(orm_speech) for orm_speech in orm_speeches]
     
     def list(self) -> List[Speech]:
         """List all fully rehydrated speeches."""
         orm_speeches = self._session.query(SpeechORM).options(
-            joinedload(SpeechORM.author),
+            joinedload(SpeechORM.speaker),
             joinedload(SpeechORM.text)
         ).order_by(SpeechORM.protocol_id).all()
         
@@ -74,21 +69,21 @@ class SpeechRepository(ISpeechRepository):
         """
         # Handle Speaker (may already exist)
         existing_speaker = self._session.query(SpeakerORM).filter(
-            SpeakerORM.id == speech.author.id.value
+            SpeakerORM.id == speech.speaker.id.value
         ).first()
         
         if not existing_speaker:
             # Add new speaker
-            orm_speaker = SpeakerMapper.to_orm(speech.author)
+            orm_speaker = SpeakerMapper.to_orm(speech.speaker)
             self._session.add(orm_speaker)
             self._session.flush()
         else:
             # Update existing speaker if needed
-            existing_speaker.name = speech.author.name
-            existing_speaker.party = str(speech.author.party) if speech.author.party else None
-            existing_speaker.role = speech.author.role
-            existing_speaker.birth_date = speech.author.birth_date
-            existing_speaker.gender = speech.author.gender
+            existing_speaker.name = speech.speaker.name
+            existing_speaker.party = str(speech.speaker.party) if speech.speaker.party else None
+            existing_speaker.role = speech.speaker.role
+            existing_speaker.birth_date = speech.speaker.birth_date
+            existing_speaker.gender = speech.speaker.gender
         
         # Add Speech
         orm_speech = SpeechMapper.to_orm(speech)
@@ -112,7 +107,7 @@ class SpeechRepository(ISpeechRepository):
         
         # Update speech fields
         orm_speech.protocol_id = speech.protocol_id.value
-        orm_speech.author_id = speech.author.id.value
+        orm_speech.speaker_id = speech.speaker.id.value
         
         # Update metrics
         metrics_data = None
@@ -127,15 +122,15 @@ class SpeechRepository(ISpeechRepository):
         
         # Update Speaker (if it exists)
         orm_speaker = self._session.query(SpeakerORM).filter(
-            SpeakerORM.id == speech.author.id.value
+            SpeakerORM.id == speech.speaker.id.value
         ).first()
         
         if orm_speaker:
-            orm_speaker.name = speech.author.name
-            orm_speaker.party = str(speech.author.party) if speech.author.party else None
-            orm_speaker.role = speech.author.role
-            orm_speaker.birth_date = speech.author.birth_date
-            orm_speaker.gender = speech.author.gender
+            orm_speaker.name = speech.speaker.name
+            orm_speaker.party = str(speech.speaker.party) if speech.speaker.party else None
+            orm_speaker.role = speech.speaker.role
+            orm_speaker.birth_date = speech.speaker.birth_date
+            orm_speaker.gender = speech.speaker.gender
         
         # Update Text
         orm_text = self._session.query(TextORM).filter(
@@ -169,7 +164,7 @@ class SpeechRepository(ISpeechRepository):
     def get_by_date_range(self, start_date, end_date) -> List[Speech]:
         """Get all speeches whose protocol date is within the given range."""
         orm_speeches = self._session.query(SpeechORM).join(SpeechORM.protocol).options(
-            joinedload(SpeechORM.author),
+            joinedload(SpeechORM.speaker),
             joinedload(SpeechORM.text)
         ).filter(
             ProtocolORM.date >= start_date,
@@ -180,7 +175,7 @@ class SpeechRepository(ISpeechRepository):
     def get_by_period(self, period_id: UUID) -> List[Speech]:
         """Get all speeches for a given period (via protocol's period_id)."""
         orm_speeches = self._session.query(SpeechORM).join(SpeechORM.protocol).options(
-            joinedload(SpeechORM.author),
+            joinedload(SpeechORM.speaker),
             joinedload(SpeechORM.text)
         ).filter(
             ProtocolORM.period_id == period_id.value
@@ -193,10 +188,10 @@ class SpeechRepository(ISpeechRepository):
         This ensures all dependent entities are properly loaded and converted.
         """
         # Convert Speaker
-        if not orm_speech.author:
-            raise ValueError(f"Speech {orm_speech.id} missing required author")
+        if not orm_speech.speaker:
+            raise ValueError(f"Speech {orm_speech.id} missing required speaker")
         
-        speaker = SpeakerMapper.to_domain(orm_speech.author)
+        speaker = SpeakerMapper.to_domain(orm_speech.speaker)
         
         # Convert Text
         text = None

@@ -1,9 +1,3 @@
-"""
-PostgreSQL implementation of the Country repository.
-
-"""
-
-
 from typing import Optional, List
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
@@ -51,7 +45,7 @@ class CountryRepository(ICountryRepository):
         """Add a new country."""
         orm_country = CountryMapper.to_orm(country)
         self._session.add(orm_country)
-        self._session.flush()  # Ensure ID is generated
+        self._session.flush()
     
     def update(self, country: Country) -> None:
         """Update a country."""

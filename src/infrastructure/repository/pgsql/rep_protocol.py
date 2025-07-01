@@ -66,28 +66,6 @@ class ProtocolRepository(IProtocolRepository):
         self._session.add(orm_protocol)
         self._session.flush()  # Ensure ID is generated
     
-    def update(self, protocol: Protocol) -> None:
-        """Update a protocol in the database using explicit field assignments.
-        
-        FIXME: This method is error-prone and should be refactored to use explicit helpers for value object unwrapping and type conversions.
-        """
-        orm_protocol: ProtocolORM = self._session.query(ProtocolORM).filter(
-            ProtocolORM.id == protocol.id.value
-        ).one()
-
-        # Update fields with explicit unwrapping and type handling
-        orm_protocol.institution_id = protocol.institution_id.value  # UUID -> DB UUID
-        # FIXME: period may be a value object or None; clarify type and unwrap as needed
-        orm_protocol.period_id = protocol.period.id.value if protocol.period else None
-        orm_protocol.extension = protocol.extension  # str
-        # FIXME: file_source may be a value object; clarify and unwrap as needed
-        orm_protocol.file_source = str(protocol.file_source) if protocol.file_source else None
-        orm_protocol.protocol_type = protocol.protocol_type  # str or enum
-        orm_protocol.date = protocol.date.value  # Date value object -> DB date
-        # FIXME: metadata may be a dict, JSON, or value object; clarify and unwrap as needed
-        orm_protocol.metadata_data = protocol.metadata
-
-        self._session.flush()
     
     def delete(self, id: UUID) -> None:
         """Delete a protocol (will cascade delete speeches)."""

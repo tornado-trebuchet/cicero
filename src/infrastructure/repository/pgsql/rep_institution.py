@@ -1,12 +1,3 @@
-"""
-PostgreSQL implementation of the Institution repository.
-Institution is an aggregate that contains Period entities within its boundaries.
-
-Period Lifecycle: 
-Periods can exist independently and be shared across institutions if needed,
-maintaining referential integrity.  
-THIS IS A MAJOR FUCKUP, PERIODS SHOULD NOT EXIST INDEPENDENTLY of INSTITUTION.
-"""
 from typing import Optional, List
 from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import NoResultFound
@@ -130,7 +121,6 @@ class InstitutionRepository(IInstitutionRepository):
         ).one()
         
         # Update basic fields
-        orm_institution.country_id = institution.country_id.value
         orm_institution.institution_type = institution.institution_type
         orm_institution.metadata_data = institution.metadata._data if institution.metadata else {}
         

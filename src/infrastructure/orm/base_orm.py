@@ -2,6 +2,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
+from src.config import DatabaseConfig
+from contextlib import contextmanager
 
 if TYPE_CHECKING:
     from sqlalchemy.engine import Engine
@@ -12,22 +14,33 @@ class Base(DeclarativeBase):
 
 metadata = MetaData()
 
-class DatabaseConfig:
-    def __init__(self, database_url: str) -> None:
-        self.engine: Engine = create_engine(
-            database_url, 
-            echo=False,
-            pool_pre_ping=True,  # Verify connections before use
-            pool_recycle=3600    # Recycle connections every hour
-        )
-        self.SessionLocal = sessionmaker(
-            autocommit=False, 
-            autoflush=False, 
-            bind=self.engine
-        )
-    
-    def create_tables(self) -> None:
-        Base.metadata.create_all(bind=self.engine)
-    
-    def get_session(self) -> Session:
-        return self.SessionLocal()
+config = DatabaseConfig()
+
+engine = create_engine(
+    config.database_url,
+    echo=config.echo,
+    pool_pre_ping=config.pool_pre_ping,
+    pool_recycle=config.pool_recycle,
+)
+
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
+
+def create_tables() -> None:
+    Base.metadata.create_all(bind=engine)
+
+@contextmanager
+def session_scope():
+    """Provide a transactional scope around a series of operations."""
+    session = SessionLocal()
+    try:
+        yield session
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+    finally:
+        session.close()
