@@ -1,4 +1,4 @@
-from src.domain.models.common.base_model import ValueObject
+from src.domain.models.base_model import ValueObject
 
 class TranslatedText(ValueObject):
     """Value object for translated text"""

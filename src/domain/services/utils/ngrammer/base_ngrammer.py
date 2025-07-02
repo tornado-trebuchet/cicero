@@ -1,25 +1,23 @@
 from abc import ABC, abstractmethod
-from src.domain.models.text.v_text_tokenized import Tokens
-from src.domain.models.text.v_text_ngrams import NGramTokens
+from src.domain.models.common.a_corpora import Corpora
 
-# FIXME generates ngrams from sentences, not tokens
 class Ngrammer(ABC):
     """
     Base class for n-gram generators.
     """
     @abstractmethod
-    def generate_ngrams_external(cls, corpora: list[list[Tokens]], n: int) -> list[list[Tokens]]:
+    def generate_ngrams_external(cls, corpora: Corpora, n: int) -> Corpora:
         """
         Generate n-grams using an external library or method.
-        This method can be overridden by subclasses if needed.
+        Returns the corpora with updated ngram_tokens in each speech text.
         """
         raise NotImplementedError("Subclasses must implement this method.")
 
     @abstractmethod
-    def generate_ngrams(self, tokens: Tokens, n: int) -> NGramTokens:
+    def generate_ngrams(self, corpora: Corpora, n: int) -> Corpora:
         """
-        Generate n-grams from a Tokens object.
-        Should be implemented by subclasses.
+        Generate n-grams from corpora.
+        Returns the corpora with updated ngram_tokens in each speech text.
         """
         raise NotImplementedError("Subclasses must implement this method.")
 

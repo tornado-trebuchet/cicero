@@ -1,22 +1,12 @@
 from src.domain.models.common.v_enums import LanguageEnum
-from src.domain.models.text.v_text_ngrams import NGramTokens
 from src.domain.services.text.base_text_service import TextService
 from src.domain.services.utils.ngrammer.base_ngrammer import Ngrammer
-from domain.models.text.v_speech_sentences import SpeechSentences
-
-# FIXME FIXME FIXME
-# FIXME FIXME FIXME
-# FIXME FIXME FIXME
-# FIXME FIXME FIXME
-# utterly broken what does it even return? Where it should be used? In what context called? 
+from src.domain.models.common.a_corpora import Corpora
 
 class NGramTokenizeCleanText(TextService):
-    """
-    Service to generate n-grams from tokens using a language-specific ngrammer.
-    """
-    def __init__(self, texts: list[list[SpeechSentences]], language_code: LanguageEnum):
+    def __init__(self, corpora: Corpora, language_code: LanguageEnum):
         super().__init__(config=None)
-        self.tokens = tokens # FIXME
+        self.corpora = corpora
         self.language_code = language_code
         self.ngrammer = self.pick_ngrammer(self.language_code)()
 
@@ -27,6 +17,6 @@ class NGramTokenizeCleanText(TextService):
         else:
             raise ValueError(f"No ngrammer found for language code: {language_code}")
 
-    def process(self, n: int) -> NGramTokens:
-        ngram_tokens = self.ngrammer.generate_ngrams_external(self.tokens, n)
-        return ngram_tokens
+    def process(self, n: int) -> Corpora:
+        corpora = self.ngrammer.generate_ngrams_external(self.corpora, n)
+        return corpora

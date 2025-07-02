@@ -66,6 +66,23 @@ class ProtocolRepository(IProtocolRepository):
         self._session.add(orm_protocol)
         self._session.flush()  # Ensure ID is generate
     
+    def update(self, protocol: Protocol) -> None:
+        """Update an existing protocol."""
+        orm_protocol = self._session.query(ProtocolORM).filter(
+            ProtocolORM.id == protocol.id.value
+        ).one()
+        
+        # Update fields from domain entity
+        updated_orm = ProtocolMapper.to_orm(protocol)
+        orm_protocol.institution_id = updated_orm.institution_id
+        orm_protocol.period_id = updated_orm.period_id
+        orm_protocol.file_source = updated_orm.file_source
+        orm_protocol.protocol_type = updated_orm.protocol_type
+        orm_protocol.date = updated_orm.date
+        orm_protocol.metadata_data = updated_orm.metadata_data
+        
+        self._session.flush()
+    
     def delete(self, id: UUID) -> None:
         """Delete a protocol (will cascade delete speeches)."""
         orm_protocol = self._session.query(ProtocolORM).filter(

@@ -2,7 +2,7 @@ from typing import Optional, List
 from src.domain.models.common.v_common import DateTime
 from src.domain.models.common.v_enums import PartyEnumRegistry, GenderEnum
 from src.domain.models.common.v_common import UUID
-from src.domain.models.common.base_model import Entity
+from src.domain.models.base_model import Entity
 from src.domain.models.text.a_speech import Speech
 
 class Speaker(Entity):

@@ -1,5 +1,5 @@
 from src.domain.models.text.a_speech import Speech
-from src.domain.models.common.base_model import AggregateRoot
+from src.domain.models.base_model import AggregateRoot
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import InstitutionTypeEnum, PartyEnumRegistry, CountryEnum
 from typing import Optional
@@ -8,6 +8,7 @@ class Corpora(AggregateRoot):
     def __init__(
         self,
         id: UUID,
+        label: str,
         speeches: list[Speech],
         country: CountryEnum,
         institution: InstitutionTypeEnum,
@@ -15,18 +16,27 @@ class Corpora(AggregateRoot):
         party: Optional[PartyEnumRegistry] = None,
     ):
         super().__init__(id)
+        self._label = label
         self._speeches = speeches
         self._institution = institution
         self._party = party
         self._country = country
-        self._periods = periods if periods is not None else []
+        self._periods = periods
 
     @property
-    def speeches(self) -> list['Speech']:
+    def label(self) -> str:
+        return self._label
+
+    @label.setter
+    def label(self, value: str):
+        self._label = value
+
+    @property
+    def speeches(self) -> list[Speech]:
         return self._speeches
 
     @speeches.setter
-    def speeches(self, value: list['Speech']):
+    def speeches(self, value: list[Speech]):
         self._speeches = value
 
     @property

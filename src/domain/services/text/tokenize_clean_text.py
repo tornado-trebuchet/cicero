@@ -1,6 +1,6 @@
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.models.text.v_text_clean import CleanText
-from src.domain.models.text.v_text_tokenized import Tokens
+from src.domain.models.text.v_text_tokenized import TokenizedText
 from src.domain.services.text.base_text_service import TextService
 from src.domain.services.utils.tokenizer.base_tokenizer import Tokenizer
 from src.domain.services.utils.stopwords.base_stopwords import Stopwords
@@ -30,7 +30,7 @@ class TokenizeCleanText(TextService):
         else:
             raise ValueError(f"No stopwords found for language code: {language_code}")
 
-    def process(self, clean_text: CleanText) -> Tokens:
+    def process(self, clean_text: CleanText) -> TokenizedText:
         tokens = self.tokenizer.tokenize_external_lib(clean_text)
         filtered_tokens = [token for token in tokens.tokens if token.lower() not in self.stopwords]
-        return Tokens(tokens=filtered_tokens)
+        return TokenizedText(tokens=filtered_tokens)

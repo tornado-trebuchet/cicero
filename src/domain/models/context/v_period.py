@@ -1,6 +1,6 @@
 from typing import Optional
 from src.domain.models.common.v_common import DateTime
-from src.domain.models.common.base_model import ValueObject
+from src.domain.models.base_model import ValueObject
 
 class Period(ValueObject):
     """ 

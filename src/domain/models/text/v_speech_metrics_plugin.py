@@ -1,5 +1,5 @@
 from typing import Any, Optional
-from src.domain.models.common.base_model import ValueObject
+from src.domain.models.base_model import ValueObject
 
 class MetricsPlugin(ValueObject):
     """
@@ -9,55 +9,69 @@ class MetricsPlugin(ValueObject):
         - sentiment: dict[str, float]
         - dynamic_codes: List[Any]
     """
-    def __init__(self, dominant_topics: Optional[list[dict[str, float]]] = None, sentiment: Optional[dict[str, float]] = None, dynamic_codes: Optional[list[Any]] = None):
-        self._dominant_topics = dominant_topics if dominant_topics is not None else []
-        self._sentiment = sentiment if sentiment is not None else {}
-        self._dynamic_codes = dynamic_codes if dynamic_codes is not None else []
+    def __init__(
+        self, 
+        dominant_topics: Optional[list[dict[str, float]]] = None, 
+        sentiment: Optional[dict[str, float]] = None, 
+        dynamic_codes: Optional[list[Any]] = None
+    ):
+        self._dominant_topics = dominant_topics
+        self._sentiment = sentiment
+        self._dynamic_codes = dynamic_codes
 
     @property
-    def dominant_topics(self):
+    def dominant_topics(self) -> Optional[list[dict[str, float]]]:
         return self._dominant_topics
 
     @property
-    def sentiment(self):
+    def sentiment(self) -> Optional[dict[str, float]]:
         return self._sentiment
 
     @property
-    def dynamic_codes(self):
+    def dynamic_codes(self) -> Optional[list[Any]]:
         return self._dynamic_codes
 
-    def set_dominant_topics(self, topics: list[dict[str, float]]):
+    def set_dominant_topics(self, topics: list[dict[str, float]]) -> None:
         self._dominant_topics = topics
 
-    def add_dominant_topic(self, topic: dict[str, float]):
+    def add_dominant_topic(self, topic: dict[str, float]) -> None:
+        if self._dominant_topics is None:
+            self._dominant_topics = []
         self._dominant_topics.append(topic)
 
-    def clear_dominant_topics(self):
-        self._dominant_topics.clear()
+    def clear_dominant_topics(self) -> None:
+        if self._dominant_topics is not None:
+            self._dominant_topics.clear()
 
-    def set_sentiment(self, sentiment: dict[str, float]):
+    def set_sentiment(self, sentiment: dict[str, float]) -> None:
         self._sentiment = sentiment
 
-    def update_sentiment(self, key: str, value: float):
+    def update_sentiment(self, key: str, value: float) -> None:
+        if self._sentiment is None:
+            self._sentiment = {}
         self._sentiment[key] = value
 
-    def remove_sentiment(self, key: str):
-        if key in self._sentiment:
+    def remove_sentiment(self, key: str) -> None:
+        if self._sentiment is not None and key in self._sentiment:
             del self._sentiment[key]
 
-    def clear_sentiment(self):
-        self._sentiment.clear()
+    def clear_sentiment(self) -> None:
+        if self._sentiment is not None:
+            self._sentiment.clear()
 
-    def set_dynamic_codes(self, codes: list[Any]):
+    def set_dynamic_codes(self, codes: list[Any]) -> None:
         self._dynamic_codes = codes
 
-    def add_dynamic_code(self, code: Any):
+    def add_dynamic_code(self, code: Any) -> None:
+        if self._dynamic_codes is None:
+            self._dynamic_codes = []
         self._dynamic_codes.append(code)
 
-    def clear_dynamic_codes(self):
-        self._dynamic_codes.clear()
+    def clear_dynamic_codes(self) -> None:
+        if self._dynamic_codes is not None:
+            self._dynamic_codes.clear()
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         return (
             isinstance(other, MetricsPlugin)
             and self._dominant_topics == other._dominant_topics

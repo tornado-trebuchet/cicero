@@ -1,7 +1,7 @@
 from uuid import UUID as _UUID
 from datetime import datetime as _datetime, timezone as _timezone
 from urllib.parse import urlparse
-from src.domain.models.common.base_model import ValueObject
+from src.domain.models.base_model import ValueObject
 
 class UUID(ValueObject):
     __slots__ = ("_value",)

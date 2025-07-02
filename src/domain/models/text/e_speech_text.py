@@ -1,14 +1,15 @@
 from typing import Optional
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.models.common.v_common import UUID
-from src.domain.models.common.base_model import Entity
+from src.domain.models.base_model import Entity
 from src.domain.models.text.v_text_metrics import TextMetrics   
 from src.domain.models.text.v_text_raw import RawText
 from src.domain.models.text.v_text_clean import CleanText
-from src.domain.models.text.v_text_tokenized import Tokens
-from src.domain.models.text.v_text_ngrams import NGramTokens
+from src.domain.models.text.v_text_tokenized import TokenizedText
+from src.domain.models.text.v_text_ngrams import NGramizedText
 from src.domain.models.text.v_speech_sentences import SpeechSentences
 from src.domain.models.text.v_text_translated import TranslatedText
+
 class SpeechText(Entity):
     """
     Value Object (very special, proud and mutable and holding multiple subservants VO) 
@@ -22,21 +23,21 @@ class SpeechText(Entity):
         language_code: LanguageEnum,
         clean_text: Optional[CleanText] = None,
         translated_text: Optional[TranslatedText] = None,
-        tokens: Optional[Tokens] = None,
+        tokens: Optional[TokenizedText] = None,
         sentences: Optional[SpeechSentences] = None,
-        ngram_tokens: Optional[NGramTokens] = None,
+        ngram_tokens: Optional[NGramizedText] = None,
         text_metrics: Optional[TextMetrics] = None,
     ):
         super().__init__(id)
         self._speech_id = speech_id
         self._language_code = language_code
         self._raw_text = raw_text
-        self._clean_text = clean_text if clean_text is not None else CleanText()
-        self._translated_text = translated_text if translated_text is not None else TranslatedText() # TODO same shit there
-        self._tokens = tokens if tokens is not None else Tokens()
-        self._sentences = sentences if sentences is not None else SpeechSentences()
-        self._ngram_tokens = ngram_tokens if ngram_tokens is not None else NGramTokens()
-        self._text_metrics = text_metrics if text_metrics is not None else None
+        self._clean_text = clean_text
+        self._translated_text = translated_text
+        self._tokens = tokens
+        self._sentences = sentences
+        self._ngram_tokens = ngram_tokens
+        self._text_metrics = text_metrics
 
     @property
     def speech_id(self) -> UUID:
@@ -71,11 +72,11 @@ class SpeechText(Entity):
         self._clean_text = value
 
     @property
-    def tokens(self) -> Optional[Tokens]:
+    def tokens(self) -> Optional[TokenizedText]:
         return self._tokens
 
     @tokens.setter
-    def tokens(self, value: Tokens):
+    def tokens(self, value: TokenizedText):
         self._tokens = value
 
     @property
@@ -87,11 +88,11 @@ class SpeechText(Entity):
         self._sentences = value
 
     @property
-    def ngram_tokens(self) -> Optional[NGramTokens]:
+    def ngram_tokens(self) -> Optional[NGramizedText]:
         return self._ngram_tokens
 
     @ngram_tokens.setter
-    def ngram_tokens(self, value: NGramTokens):
+    def ngram_tokens(self, value: NGramizedText):
         self._ngram_tokens = value
 
     @property

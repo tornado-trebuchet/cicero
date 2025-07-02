@@ -1,11 +1,11 @@
 import re
 import string
-from src.domain.models.common.base_model import ValueObject
+from src.domain.models.base_model import ValueObject
 
 class CleanText(ValueObject):
 
     def __init__(self, text: str):
-        self._text = text if text is not None else ""
+        self._text = text
 
     @property
     def text(self) -> str:
@@ -13,7 +13,7 @@ class CleanText(ValueObject):
     
     @text.setter
     def text(self, value: str):
-        self._text = value if value is not None else "" # TODO get rid of this thing everywhere
+        self._text = value
 
     def num_words(self) -> int:
         return len(self._text.split())

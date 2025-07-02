@@ -5,7 +5,7 @@ from sqlalchemy import String, DateTime, ForeignKey, Index
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, JSONB, ENUM as PG_ENUM
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base
-from src.domain.models.common.v_enums import ProtocolTypeEnum, ExtensionEnum
+from src.domain.models.common.v_enums import ProtocolTypeEnum
 import uuid
 
 if TYPE_CHECKING:
@@ -19,7 +19,6 @@ class ProtocolORM(Base):
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     institution_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=False)
     period_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("periods.id", ondelete="SET NULL"), nullable=True)
-    extension: Mapped[ExtensionEnum] = mapped_column(PG_ENUM(ExtensionEnum, name="extension_enum"), nullable=False)
     file_source: Mapped[Optional[str]] = mapped_column(String(2048), nullable=True)
     protocol_type: Mapped[ProtocolTypeEnum] = mapped_column(PG_ENUM(ProtocolTypeEnum, name="protocol_type_enum"), nullable=False)
     date: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)

@@ -1,10 +1,10 @@
-from typing import List, Optional
-from src.domain.models.common.base_model import ValueObject
+from typing import List
+from src.domain.models.base_model import ValueObject
 
-class Tokens(ValueObject):
+class TokenizedText(ValueObject):
     
-    def __init__(self, tokens: Optional[List[str]] = None):
-        self._tokens = tokens if tokens is not None else []
+    def __init__(self, tokens: List[str]):
+        self._tokens = tokens 
 
     @property
     def tokens(self) -> List[str]:

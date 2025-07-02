@@ -1,9 +1,10 @@
 from typing import Optional
 from src.domain.models.common.v_common import UUID, DateTime, HttpUrl
-from src.domain.models.common.base_model import AggregateRoot
+from src.domain.models.base_model import AggregateRoot
 from src.domain.models.common.v_enums import ProtocolTypeEnum
 from src.domain.models.text.v_protocol_text import ProtocolText
 from src.domain.models.text.v_protocol_agenda import Agenda
+from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.domain.models.context.v_period import Period
 from src.domain.models.text.a_speech import Speech
 
@@ -21,19 +22,19 @@ class Protocol(AggregateRoot):
         agenda: Optional[Agenda] = None,
         period: Optional[Period] = None,
         file_source: Optional[HttpUrl] = None,
-        metadata: Optional[dict] = None,
+        metadata: Optional[MetadataPlugin] = None,
     ):
         super().__init__(id)
         self._country_id = country_id
         self._institution_id = institution_id
-        self._period = period if period is not None else None
+        self._period = period
         self._file_source = file_source
         self._protocol_type = protocol_type
         self._protocol_text = protocol_text
-        self._protocol_speeches = protocol_speeches if protocol_speeches is not None else []
-        self._agenda = agenda if agenda is not None else None
+        self._protocol_speeches = protocol_speeches
+        self._agenda = agenda
         self._date = date
-        self._metadata = metadata if metadata is not None else {}
+        self._metadata = metadata
 
     @property
     def country_id(self) -> UUID:
@@ -88,11 +89,11 @@ class Protocol(AggregateRoot):
         self._protocol_text = value
 
     @property
-    def metadata(self) -> dict:
+    def metadata(self) -> Optional[MetadataPlugin]:
         return self._metadata
 
     @metadata.setter
-    def metadata(self, value: dict):
+    def metadata(self, value: MetadataPlugin):
         self._metadata = value
 
     def __repr__(self) -> str:

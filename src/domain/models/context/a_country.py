@@ -1,6 +1,6 @@
 from typing import Optional, List
 from src.domain.models.common.v_common import UUID
-from src.domain.models.common.base_model import Entity
+from src.domain.models.base_model import Entity
 from src.domain.models.common.v_enums import CountryEnum
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.context.e_speaker import Speaker
