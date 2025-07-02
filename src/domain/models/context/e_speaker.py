@@ -1,22 +1,27 @@
-from typing import Optional
-from datetime import date
+from typing import Optional, List
+from src.domain.models.common.v_common import DateTime
 from src.domain.models.common.v_enums import PartyEnumRegistry, GenderEnum
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.base_model import Entity
+from src.domain.models.text.a_speech import Speech
 
 class Speaker(Entity):
     """Value Object (loud, proud and mutable) for a speaker (person) in a protocol/speech."""
     def __init__(
         self,
         id: UUID,
+        country_id: UUID,
         name: str,
+        speeches: List[Speech],
         party: Optional[PartyEnumRegistry] = None,
         role: Optional[str] = None,
-        birth_date: Optional[date] = None,
+        birth_date: Optional[DateTime] = None,
         gender: Optional[GenderEnum] = None,
     ):
         super().__init__(id)
+        self._country_id = country_id
         self._name = name
+        self._speeches = speeches
         self._party = party
         self._role = role
         self._birth_date = birth_date
@@ -27,12 +32,24 @@ class Speaker(Entity):
         return self._id
     
     @property
+    def country_id(self) -> UUID:
+        return self._country_id
+
+    @property
     def name(self) -> str:
         return self._name
 
     @name.setter
     def name(self, value: str):
         self._name = value
+
+    @property
+    def speeches(self) -> List[Speech]:
+        return self._speeches
+    
+    @speeches.setter
+    def speeches(self, value: List[Speech]):
+        self._speeches = value
 
     @property
     def party(self) -> Optional[PartyEnumRegistry]:
@@ -51,11 +68,11 @@ class Speaker(Entity):
         self._role = value
 
     @property
-    def birth_date(self) -> Optional[date]:
+    def birth_date(self) -> Optional[DateTime]:
         return self._birth_date
 
     @birth_date.setter
-    def birth_date(self, value: Optional[date]):
+    def birth_date(self, value: Optional[DateTime]):
         self._birth_date = value
 
     @property

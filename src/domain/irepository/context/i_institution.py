@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
 from domain.models.context.e_institution import Institution
-from domain.models.context.ve_period import Period
+from src.domain.models.context.v_period import Period
 from domain.models.common.v_common import UUID
 from domain.models.common.v_enums import InstitutionTypeEnum
 

@@ -4,7 +4,7 @@ class TextService(ABC):
 
     def __init__(self, config,):
         self.config = config
-    
+
     @abstractmethod
     def process(self, *args, **kwargs):
         """

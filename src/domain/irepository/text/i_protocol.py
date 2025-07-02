@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
-from domain.models.text.e_protocol import Protocol
+from src.domain.models.text.a_protocol import Protocol
 from domain.models.common.v_common import UUID
 
 class IProtocolRepository(ABC):

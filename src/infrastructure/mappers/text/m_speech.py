@@ -1,9 +1,9 @@
-from src.domain.models.text.e_speech import Speech
-from src.domain.models.context.ve_speaker import Speaker
-from src.domain.models.text.ve_text import Text
+from src.domain.models.text.a_speech import Speech
+from src.domain.models.context.e_speaker import Speaker
+from src.domain.models.text.e_speech_text import Text
 from src.domain.models.common.v_common import UUID
-from src.domain.models.text.ve_speech_metrics_plugin import MetricsPlugin
-from src.domain.models.common.ve_metadata_plugin import MetadataPlugin
+from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
+from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.infrastructure.orm.text.orm_speech import SpeechORM
 
 

@@ -1,14 +1,12 @@
 from typing import List, Optional
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.base_model import Entity
-from src.domain.models.context.ve_period import Period
+from src.domain.models.context.v_period import Period
 from src.domain.models.common.v_enums import InstitutionTypeEnum
-from src.domain.models.common.ve_metadata_plugin import MetadataPlugin
+from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 
 class Institution(Entity):
-    """
-    Represents an institution (e.g., parliament, assembly) in the domain model.
-    """
+    """Represents an institution e.g., parliament."""
     def __init__(
         self,
         id: UUID,
@@ -47,5 +45,3 @@ class Institution(Entity):
     def metadata(self, value: MetadataPlugin):
         self._metadata = value
 
-    def __repr__(self) -> str:
-        return f"<Institution {self._institution_type} {self.id}>"

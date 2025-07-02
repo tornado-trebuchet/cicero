@@ -1,6 +1,7 @@
 from typing import Any, Optional
+from src.domain.models.common.base_model import ValueObject
 
-class MetricsPlugin:
+class MetricsPlugin(ValueObject):
     """
     Very proud Value object that mutates on demand for speech metrics, validated.
     Fields:

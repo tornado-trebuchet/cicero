@@ -1,5 +1,5 @@
-from src.domain.models.text.v_raw_text import RawText
-from src.domain.models.text.v_clean_text import CleanText
+from src.domain.models.text.v_text_raw import RawText
+from src.domain.models.text.v_text_clean import CleanText
 from src.domain.services.text.base_text_service import TextService
 from src.domain.services.utils.preprocessor.base_preprocessor import Preprocessor
 

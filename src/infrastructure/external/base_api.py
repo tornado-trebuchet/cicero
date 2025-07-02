@@ -2,9 +2,9 @@ from typing import Optional
 from abc import ABC, abstractmethod
 from src.domain.models.common.v_enums import CountryEnum
 from src.domain.models.context.e_institution import Institution
-from src.domain.models.text.e_protocol import Protocol
+from src.domain.models.text.a_protocol import Protocol
 from src.domain.models.common.v_common import HttpUrl
-from src.domain.models.context.ve_period import Period
+from src.domain.models.context.v_period import Period
 from src.infrastructure.external.base_response import Response
 
 from src.config import APIConfig

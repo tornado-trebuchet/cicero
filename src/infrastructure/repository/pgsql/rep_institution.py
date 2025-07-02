@@ -4,7 +4,7 @@ from sqlalchemy.exc import NoResultFound
 
 from domain.irepository.context.i_institution import IInstitutionRepository
 from domain.models.context.e_institution import Institution
-from domain.models.context.ve_period import Period
+from src.domain.models.context.v_period import Period
 from domain.models.common.v_common import UUID
 from domain.models.common.v_enums import InstitutionTypeEnum
 from infrastructure.orm.context.orm_institution import InstitutionORM
@@ -151,7 +151,7 @@ class InstitutionRepository(IInstitutionRepository):
         
         # Add the period if it doesn't exist
         existing_period = self._session.query(PeriodORM).filter(
-            PeriodORM.id == period.id.value
+            PeriodORM.id == period.id.value # FIXME no longer entity
         ).first()
         
         if not existing_period:

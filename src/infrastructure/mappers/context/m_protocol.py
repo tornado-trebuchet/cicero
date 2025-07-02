@@ -1,9 +1,9 @@
-from src.domain.models.text.e_protocol import Protocol
+from src.domain.models.text.a_protocol import Protocol
 from src.domain.models.text.v_protocol_text import ProtocolText
 from src.domain.models.common.v_common import UUID, DateTime, HttpUrl
 from src.domain.models.common.v_enums import ProtocolTypeEnum, ExtensionEnum
 from infrastructure.orm.text.orm_protocol import ProtocolORM
-from src.domain.models.context.ve_period import Period
+from src.domain.models.context.v_period import Period
 from src.infrastructure.mappers.context.m_period import PeriodMapper
 
 class ProtocolMapper:

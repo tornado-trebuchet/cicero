@@ -1,7 +1,11 @@
 from typing import List, Optional
+from src.domain.models.common.base_model import ValueObject
 
-class Tokens:
+class Tokens(ValueObject):
     
+    def __init__(self, tokens: Optional[List[str]] = None):
+        self._tokens = tokens if tokens is not None else []
+
     @property
     def tokens(self) -> List[str]:
         return self._tokens
@@ -10,8 +14,6 @@ class Tokens:
     def tokens(self, value: List[str]):
             self._tokens = value
 
-    def __init__(self, tokens: Optional[List[str]] = None):
-        self._tokens = tokens if tokens is not None else []
 
     def __repr__(self):
         return f"Tokens({self._tokens})"

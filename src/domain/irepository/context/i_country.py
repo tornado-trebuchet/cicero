@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
-from domain.models.context.e_country import Country
+from src.domain.models.context.a_country import Country
 from domain.models.common.v_common import UUID
 from domain.models.common.v_enums import CountryEnum
 

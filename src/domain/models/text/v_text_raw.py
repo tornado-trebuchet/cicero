@@ -1,4 +1,6 @@
-class RawText:
+from src.domain.models.common.base_model import ValueObject
+
+class RawText(ValueObject):
 
     def __init__(self, text: str):
         self._text = text
@@ -16,11 +18,3 @@ class RawText:
 
     def __str__(self) -> str:
         return self._text
-
-    def __repr__(self) -> str:
-        return f"RawText(text={self._text!r})"
-
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, RawText):
-            return NotImplemented
-        return self._text == other._text

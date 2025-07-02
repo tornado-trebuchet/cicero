@@ -1,5 +1,5 @@
 from typing import Optional, List
-from domain.models.text.ve_text import Text
+from src.domain.models.text.e_speech_text import Text
 from domain.models.common.v_common import UUID
 from domain.models.common.v_enums import LanguageEnum
 from infrastructure.orm.text.orm_text import TextORM

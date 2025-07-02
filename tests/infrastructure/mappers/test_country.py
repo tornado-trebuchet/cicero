@@ -2,7 +2,7 @@ import unittest
 import uuid
 from src.infrastructure.mappers.context.m_country import CountryMapper
 from src.infrastructure.orm.context.orm_country import CountryORM
-from src.domain.models.context.e_country import Country
+from src.domain.models.context.a_country import Country
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import CountryEnum
 

@@ -1,26 +1,24 @@
 from typing import Optional
-from domain.models.common.v_common import UUID
-from domain.models.common.base_model import Entity
-from domain.models.text.ve_text import Text
-from domain.models.context.ve_speaker import Speaker
-from domain.models.text.ve_speech_metrics_plugin import MetricsPlugin
-from domain.models.common.ve_metadata_plugin import MetadataPlugin
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.base_model import Entity
+from src.domain.models.text.e_speech_text import SpeechText
+from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
+from src.domain.models.common.v_metadata_plugin import MetadataPlugin
+
 class Speech(Entity):
-    """
-    Represents a speech in a protocol, with speaker, text, metrics, and metadata.
-    """
+    """Represents a speech in a protocol"""
     def __init__(
         self,
         id: UUID,
         protocol_id: UUID,
-        speaker: Speaker,
-        text: Text,
+        speaker_id: UUID,
+        text: SpeechText,
         metadata: Optional[MetadataPlugin] = None,
         metrics: Optional[MetricsPlugin] = None,
     ):
         super().__init__(id)
         self._protocol_id = protocol_id
-        self._speaker = speaker
+        self._speaker_id = speaker_id
         self._text = text
         self._metrics = metrics
         self._metadata = metadata
@@ -34,19 +32,19 @@ class Speech(Entity):
         self._protocol_id = value
 
     @property
-    def speaker(self) -> Speaker:
-        return self._speaker
+    def speaker_id(self) -> UUID:
+        return self._speaker_id
 
-    @speaker.setter
-    def speaker(self, value: Speaker):
-        self._speaker = value
+    @speaker_id.setter
+    def speaker_id(self, value: UUID):
+        self._speaker_id = value
 
     @property
-    def text(self) -> Text:
+    def text(self) -> SpeechText:
         return self._text
 
     @text.setter
-    def text(self, value: Text):
+    def text(self, value: SpeechText):
         self._text = value
 
     @property
@@ -66,4 +64,4 @@ class Speech(Entity):
         self._metadata = value if value is not None else MetadataPlugin({})
 
     def __repr__(self) -> str:
-        return f"<Speech {self.id} by {self._speaker}>"
+        return f"<Speech {self.id} by {self._speaker_id}>"

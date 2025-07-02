@@ -1,10 +1,10 @@
 from src.domain.models.common.v_common import UUID
-from src.domain.models.text.ve_text import Text
-from src.domain.models.text.v_raw_text import RawText
-from src.domain.models.context.ve_speaker import Speaker
+from src.domain.models.text.e_speech_text import Text
+from src.domain.models.text.v_text_raw import RawText
+from src.domain.models.context.e_speaker import Speaker
 from src.domain.models.common.v_enums import LanguageEnum
-from src.domain.models.text.e_speech import Speech
-from src.domain.models.text.e_protocol import Protocol
+from src.domain.models.text.a_speech import Speech
+from src.domain.models.text.a_protocol import Protocol
 from src.domain.services.text.base_text_service import TextService
 from src.domain.services.utils.regex.base_regex import RegexPattern
 

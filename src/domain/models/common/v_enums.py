@@ -22,12 +22,6 @@ class LanguageEnum(str, Enum):
     FR = "french"
     EN = "english"
 
-class ExtensionEnum(str, Enum):
-    XML = "XML"
-    JSON = "JSON"
-    TXT = "TXT"
-    PDF = "PDF"
-
 class GermanyPartyEnum(str, Enum):
     CDU = "CDU/CSU"
     SPD = "SPD"

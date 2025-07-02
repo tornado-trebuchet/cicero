@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 
 from domain.irepository.context.i_country import ICountryRepository
-from domain.models.context.e_country import Country
+from src.domain.models.context.a_country import Country
 from domain.models.common.v_common import UUID
 from domain.models.common.v_enums import CountryEnum
 from infrastructure.orm.context.orm_country import CountryORM

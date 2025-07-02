@@ -1,16 +1,19 @@
 from typing import Optional
-from domain.models.common.v_enums import LanguageEnum
-from domain.models.common.v_common import UUID
-from domain.models.common.base_model import Entity
-from domain.models.text.v_text_metrics import TextMetrics   
-from domain.models.text.v_raw_text import RawText
-from domain.models.text.v_clean_text import CleanText
-from domain.models.text.v_tokenized_text import Tokens
-from domain.models.text.v_ngram_tokens import NGramTokens
-from domain.models.text.v_speech_sentences import SpeechSentences
-
-class Text(Entity):
-    """Value Object (very special, proud and mutable VO) for speech text and its linguistic features."""
+from src.domain.models.common.v_enums import LanguageEnum
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.base_model import Entity
+from src.domain.models.text.v_text_metrics import TextMetrics   
+from src.domain.models.text.v_text_raw import RawText
+from src.domain.models.text.v_text_clean import CleanText
+from src.domain.models.text.v_text_tokenized import Tokens
+from src.domain.models.text.v_text_ngrams import NGramTokens
+from src.domain.models.text.v_speech_sentences import SpeechSentences
+from src.domain.models.text.v_text_translated import TranslatedText
+class SpeechText(Entity):
+    """
+    Value Object (very special, proud and mutable and holding multiple subservants VO) 
+    for speech text and its linguistic features.
+    """
     def __init__(
         self,
         id: UUID,
@@ -18,6 +21,7 @@ class Text(Entity):
         raw_text: RawText,
         language_code: LanguageEnum,
         clean_text: Optional[CleanText] = None,
+        translated_text: Optional[TranslatedText] = None,
         tokens: Optional[Tokens] = None,
         sentences: Optional[SpeechSentences] = None,
         ngram_tokens: Optional[NGramTokens] = None,
@@ -28,6 +32,7 @@ class Text(Entity):
         self._language_code = language_code
         self._raw_text = raw_text
         self._clean_text = clean_text if clean_text is not None else CleanText()
+        self._translated_text = translated_text if translated_text is not None else TranslatedText() # TODO same shit there
         self._tokens = tokens if tokens is not None else Tokens()
         self._sentences = sentences if sentences is not None else SpeechSentences()
         self._ngram_tokens = ngram_tokens if ngram_tokens is not None else NGramTokens()

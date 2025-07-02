@@ -1,4 +1,4 @@
-from src.domain.models.context.ve_speaker import Speaker
+from src.domain.models.context.e_speaker import Speaker
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import GenderEnum
 from src.infrastructure.orm.context.orm_speaker import SpeakerORM

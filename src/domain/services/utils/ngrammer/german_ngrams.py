@@ -1,9 +1,8 @@
 from domain.services.utils.ngrammer.base_ngrammer import Ngrammer
-from src.domain.models.text.v_tokenized_text import Tokens
+from src.domain.models.text.v_text_tokenized import Tokens
 from src.domain.models.common.v_enums import LanguageEnum
-from src.domain.models.text.v_ngram_tokens import NGramTokens
+from src.domain.models.text.v_text_ngrams import NGramTokens
 from gensim.models.phrases import Phrases, Phraser
-# importing gensim
 
 class GermanNgrammer(Ngrammer):
     language_code = LanguageEnum.DE
@@ -12,7 +11,7 @@ class GermanNgrammer(Ngrammer):
         token_list = tokens.tokens
         ngrams = [' '.join(token_list[i:i+n]) for i in range(len(token_list)-n+1)] if n > 0 else []
         return NGramTokens(tokens=ngrams)
-
+    # FIXME: Sentences? 
     def generate_ngrams_external(self, corpora: list[list[Tokens]], n: int) -> list[list[Tokens]]:
         # Flatten all sentences from all texts, extracting the token lists from each Tokens object
         all_sentences = [sentence.tokens for text in corpora for sentence in text]

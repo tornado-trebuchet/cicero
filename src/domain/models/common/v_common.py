@@ -1,8 +1,9 @@
 from uuid import UUID as _UUID
 from datetime import datetime as _datetime, timezone as _timezone
 from urllib.parse import urlparse
+from src.domain.models.common.base_model import ValueObject
 
-class UUID:
+class UUID(ValueObject):
     __slots__ = ("_value",)
 
     def __init__(self, value: str | _UUID):
@@ -30,15 +31,9 @@ class UUID:
 
     def __str__(self) -> str:
         return str(self._value)
-
-    def __eq__(self, other) -> bool:
-        return isinstance(other, UUID) and self._value == other._value
-
-    def __hash__(self) -> int:
-        return hash(self._value)
     
 
-class DateTime:
+class DateTime(ValueObject):
     __slots__ = ("_value",)
 
     def __init__(self, value: _datetime | str):
@@ -76,17 +71,8 @@ class DateTime:
     def __str__(self) -> str:
         return self._value.isoformat()
 
-    def __repr__(self) -> str:
-        return f"DateTime({self._value.isoformat()})"
 
-    def __eq__(self, other) -> bool:
-        return isinstance(other, DateTime) and self._value == other._value
-
-    def __hash__(self) -> int:
-        return hash(self._value)
-
-
-class HttpUrl:
+class HttpUrl(ValueObject):
     __slots__ = ("_value",)
 
     def __init__(self, value: str):
@@ -102,13 +88,5 @@ class HttpUrl:
     def value(self) -> str:
         return self._value
 
-    def __str__(self) -> str:
-        return self._value
-
-    def __eq__(self, other) -> bool:
-        return isinstance(other, HttpUrl) and self._value == other._value
-
-    def __hash__(self) -> int:
-        return hash(self._value)
 
         

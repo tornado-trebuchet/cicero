@@ -1,4 +1,4 @@
-from src.domain.models.context.ve_period import Period
+from src.domain.models.context.v_period import Period
 from src.domain.models.common.v_common import UUID, DateTime
 from src.infrastructure.orm.context.orm_period import PeriodORM
 

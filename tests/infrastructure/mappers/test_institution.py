@@ -5,7 +5,7 @@ from src.infrastructure.orm.context.orm_institution import InstitutionORM
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import InstitutionTypeEnum
-from src.domain.models.common.ve_metadata_plugin import MetadataPlugin
+from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.infrastructure.orm.context.orm_country import CountryORM
 from src.domain.models.common.v_enums import CountryEnum
 from src.infrastructure.orm.context.orm_period import PeriodORM

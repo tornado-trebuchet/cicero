@@ -1,4 +1,6 @@
-class ProtocolText:
+from src.domain.models.common.base_model import ValueObject
+
+class ProtocolText(ValueObject):
 
     def __init__(self, protocol_text: str = ""):
         self._protocol_text = protocol_text if protocol_text is not None else ""

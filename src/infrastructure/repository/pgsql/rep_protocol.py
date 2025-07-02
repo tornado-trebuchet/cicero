@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import NoResultFound
 
 from domain.irepository.text.i_protocol import IProtocolRepository
-from domain.models.text.e_protocol import Protocol
+from src.domain.models.text.a_protocol import Protocol
 from domain.models.common.v_common import UUID
 from infrastructure.orm.text.orm_protocol import ProtocolORM
 from infrastructure.mappers.context.m_protocol import ProtocolMapper
@@ -64,8 +64,7 @@ class ProtocolRepository(IProtocolRepository):
         """Add a new protocol."""
         orm_protocol = ProtocolMapper.to_orm(protocol)
         self._session.add(orm_protocol)
-        self._session.flush()  # Ensure ID is generated
-    
+        self._session.flush()  # Ensure ID is generate
     
     def delete(self, id: UUID) -> None:
         """Delete a protocol (will cascade delete speeches)."""

@@ -1,7 +1,7 @@
 from src.domain.services.utils.tokenizer.base_tokenizer import Tokenizer
 from src.domain.models.common.v_enums import LanguageEnum
-from src.domain.models.text.v_clean_text import CleanText
-from src.domain.models.text.v_tokenized_text import Tokens
+from src.domain.models.text.v_text_clean import CleanText
+from src.domain.models.text.v_text_tokenized import Tokens
 import spacy
 # importing spacy
 

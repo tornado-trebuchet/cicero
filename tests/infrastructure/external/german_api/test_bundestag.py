@@ -2,7 +2,7 @@ from src.infrastructure.external.germany.bundestag_api import BundestagAPI
 from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.common.v_common import UUID
-from src.domain.models.common.ve_metadata_plugin import MetadataPlugin
+from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.config import APIConfig
 
 def test_bundestag_api_real_request():
@@ -25,11 +25,11 @@ def test_bundestag_api_real_request():
     protocol = api.parse_response(response)
 
     # Assert Protocol type and all required fields
-    from src.domain.models.text.e_protocol import Protocol
+    from src.domain.models.text.a_protocol import Protocol
     from src.domain.models.text.v_protocol_text import ProtocolText
     from src.domain.models.common.v_common import DateTime, HttpUrl
     from src.domain.models.common.v_enums import ProtocolTypeEnum, ExtensionEnum
-    from src.domain.models.context.ve_period import Period
+    from src.domain.models.context.v_period import Period
 
     assert isinstance(protocol, Protocol)
     assert isinstance(protocol.id, UUID)
@@ -47,7 +47,7 @@ def test_bundestag_api_real_request():
     if protocol.period is not None:
         assert isinstance(protocol.period, Period)
     if hasattr(protocol, "_agenda") and protocol._agenda is not None:
-        from src.domain.models.text.v_agenda import Agenda
+        from src.domain.models.text.v_protocol_agenda import Agenda
         assert isinstance(protocol._agenda, Agenda)
 
     print(f"protocol.id: {protocol.id}")

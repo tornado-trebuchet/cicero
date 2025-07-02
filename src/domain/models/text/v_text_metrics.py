@@ -1,7 +1,6 @@
-from dataclasses import dataclass
+from src.domain.models.common.base_model import ValueObject
 
-@dataclass
-class TextMetrics:
+class TextMetrics(ValueObject):
     word_count: int
     character_count: int
     token_count: int

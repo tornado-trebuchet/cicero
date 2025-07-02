@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
-from domain.models.text.e_speech import Speech
+from src.domain.models.text.a_speech import Speech
 from domain.models.common.v_common import UUID
 
 class ISpeechRepository(ABC):

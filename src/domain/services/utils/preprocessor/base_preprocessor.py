@@ -1,13 +1,10 @@
 from abc import ABC, abstractmethod
-from src.domain.models.text.v_raw_text import RawText
-from src.domain.models.text.v_clean_text import CleanText
+from src.domain.models.text.v_text_raw import RawText
+from src.domain.models.text.v_text_clean import CleanText
 from src.domain.models.common.v_enums import LanguageEnum
 
 class Preprocessor(ABC):
-    """
-    Base class for preprocessors.
-    """
-
+    """Base class for preprocessors."""
     def __init__(self):
         pass
 

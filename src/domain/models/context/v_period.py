@@ -1,21 +1,19 @@
 from typing import Optional
-from src.domain.models.common.v_common import UUID, DateTime
-from src.domain.models.common.base_model import Entity
+from src.domain.models.common.v_common import DateTime
+from src.domain.models.common.base_model import ValueObject
 
-class Period(Entity):
+class Period(ValueObject):
     """ 
     Represents usually a legislative period, with a label and description. 
     Can reference other legislative cycles.
     """
     def __init__(
         self,
-        id: UUID,
         start_date: DateTime,
         end_date: DateTime,
         label: Optional[str] = None,
         description: Optional[str] = None,
     ):
-        super().__init__(id)
         self._label = label
         self._start_date = start_date
         self._end_date = end_date

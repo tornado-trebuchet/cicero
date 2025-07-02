@@ -1,17 +1,13 @@
-import pytest
 from src.application.modules.fetchers.bundestag_fetcher import BundestagFetcher
 from src.infrastructure.external.germany.bundestag_api import BundestagAPI
 from src.infrastructure.repository.pgsql.rep_protocol import ProtocolRepository
-from src.infrastructure.orm.base_orm import DatabaseConfig, Base
+from src.infrastructure.orm.base_orm import DatabaseConfig
 from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.common.v_common import UUID
-from src.domain.models.common.ve_metadata_plugin import MetadataPlugin
+from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.config import APIConfig
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 
-@pytest.mark.integration
 def test_bundestag_fetcher_full_chain():
     # Setup in-memory database
     db_url = "sqlite:///:memory:"
@@ -40,7 +36,7 @@ def test_bundestag_fetcher_full_chain():
     protocol = fetcher.fetch_protocol(protocol_spec, period)
 
     # Assert Protocol type and DB persistence
-    from src.domain.models.text.e_protocol import Protocol as ProtocolDomain
+    from src.domain.models.text.a_protocol import Protocol as ProtocolDomain
     assert isinstance(protocol, ProtocolDomain)
     found = repository.get_by_id(protocol.id)
     assert found is not None

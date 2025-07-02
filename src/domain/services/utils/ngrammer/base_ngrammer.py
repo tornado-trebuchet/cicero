@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from src.domain.models.text.v_tokenized_text import Tokens
-from src.domain.models.text.v_ngram_tokens import NGramTokens
+from src.domain.models.text.v_text_tokenized import Tokens
+from src.domain.models.text.v_text_ngrams import NGramTokens
 
+# FIXME generates ngrams from sentences, not tokens
 class Ngrammer(ABC):
     """
     Base class for n-gram generators.
@@ -14,7 +15,6 @@ class Ngrammer(ABC):
         """
         raise NotImplementedError("Subclasses must implement this method.")
 
-    # надо починить
     @abstractmethod
     def generate_ngrams(self, tokens: Tokens, n: int) -> NGramTokens:
         """
