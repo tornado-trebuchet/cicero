@@ -9,6 +9,7 @@ import uuid
 
 if TYPE_CHECKING:
     from src.infrastructure.orm.context.orm_institution import InstitutionORM
+    from src.infrastructure.orm.context.orm_speaker import SpeakerORM
 
 class CountryORM(Base):
     __tablename__ = "countries"
@@ -19,6 +20,12 @@ class CountryORM(Base):
     # Relationships
     institutions: Mapped[List["InstitutionORM"]] = relationship(
         "InstitutionORM", 
+        back_populates="country",
+        cascade="all, delete-orphan",
+        passive_deletes=True
+    )
+    speakers: Mapped[List["SpeakerORM"]] = relationship(
+        "SpeakerORM",
         back_populates="country",
         cascade="all, delete-orphan",
         passive_deletes=True

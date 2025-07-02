@@ -17,6 +17,7 @@ class InstitutionORM(Base):
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     country_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("countries.id"), nullable=False)
     institution_type: Mapped[InstitutionTypeEnum] = mapped_column(PG_ENUM(InstitutionTypeEnum, name="institution_type_enum"), nullable=False)
+    periods_data: Mapped[List[Dict[str, Any]]] = mapped_column(JSONB, nullable=False, default=list)
     metadata_data: Mapped[Dict[str, Any]] = mapped_column(JSONB, nullable=False, default={})
     
     # Relationships

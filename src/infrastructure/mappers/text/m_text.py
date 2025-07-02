@@ -1,37 +1,39 @@
 from typing import Optional, List
-from src.domain.models.text.e_speech_text import Text
-from domain.models.common.v_common import UUID
-from domain.models.common.v_enums import LanguageEnum
-from infrastructure.orm.text.orm_text import TextORM
+from src.domain.models.text.e_speech_text import SpeechText
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_enums import LanguageEnum
+from src.domain.models.text.v_text_raw import RawText
+from src.domain.models.text.v_text_clean import CleanText
+from src.domain.models.text.v_text_tokenized import TokenizedText
+from src.domain.models.text.v_text_ngrams import NGramizedText
+from src.infrastructure.orm.text.orm_text import TextORM
 
 
 class TextMapper:
-    """Mapper for Text entity and TextORM."""
+    """Mapper for SpeechText entity and TextORM."""
     
     @staticmethod
-    def to_orm(domain_entity: Text) -> TextORM:
-        """Convert Text domain entity to TextORM."""
+    def to_orm(domain_entity: SpeechText) -> TextORM:
+        """Convert SpeechText domain entity to TextORM."""
         return TextORM(
             id=domain_entity.id.value,
             speech_id=domain_entity.speech_id.value,
             language_code=domain_entity.language_code,
-            raw_text=domain_entity.raw_text,
-            clean_text=domain_entity.clean_text,
-            tokens=domain_entity.tokens,
-            ngram_tokens=domain_entity.ngram_tokens,
-            word_count=domain_entity.word_count
+            raw_text=domain_entity.raw_text.text if domain_entity.raw_text else None,
+            clean_text=domain_entity.clean_text.text if domain_entity.clean_text else None,
+            tokens=domain_entity.tokens.tokens if domain_entity.tokens else None,
+            ngram_tokens=domain_entity.ngram_tokens.tokens if domain_entity.ngram_tokens else None
         )
     
     @staticmethod
-    def to_domain(orm_entity: TextORM) -> Text:
-        """Convert TextORM to Text domain entity."""
-        return Text(
+    def to_domain(orm_entity: TextORM) -> SpeechText:
+        """Convert TextORM to SpeechText domain entity."""
+        return SpeechText(
             id=UUID(str(orm_entity.id)),
             speech_id=UUID(str(orm_entity.speech_id)),
-            raw_text=orm_entity.raw_text,
-            language_code=LanguageEnum(orm_entity.language_code) if orm_entity.language_code else None,
-            clean_text=orm_entity.clean_text,
-            tokens=orm_entity.tokens or [],
-            ngram_tokens=orm_entity.ngram_tokens or [],
-            word_count=orm_entity.word_count or 0
+            raw_text=RawText(orm_entity.raw_text) if orm_entity.raw_text else RawText(""),
+            language_code=LanguageEnum(orm_entity.language_code) if orm_entity.language_code else LanguageEnum.EN,
+            clean_text=CleanText(orm_entity.clean_text) if orm_entity.clean_text else None,
+            tokens=TokenizedText(orm_entity.tokens) if orm_entity.tokens else None,
+            ngram_tokens=NGramizedText(orm_entity.ngram_tokens) if orm_entity.ngram_tokens else None
         )

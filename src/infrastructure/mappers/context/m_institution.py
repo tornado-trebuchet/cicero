@@ -1,5 +1,6 @@
 from src.domain.models.context.e_institution import Institution
-from src.domain.models.common.v_common import UUID
+from src.domain.models.context.v_period import Period
+from src.domain.models.common.v_common import UUID, DateTime
 from src.domain.models.common.v_enums import InstitutionTypeEnum
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.infrastructure.orm.context.orm_institution import InstitutionORM
@@ -9,24 +10,44 @@ class InstitutionMapper:
     
     @staticmethod
     def to_orm(domain_entity: Institution) -> InstitutionORM:
+        # Convert periods to JSON data
+        periods_data = []
+        for period in domain_entity.periodisation or []:
+            periods_data.append({
+                "label": period.label,
+                "start_date": period.start_date.value.isoformat(),
+                "end_date": period.end_date.value.isoformat(),
+                "description": period.description
+            })
+        
         return InstitutionORM(
             id=domain_entity.id.value,
-            country_id=domain_entity.country_id.value,  # FIXED: use country_id
+            country_id=domain_entity.country_id.value,
             institution_type=domain_entity.institution_type,
+            periods_data=periods_data,
             metadata_data=domain_entity.metadata._data if domain_entity.metadata else {}
         )
     
     @staticmethod
     def to_domain(orm_entity: InstitutionORM) -> Institution:
-        # Note: Not loading periods here to avoid circular dependencies
-        # Periods should be loaded separately by repository if needed
+        # Convert periods data back to Period ValueObjects
+        periods = []
+        for period_data in orm_entity.periods_data or []:
+            period = Period(
+                label=period_data.get("label"),
+                start_date=DateTime(period_data["start_date"]),
+                end_date=DateTime(period_data["end_date"]),
+                description=period_data.get("description")
+            )
+            periods.append(period)
+        
         metadata_data = getattr(orm_entity, 'metadata_data', {}) or {}
         
         return Institution(
             id=UUID(str(orm_entity.id)),
-            country_id=UUID(str(orm_entity.country_id)),  # FIXED: use country_id
+            country_id=UUID(str(orm_entity.country_id)),
             institution_type=InstitutionTypeEnum(orm_entity.institution_type),
-            periodisation=[],  # Load separately if needed
+            periodisation=periods,
             metadata=MetadataPlugin(metadata_data)
         )
 

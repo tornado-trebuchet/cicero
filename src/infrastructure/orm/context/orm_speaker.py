@@ -1,7 +1,7 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING, List, Optional
 from datetime import date
-from sqlalchemy import String, Date, Index
+from sqlalchemy import String, Date, Index, ForeignKey
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM as PG_ENUM
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base
@@ -10,11 +10,13 @@ import uuid
 
 if TYPE_CHECKING:
     from src.infrastructure.orm.text.orm_speech import SpeechORM
+    from src.infrastructure.orm.context.orm_country import CountryORM
 
 class SpeakerORM(Base):
     __tablename__ = "speakers"
     
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    country_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("countries.id", ondelete="CASCADE"), nullable=False)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     party: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
     role: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
@@ -22,6 +24,10 @@ class SpeakerORM(Base):
     gender: Mapped[Optional[GenderEnum]] = mapped_column(PG_ENUM(GenderEnum, name="gender_enum"), nullable=True)
     
     # Relationships
+    country: Mapped["CountryORM"] = relationship(
+        "CountryORM",
+        back_populates="speakers"
+    )
     speeches: Mapped[List["SpeechORM"]] = relationship(
         "SpeechORM",
         back_populates="author",
@@ -30,6 +36,7 @@ class SpeakerORM(Base):
     )
 
     __table_args__ = (
+        Index('idx_speaker_country', 'country_id'),
         Index('idx_speaker_name', 'name'),
         Index('idx_speaker_party', 'party'),
         Index('idx_speaker_name_party', 'name', 'party'),
