@@ -9,12 +9,12 @@ import uuid
 if TYPE_CHECKING:
     from infrastructure.orm.text.orm_protocol import ProtocolORM
     from infrastructure.orm.context.orm_speaker import SpeakerORM
-    from infrastructure.orm.text.orm_text import TextORM
+    from src.infrastructure.orm.text.orm_speech_text import TextORM
 
 class SpeechORM(Base):
     __tablename__ = "speeches"
     
-    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     protocol_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("protocols.id", ondelete="CASCADE"), nullable=False)
     speaker_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speakers.id", ondelete="CASCADE"), nullable=False)
     metrics_data: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)

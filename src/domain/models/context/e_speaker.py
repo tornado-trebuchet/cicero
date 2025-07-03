@@ -1,9 +1,11 @@
 from typing import Optional, List
-from src.domain.models.common.v_common import DateTime
-from src.domain.models.common.v_enums import PartyEnumRegistry, GenderEnum
-from src.domain.models.common.v_common import UUID
 from src.domain.models.base_model import Entity
 from src.domain.models.text.a_speech import Speech
+from src.domain.models.context.e_party import Party
+from src.domain.models.common.v_common import DateTime
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_enums import GenderEnum
+from src.domain.models.context.v_name import Name
 
 class Speaker(Entity):
     """Value Object (loud, proud and mutable) for a speaker (person) in a protocol/speech."""
@@ -11,9 +13,9 @@ class Speaker(Entity):
         self,
         id: UUID,
         country_id: UUID,
-        name: str,
-        speeches: List[Speech],
-        party: Optional[PartyEnumRegistry] = None,
+        name: Name,
+        speeches: Optional[List[Speech]] = None,
+        party: Optional[Party] = None,
         role: Optional[str] = None,
         birth_date: Optional[DateTime] = None,
         gender: Optional[GenderEnum] = None,
@@ -36,15 +38,15 @@ class Speaker(Entity):
         return self._country_id
 
     @property
-    def name(self) -> str:
+    def name(self) -> Name:
         return self._name
 
     @name.setter
-    def name(self, value: str):
+    def name(self, value: Name):
         self._name = value
 
     @property
-    def speeches(self) -> List[Speech]:
+    def speeches(self) -> Optional[List[Speech]]:
         return self._speeches
     
     @speeches.setter
@@ -52,11 +54,11 @@ class Speaker(Entity):
         self._speeches = value
 
     @property
-    def party(self) -> Optional[PartyEnumRegistry]:
+    def party(self) -> Optional[Party]:
         return self._party
 
     @party.setter
-    def party(self, value: Optional[PartyEnumRegistry]):
+    def party(self, value: Optional[Party]):
         self._party = value
 
     @property

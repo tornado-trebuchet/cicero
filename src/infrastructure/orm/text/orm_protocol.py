@@ -15,14 +15,12 @@ if TYPE_CHECKING:
 class ProtocolORM(Base):
     __tablename__ = "protocols"
     
-    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     institution_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("institutions.id", ondelete="CASCADE"), nullable=False)
-    file_source: Mapped[Optional[str]] = mapped_column(String(2048), nullable=True)
+    file_source: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     protocol_type: Mapped[ProtocolTypeEnum] = mapped_column(PG_ENUM(ProtocolTypeEnum, name="protocol_type_enum"), nullable=False)
     date: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
-    # Period ValueObject embedded as JSONB
     period_data: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
-    # ProtocolText ValueObject storage
     protocol_text: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     metadata_data: Mapped[Dict[str, Any]] = mapped_column(JSONB, nullable=False, default={})
     

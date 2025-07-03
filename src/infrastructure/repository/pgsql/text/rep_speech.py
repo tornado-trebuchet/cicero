@@ -7,10 +7,10 @@ from src.domain.models.text.a_speech import Speech
 from src.domain.models.text.e_speech_text import SpeechText
 from src.domain.models.common.v_common import UUID
 from src.infrastructure.orm.text.orm_speech import SpeechORM
-from src.infrastructure.orm.text.orm_text import TextORM
+from src.infrastructure.orm.text.orm_speech_text import TextORM
 from src.infrastructure.orm.text.orm_protocol import ProtocolORM
 from src.infrastructure.mappers.text.m_speech import SpeechMapper
-from src.infrastructure.mappers.text.m_text import TextMapper
+from src.infrastructure.mappers.text.m_speech_text import TextMapper
 
 
 class SpeechRepository(ISpeechRepository):
@@ -133,7 +133,7 @@ class SpeechRepository(ISpeechRepository):
         orm_speeches = self._session.query(SpeechORM).join(SpeechORM.protocol).options(
             joinedload(SpeechORM.text)
         ).filter(
-            ProtocolORM.period_id == period_id.value
+            ProtocolORM.period_id == period_id.value # FIXME: no longer has an ID it's a VO 
         ).all()
         return [self._rehydrate_speech_aggregate(orm_speech) for orm_speech in orm_speeches]
     

@@ -1,5 +1,5 @@
 from src.domain.models.common.v_common import UUID
-from src.domain.models.text.e_speech_text import Text
+from src.domain.models.text.e_speech_text import SpeechText
 from src.domain.models.text.v_text_raw import RawText
 from src.domain.models.context.e_speaker import Speaker
 from src.domain.models.common.v_enums import LanguageEnum
@@ -46,12 +46,12 @@ class ExtractSpeakersFromProtocol(TextService):
             text_uuid = UUID.new()
             speaker_name = match[0]
             speech_text = match[1]
-            speaker = Speaker(id=UUID.new(), name=speaker_name)
-            text_obj = Text(id=text_uuid, speech_id=speech_uuid, raw_text=RawText(speech_text), language_code=language_code)
+            speaker = Speaker(id=UUID.new(), name=speaker_name, country_id=self.protocol.country_id)
+            text_obj = SpeechText(id=text_uuid, speech_id=speech_uuid, raw_text=RawText(speech_text), language_code=language_code)
             speech = Speech(
                 id=speech_uuid,
                 protocol_id=protocol_id,
-                speaker=speaker,
+                speaker_id=speaker.id,
                 text=text_obj,
                 metadata=None,
                 metrics=None

@@ -5,7 +5,7 @@ from src.domain.models.common.v_enums import InstitutionTypeEnum
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.infrastructure.orm.context.orm_institution import InstitutionORM
 
-
+# TODO: Move to country mapper for clarity use as private methots mb?
 class InstitutionMapper:
     
     @staticmethod
@@ -34,7 +34,7 @@ class InstitutionMapper:
         periods = []
         for period_data in orm_entity.periods_data or []:
             period = Period(
-                label=period_data.get("label"),
+                label=period_data.get("label"), # FIXME: this thing should be generated in domain from something at least initially
                 start_date=DateTime(period_data["start_date"]),
                 end_date=DateTime(period_data["end_date"]),
                 description=period_data.get("description")

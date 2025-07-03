@@ -2,12 +2,9 @@ from abc import ABC, abstractmethod
 from typing import Optional, List
 from src.domain.models.text.a_protocol import Protocol
 from domain.models.common.v_common import UUID
-
+from src.domain.models.text.a_speech import Speech
 class IProtocolRepository(ABC):
-    """
-    Repository for Protocol entity handling.
-    Protocol references but does not own Period (Period belongs to Institution aggregate).
-    """
+    """Repository for Protocol entity handling."""
     
     @abstractmethod
     def get_by_id(self, id: UUID) -> Optional[Protocol]:
@@ -47,4 +44,9 @@ class IProtocolRepository(ABC):
     @abstractmethod
     def delete(self, id: UUID) -> None:
         """Delete a protocol (will cascade delete speeches)."""
+        pass
+
+    @abstractmethod
+    def get_speeches_by_protocol_id(self, protocol_id: UUID) -> List[UUID]:
+        """Get all speeches associated with a protocol."""
         pass

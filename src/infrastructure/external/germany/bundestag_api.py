@@ -1,14 +1,20 @@
+from typing import Any, Optional, cast
+
 from src.infrastructure.external.base_api import API
 from src.infrastructure.external.base_response import Response
-from src.domain.models.common.v_enums import CountryEnum, ExtensionEnum, ProtocolTypeEnum
-from src.domain.models.common.v_common import HttpUrl, UUID, DateTime
+
+from src.domain.models.context.a_country import Country
 from src.domain.models.text.a_protocol import Protocol
 from src.domain.models.context.e_institution import Institution
+
+from src.domain.models.common.v_enums import ProtocolTypeEnum
+from src.domain.models.common.v_common import HttpUrl, UUID, DateTime
 from src.domain.models.context.v_period import Period
 from src.domain.models.text.v_protocol_text import ProtocolText
 from src.domain.models.text.v_protocol_agenda import Agenda
+from src.domain.models.common.v_metadata_plugin import MetadataPlugin
+
 from src.config import APIConfig
-from typing import Any, Optional, cast
 from urllib.parse import urlencode
 import requests
 
@@ -18,7 +24,7 @@ class BundestagAPI(API):
     def __init__(
         self,
         config: APIConfig,
-        country: CountryEnum,
+        country: Country,
         institution: Institution
     ) -> None:
         super().__init__(config, country, institution)
@@ -28,7 +34,7 @@ class BundestagAPI(API):
         self._institution = institution
 
     @property
-    def country(self) -> CountryEnum:
+    def country(self) -> Country:
         return self._country
 
     @property
@@ -98,27 +104,25 @@ class BundestagAPI(API):
 
     def parse_response(self, response: Response) -> Protocol:
         protocol_id = UUID.new()
-        institution_id = self.institution.id
-        extension = ExtensionEnum.PDF  
         protocol_type = ProtocolTypeEnum.PLENARY 
         date = DateTime(response.date)  
         protocol_text = ProtocolText(response.text)
         agenda = Agenda(response.agenda or {})  
-        period: Optional[Period] = None
+        period: Optional[Period] = None # either discover from institution or use as a preset
         file_source = HttpUrl(response.link) if response.link else None
-        metadata = {}  
+        metadata = MetadataPlugin()
 
         return Protocol(
             id=protocol_id,
-            institution_id=institution_id,
-            extension=extension,
+            country_id=self.country.id,
+            institution_id=self.institution.id,
             protocol_type=protocol_type,
             date=date,
             protocol_text=protocol_text,
             agenda=agenda,
             period=period,
             file_source=file_source,
-            metadata=metadata
+            metadata= metadata
         )
 
 

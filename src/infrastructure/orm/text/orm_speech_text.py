@@ -4,7 +4,7 @@ from sqlalchemy import String, Integer, Text as SQLText, ForeignKey, ARRAY, Inde
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM as PG_ENUM
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 from src.infrastructure.orm.base_orm import Base
-from domain.models.common.v_enums import LanguageEnum
+from src.domain.models.common.v_enums import LanguageEnum
 import uuid
 
 if TYPE_CHECKING:
@@ -12,15 +12,16 @@ if TYPE_CHECKING:
 
 class TextORM(Base):
     __tablename__ = "texts"
-    
-    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     speech_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speeches.id", ondelete="CASCADE"), nullable=False, unique=True)
     language_code: Mapped[Optional[LanguageEnum]] = mapped_column(PG_ENUM(LanguageEnum, name="language_enum"), nullable=True)
     raw_text: Mapped[str] = mapped_column(SQLText, nullable=False)
     clean_text: Mapped[Optional[str]] = mapped_column(SQLText, nullable=True)
     tokens: Mapped[Optional[List[str]]] = mapped_column(ARRAY(String), nullable=True)
     ngram_tokens: Mapped[Optional[List[str]]] = mapped_column(ARRAY(String), nullable=True)
-    word_count: Mapped[Optional[int]] = mapped_column(Integer, nullable=True, default=0)
+    # TODO: add translated text from domain model and check if it is properly integrated 
+    translated_text: Mapped[Optional[str]] = mapped_column(SQLText, nullable=True)
+    word_count: Mapped[Optional[int]] = mapped_column(Integer, nullable=True) # fucking idiot mutated it here to 0, I'll fucking eat your firstborn if that repeats again
     
     # Relationships
     speech: Mapped["SpeechORM"] = relationship(
@@ -29,7 +30,7 @@ class TextORM(Base):
     )
 
     __table_args__ = (
-        CheckConstraint('word_count >= 0', name='check_word_count_positive'),
+        CheckConstraint('word_count >= 0', name='check_word_count_positive'), # TF is this?
         Index('idx_text_speech', 'speech_id'),
         Index('idx_text_language', 'language_code'),
         Index('idx_text_word_count', 'word_count'),

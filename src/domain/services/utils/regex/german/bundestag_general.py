@@ -1,5 +1,5 @@
 import re
-from src.domain.models.common.v_enums import LanguageEnum, InstitutionTypeEnum, CountryEnum, ExtensionEnum, ProtocolTypeEnum
+from src.domain.models.common.v_enums import LanguageEnum, InstitutionTypeEnum, CountryEnum, ProtocolTypeEnum
 from src.domain.services.utils.regex.base_regex import RegexPattern
 
 class BundestagGeneralRegex(RegexPattern):
@@ -7,7 +7,6 @@ class BundestagGeneralRegex(RegexPattern):
     institution_code = InstitutionTypeEnum.PARLIAMENT
     language_code = LanguageEnum.DE
     protocol_type = ProtocolTypeEnum.PLENARY
-    protocol_extension = ExtensionEnum.JSON
 
     speaker_pattern = r"""
     (?mx)

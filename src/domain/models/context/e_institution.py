@@ -10,10 +10,10 @@ class Institution(Entity):
     def __init__(
         self,
         id: UUID,
-        country_id: UUID,
+        country_id: UUID,# Is it needed if aggregate holds it? Opened question 
         institution_type: InstitutionTypeEnum,
-        periodisation: List[Period],
-        metadata: MetadataPlugin,
+        periodisation: Optional[List[Period]] = None,
+        metadata: Optional[MetadataPlugin] = None,
     ):
         super().__init__(id)
         self._country_id = country_id

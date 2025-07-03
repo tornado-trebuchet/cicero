@@ -6,7 +6,6 @@ from src.domain.models.text.v_protocol_text import ProtocolText
 from src.domain.models.text.v_protocol_agenda import Agenda
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.domain.models.context.v_period import Period
-from src.domain.models.text.a_speech import Speech
 
 class Protocol(AggregateRoot):
     """Represents a protocol e.g., parliamentary session."""
@@ -18,7 +17,7 @@ class Protocol(AggregateRoot):
         date: DateTime,
         protocol_type: ProtocolTypeEnum,
         protocol_text: ProtocolText,
-        protocol_speeches: Optional[list[Speech]] = None,
+        protocol_speeches: Optional[list[UUID]] = None,
         agenda: Optional[Agenda] = None,
         period: Optional[Period] = None,
         file_source: Optional[HttpUrl] = None,

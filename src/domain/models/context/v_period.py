@@ -1,6 +1,7 @@
 from typing import Optional
 from src.domain.models.common.v_common import DateTime
 from src.domain.models.base_model import ValueObject
+from src.domain.models.context.v_label import Label
 
 class Period(ValueObject):
     """ 
@@ -9,9 +10,9 @@ class Period(ValueObject):
     """
     def __init__(
         self,
+        label: Label,
         start_date: DateTime,
         end_date: DateTime,
-        label: Optional[str] = None,
         description: Optional[str] = None,
     ):
         self._label = label
@@ -20,11 +21,11 @@ class Period(ValueObject):
         self._description = description
 
     @property
-    def label(self) -> Optional[str]:
+    def label(self) -> Optional[Label]:
         return self._label
 
     @label.setter
-    def label(self, value: Optional[str]):
+    def label(self, value: Optional[Label]):
         self._label = value
 
     @property
@@ -39,6 +40,7 @@ class Period(ValueObject):
     def description(self) -> Optional[str]:
         return self._description
 
+    # TODO: Needs just a little of constraint
     @description.setter
     def description(self, value: Optional[str]):
         self._description = value

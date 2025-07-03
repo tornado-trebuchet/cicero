@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.models.text.v_text_clean import CleanText
-from src.domain.models.text.v_text_tokenized import Tokens
+from src.domain.models.text.v_text_tokenized import TokenizedText
 
 class Tokenizer(ABC):
     """
@@ -15,7 +15,7 @@ class Tokenizer(ABC):
         pass
 
     @abstractmethod
-    def tokenize_external_lib(self, clean_text: CleanText) -> Tokens:
+    def tokenize_external_lib(self, clean_text: CleanText) -> TokenizedText:
         """
         Perform any necessary preprocessing or magic using spaCy.
         This method should be implemented by subclasses.
@@ -23,7 +23,7 @@ class Tokenizer(ABC):
         raise NotImplementedError("Subclasses must implement this method.")
 
     @abstractmethod
-    def tokenize(self, clean_text: CleanText) -> Tokens:
+    def tokenize(self, clean_text: CleanText) -> TokenizedText:
         """
         Tokenize the input text and return a list of tokens.
         This method should be implemented by subclasses.

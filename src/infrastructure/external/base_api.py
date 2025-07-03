@@ -1,12 +1,11 @@
 from typing import Optional
 from abc import ABC, abstractmethod
-from src.domain.models.common.v_enums import CountryEnum
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.text.a_protocol import Protocol
 from src.domain.models.common.v_common import HttpUrl
 from src.domain.models.context.v_period import Period
 from src.infrastructure.external.base_response import Response
-
+from src.domain.models.context.a_country import Country
 from src.config import APIConfig
 
 class API(ABC):
@@ -16,7 +15,7 @@ class API(ABC):
     def __init__(
         self,
         config: APIConfig,
-        country: CountryEnum,
+        country: Country,
         institution: Institution
     ) -> None:
         """Initialize the API with shared required parameters."""
@@ -25,7 +24,7 @@ class API(ABC):
 
     @property
     @abstractmethod
-    def country(self) -> CountryEnum:
+    def country(self) -> Country:
         """Country for the API."""
         return self._country
 

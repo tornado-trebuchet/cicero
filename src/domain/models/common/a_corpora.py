@@ -1,18 +1,22 @@
+from typing import Optional, Set
 from src.domain.models.text.a_speech import Speech
 from src.domain.models.base_model import AggregateRoot
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import InstitutionTypeEnum, PartyEnumRegistry, CountryEnum
-from typing import Optional
+from src.domain.models.context.v_label import Label
+from src.domain.models.context.v_period import Period
+
+#TODO: needs a batch loading or smth like that. Can not process all speeches at once
 
 class Corpora(AggregateRoot):
     def __init__(
         self,
         id: UUID,
-        label: str,
-        speeches: list[Speech],
+        label: Label,
+        speeches: Set[Speech],
         country: CountryEnum,
         institution: InstitutionTypeEnum,
-        periods: Optional[list[str]] = None,
+        periods: Optional[list[Period]] = None,
         party: Optional[PartyEnumRegistry] = None,
     ):
         super().__init__(id)
@@ -24,24 +28,20 @@ class Corpora(AggregateRoot):
         self._periods = periods
 
     @property
-    def label(self) -> str:
+    def label(self) -> Label:
         return self._label
 
     @label.setter
-    def label(self, value: str):
+    def label(self, value: Label):
         self._label = value
 
     @property
-    def speeches(self) -> list[Speech]:
+    def speeches(self) -> Set[Speech]:
         return self._speeches
 
     @speeches.setter
-    def speeches(self, value: list[Speech]):
+    def speeches(self, value: Set[Speech]):
         self._speeches = value
-
-    @property
-    def speech_ids(self) -> list[Speech]:
-        return self._speeches
 
     @property
     def institution(self) -> Optional[InstitutionTypeEnum]:
@@ -56,7 +56,7 @@ class Corpora(AggregateRoot):
         return self._country
 
     @property
-    def periods(self) -> Optional[list[str]]:
+    def periods(self) -> Optional[list[Period]]:
         return self._periods
 
     def __len__(self) -> int:

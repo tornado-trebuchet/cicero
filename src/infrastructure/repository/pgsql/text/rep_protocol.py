@@ -7,7 +7,7 @@ from domain.irepository.text.i_protocol import IProtocolRepository
 from src.domain.models.text.a_protocol import Protocol
 from domain.models.common.v_common import UUID
 from infrastructure.orm.text.orm_protocol import ProtocolORM
-from infrastructure.mappers.context.m_protocol import ProtocolMapper
+from src.infrastructure.mappers.text.m_protocol import ProtocolMapper
 
 
 class ProtocolRepository(IProtocolRepository):
@@ -38,7 +38,7 @@ class ProtocolRepository(IProtocolRepository):
         """Get protocols for a specific institution and period."""
         orm_protocols = self._session.query(ProtocolORM).filter(
             ProtocolORM.institution_id == institution_id.value,
-            ProtocolORM.period_id == period_id.value
+            ProtocolORM.period_id == period_id.value # FIXME: period is a VO and has no ID 
         ).order_by(ProtocolORM.date.desc()).all()
         
         return [ProtocolMapper.to_domain(orm_protocol) for orm_protocol in orm_protocols]

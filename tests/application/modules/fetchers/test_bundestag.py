@@ -1,6 +1,6 @@
 from src.application.modules.fetchers.bundestag_fetcher import BundestagFetcher
 from src.infrastructure.external.germany.bundestag_api import BundestagAPI
-from src.infrastructure.repository.pgsql.rep_protocol import ProtocolRepository
+from src.infrastructure.repository.pgsql.text.rep_protocol import ProtocolRepository
 from src.infrastructure.orm.base_orm import DatabaseConfig
 from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum
 from src.domain.models.context.e_institution import Institution

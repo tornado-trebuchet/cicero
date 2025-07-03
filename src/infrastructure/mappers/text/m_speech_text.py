@@ -6,9 +6,9 @@ from src.domain.models.text.v_text_raw import RawText
 from src.domain.models.text.v_text_clean import CleanText
 from src.domain.models.text.v_text_tokenized import TokenizedText
 from src.domain.models.text.v_text_ngrams import NGramizedText
-from src.infrastructure.orm.text.orm_text import TextORM
+from src.infrastructure.orm.text.orm_speech_text import TextORM
 
-
+# TODO:  definitely needs a way to load partially with elegance 
 class TextMapper:
     """Mapper for SpeechText entity and TextORM."""
     

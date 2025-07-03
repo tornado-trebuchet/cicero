@@ -12,7 +12,7 @@ class Speech(Entity):
         id: UUID,
         protocol_id: UUID,
         speaker_id: UUID,
-        text: SpeechText,
+        text: SpeechText, # TODO: Comsider violating boundaries in repository and not loading fully for memory efficiency
         metadata: Optional[MetadataPlugin] = None,
         metrics: Optional[MetricsPlugin] = None,
     ):

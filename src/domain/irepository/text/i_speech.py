@@ -3,11 +3,9 @@ from typing import Optional, List
 from src.domain.models.text.a_speech import Speech
 from domain.models.common.v_common import UUID
 
+# TODO: Might look heavy need to consider it's atomic loading by use cases 
 class ISpeechRepository(ABC):
-    """
-    Repository for Speech aggregate handling.
-    Speech is an aggregate that requires full rehydration with Speaker and Text entities.
-    """
+    """Repository for Speech aggregate handling."""
     
     @abstractmethod
     def get_by_id(self, id: UUID) -> Optional[Speech]:
