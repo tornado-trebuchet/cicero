@@ -2,8 +2,8 @@ from typing import Optional
 from src.domain.models.base_model import Entity 
 from src.domain.models.common.v_common import UUID
 from src.domain.models.context.v_label import Label
-from src.domain.models.common.v_enums import PartyEnumRegistry
 from src.domain.models.context.e_speaker import Speaker
+from src.domain.models.text.v_party_program_text import PartyProgramText
 
 class Party(Entity):
     """Represents a political party"""
@@ -12,16 +12,14 @@ class Party(Entity):
         id: UUID,
         country_id: UUID,
         label: Label,
-        party_enum: PartyEnumRegistry, # FIXME: That's the problem it should hold the actual enum for a party (probably through party discovery service)
-        members: Optional[list[Speaker]] = None,
-        party_program: Optional[str] = None # TODO add it's own type 
+        members: Optional[list[UUID]] = None,
+        party_program: Optional[PartyProgramText] = None
     ):
         super().__init__(id)
         self._label = label
         self._country_id = country_id
-        self._party_enum = party_enum
-        self._members = members if members is not None else []
-        self._party_program = party_program if party_program is not None else ""
+        self._members = members
+        self._party_program = party_program
     
     @property
     def country_id(self) -> UUID:
@@ -34,17 +32,13 @@ class Party(Entity):
     @label.setter
     def label(self, value: Label):
         self._label = value
-
-    @property
-    def party_enum(self) -> PartyEnumRegistry:
-        return self._party_enum
     
     @property
-    def members(self) -> Optional[list[Speaker]]:
+    def members(self) -> Optional[list[UUID]]:
         return self._members
     
     @members.setter
-    def members(self, value: list[Speaker]):
+    def members(self, value: list[UUID]):
         self._members = value
     
     @property

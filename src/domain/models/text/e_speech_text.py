@@ -10,6 +10,8 @@ from src.domain.models.text.v_text_ngrams import NGramizedText
 from src.domain.models.text.v_speech_sentences import SpeechSentences
 from src.domain.models.text.v_text_translated import TranslatedText
 
+
+# FIXME: this is very heavy. If a processor needs a part of it to load, there is an astronomical overhead. 
 class SpeechText(Entity):
     """
     Value Object (very special, proud and mutable and holding multiple subservants VO) 

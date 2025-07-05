@@ -1,31 +1,29 @@
-from typing import Optional, Set
-from src.domain.models.text.a_speech import Speech
+from typing import Optional, Set, List
 from src.domain.models.base_model import AggregateRoot
 from src.domain.models.common.v_common import UUID
-from src.domain.models.common.v_enums import InstitutionTypeEnum, PartyEnumRegistry, CountryEnum
 from src.domain.models.context.v_label import Label
 from src.domain.models.context.v_period import Period
-
-#TODO: needs a batch loading or smth like that. Can not process all speeches at once
 
 class Corpora(AggregateRoot):
     def __init__(
         self,
         id: UUID,
         label: Label,
-        speeches: Set[Speech],
-        country: CountryEnum,
-        institution: InstitutionTypeEnum,
-        periods: Optional[list[Period]] = None,
-        party: Optional[PartyEnumRegistry] = None,
+        speeches: Set[UUID],
+        countries: Optional[List[UUID]] = None,
+        institutions: Optional[List[UUID]] = None,
+        periods: Optional[List[UUID]] = None,
+        parties: Optional[List[UUID]] = None,
+        speakers: Optional[List[UUID]] = None,
     ):
         super().__init__(id)
         self._label = label
         self._speeches = speeches
-        self._institution = institution
-        self._party = party
-        self._country = country
+        self._countries = countries
+        self._institutions = institutions
         self._periods = periods
+        self._parties = parties
+        self._speakers = speakers
 
     @property
     def label(self) -> Label:
@@ -36,28 +34,32 @@ class Corpora(AggregateRoot):
         self._label = value
 
     @property
-    def speeches(self) -> Set[Speech]:
+    def speeches(self) -> Set[UUID]:
         return self._speeches
 
     @speeches.setter
-    def speeches(self, value: Set[Speech]):
+    def speeches(self, value: Set[UUID]):
         self._speeches = value
 
     @property
-    def institution(self) -> Optional[InstitutionTypeEnum]:
-        return self._institution
+    def countries(self) -> Optional[List[UUID]]:
+        return self._countries
 
     @property
-    def party(self) -> Optional[PartyEnumRegistry]:
-        return self._party
+    def institutions(self) -> Optional[List[UUID]]:
+        return self._institutions
 
     @property
-    def country(self) -> Optional[CountryEnum]:
-        return self._country
-
-    @property
-    def periods(self) -> Optional[list[Period]]:
+    def periods(self) -> Optional[List[Period]]:
         return self._periods
+
+    @property
+    def parties(self) -> Optional[List[PartyEnum]]:
+        return self._parties
+
+    @property
+    def speakers(self) -> Optional[List[UUID]]:
+        return self._speakers
 
     def __len__(self) -> int:
         return len(self._speeches)

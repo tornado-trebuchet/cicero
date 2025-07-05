@@ -10,7 +10,7 @@ class Institution(Entity):
     def __init__(
         self,
         id: UUID,
-        country_id: UUID,# Is it needed if aggregate holds it? Opened question 
+        country_id: UUID,
         institution_type: InstitutionTypeEnum,
         periodisation: Optional[List[Period]] = None,
         metadata: Optional[MetadataPlugin] = None,

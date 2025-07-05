@@ -4,28 +4,27 @@ from src.domain.models.base_model import AggregateRoot
 from src.domain.models.common.v_enums import CountryEnum
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.context.e_speaker import Speaker
-from src.domain.models.context.e_party import Party
+from src.domain.models.context.v_period import Period
 
-# TODO: Switch to using IDs for enforcing invariants
-# e.g. Many parsed parties should be unified under enums and checked against it
-# or normalisation of speakers 
-# speaker - to many institutions relationship while updating 
-# so TODO: domain events 
+# so TODO: domain events
+# and think how to ensure speaker deduplication 
 class Country(AggregateRoot):
     """Represents a Country in the domain model."""
     def __init__(
         self, 
         id: UUID, 
         country: CountryEnum,
-        institutions: Optional[List[Institution]] = None,
-        speakers: Optional[List[Speaker]] = None, 
-        parties: Optional[List[Party]] = None
+        periodisation: Optional[List[Period]] = None,
+        institutions: Optional[List[UUID]] = None,
+        speakers: Optional[List[UUID]] = None, 
+        parties: Optional[List[UUID]] = None
     ):
         super().__init__(id)
         self._country = country
         self._institutions = institutions if institutions is not None else []
         self._speakers = speakers if speakers is not None else []
         self._parties = parties if parties is not None else []
+
     @property
     def country(self) -> CountryEnum:
         return self._country

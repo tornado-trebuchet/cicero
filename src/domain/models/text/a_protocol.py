@@ -12,8 +12,8 @@ class Protocol(AggregateRoot):
     def __init__(
         self,
         id: UUID,
-        country_id: UUID,
-        institution_id: UUID,
+        country_id: UUID, # Same consideration of relationships
+        institution_id: UUID, # Same consideration of relationships
         date: DateTime,
         protocol_type: ProtocolTypeEnum,
         protocol_text: ProtocolText,

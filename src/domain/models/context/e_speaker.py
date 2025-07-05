@@ -14,7 +14,7 @@ class Speaker(Entity):
         id: UUID,
         country_id: UUID,
         name: Name,
-        speeches: Optional[List[Speech]] = None,
+        speeches: Optional[List[Speech]] = None, # FIXME: too many speeches can be loaded at once, reconsider design. Think of invariants 
         party: Optional[Party] = None,
         role: Optional[str] = None,
         birth_date: Optional[DateTime] = None,

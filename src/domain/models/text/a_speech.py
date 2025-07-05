@@ -12,7 +12,7 @@ class Speech(Entity):
         id: UUID,
         protocol_id: UUID,
         speaker_id: UUID,
-        text: SpeechText, # TODO: Comsider violating boundaries in repository and not loading fully for memory efficiency
+        text: SpeechText, # TODO: It will load text,clean,tokens,translation and all stuff. I think it is needed, but will be a nightmare in memory heavy operations
         metadata: Optional[MetadataPlugin] = None,
         metrics: Optional[MetricsPlugin] = None,
     ):

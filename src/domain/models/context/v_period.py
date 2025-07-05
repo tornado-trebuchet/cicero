@@ -1,4 +1,5 @@
 from typing import Optional
+from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_common import DateTime
 from src.domain.models.base_model import ValueObject
 from src.domain.models.context.v_label import Label
@@ -14,6 +15,8 @@ class Period(ValueObject):
         start_date: DateTime,
         end_date: DateTime,
         description: Optional[str] = None,
+        state_reference: Optional[UUID] = None,
+        institution_reference: Optional[UUID] = None,
     ):
         self._label = label
         self._start_date = start_date
