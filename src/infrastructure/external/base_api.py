@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.text.a_protocol import Protocol
 from src.domain.models.common.v_common import HttpUrl
-from src.domain.models.context.v_period import Period
+from domain.models.context.e_period import Period
 from src.infrastructure.external.base_response import Response
 from src.domain.models.context.a_country import Country
 from src.config import APIConfig

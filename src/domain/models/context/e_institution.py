@@ -1,7 +1,7 @@
 from typing import List, Optional
 from src.domain.models.common.v_common import UUID
 from src.domain.models.base_model import Entity
-from src.domain.models.context.v_period import Period
+from domain.models.context.e_period import Period
 from src.domain.models.common.v_enums import InstitutionTypeEnum
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 
@@ -12,14 +12,16 @@ class Institution(Entity):
         id: UUID,
         country_id: UUID,
         institution_type: InstitutionTypeEnum,
+        protocols: Optional[List[UUID]] = None,
         periodisation: Optional[List[Period]] = None,
         metadata: Optional[MetadataPlugin] = None,
     ):
         super().__init__(id)
         self._country_id = country_id
         self._institution_type = institution_type
-        self._periodisation = periodisation if periodisation is not None else []
-        self._metadata = metadata if metadata is not None else MetadataPlugin({})
+        self._protocols = protocols if protocols is not None else []
+        self._periodisation = periodisation
+        self._metadata = metadata
 
     @property
     def country_id(self) -> UUID:
@@ -38,7 +40,7 @@ class Institution(Entity):
         self._periodisation = value
 
     @property
-    def metadata(self) -> MetadataPlugin:
+    def metadata(self) -> Optional[MetadataPlugin]:
         return self._metadata
 
     @metadata.setter

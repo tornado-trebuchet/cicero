@@ -1,21 +1,19 @@
 from typing import Optional, List
 from src.domain.models.base_model import Entity
-from src.domain.models.text.a_speech import Speech
-from src.domain.models.context.e_party import Party
 from src.domain.models.common.v_common import DateTime
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import GenderEnum
 from src.domain.models.context.v_name import Name
 
 class Speaker(Entity):
-    """Value Object (loud, proud and mutable) for a speaker (person) in a protocol/speech."""
+    """Speaker references it's speeches, belongs to a country and sometimes party"""
     def __init__(
         self,
         id: UUID,
         country_id: UUID,
         name: Name,
-        speeches: Optional[List[Speech]] = None, # FIXME: too many speeches can be loaded at once, reconsider design. Think of invariants 
-        party: Optional[Party] = None,
+        speeches: Optional[List[UUID]] = None,
+        party: Optional[UUID] = None,
         role: Optional[str] = None,
         birth_date: Optional[DateTime] = None,
         gender: Optional[GenderEnum] = None,
@@ -46,19 +44,19 @@ class Speaker(Entity):
         self._name = value
 
     @property
-    def speeches(self) -> Optional[List[Speech]]:
+    def speeches(self) -> Optional[List[UUID]]:
         return self._speeches
     
     @speeches.setter
-    def speeches(self, value: List[Speech]):
+    def speeches(self, value: List[UUID]):
         self._speeches = value
 
     @property
-    def party(self) -> Optional[Party]:
+    def party(self) -> Optional[UUID]:
         return self._party
 
     @party.setter
-    def party(self, value: Optional[Party]):
+    def party(self, value: Optional[UUID]):
         self._party = value
 
     @property

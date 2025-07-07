@@ -29,7 +29,7 @@ def test_bundestag_api_real_request():
     from src.domain.models.text.v_protocol_text import ProtocolText
     from src.domain.models.common.v_common import DateTime, HttpUrl
     from src.domain.models.common.v_enums import ProtocolTypeEnum, ExtensionEnum
-    from src.domain.models.context.v_period import Period
+    from domain.models.context.e_period import Period
 
     assert isinstance(protocol, Protocol)
     assert isinstance(protocol.id, UUID)

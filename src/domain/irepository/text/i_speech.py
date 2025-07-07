@@ -2,53 +2,21 @@ from abc import ABC, abstractmethod
 from typing import Optional, List
 from src.domain.models.text.a_speech import Speech
 from domain.models.common.v_common import UUID
+from domain.models.context.e_period import Period
 
-# TODO: Might look heavy need to consider it's atomic loading by use cases 
 class ISpeechRepository(ABC):
-    """Repository for Speech aggregate handling."""
+    """Speech links text and author"""
     
     @abstractmethod
     def get_by_id(self, id: UUID) -> Optional[Speech]:
-        """Get fully rehydrated Speech with Speaker and Text entities."""
         pass
 
     @abstractmethod
     def get_by_protocol_id(self, protocol_id: UUID) -> List[Speech]:
-        """Get all fully rehydrated speeches for a protocol."""
         pass
 
     @abstractmethod
     def get_by_speaker_id(self, speaker_id: UUID) -> List[Speech]:
-        """Get all fully rehydrated speeches by a specific speaker."""
-        pass
-
-    @abstractmethod
-    def list(self) -> List[Speech]:
-        """List all fully rehydrated speeches."""
-        pass
-
-    @abstractmethod
-    def add(self, speech: Speech) -> None:
-        """
-        Add a new speech aggregate.
-        Will persist Speech, Speaker, and Text entities as a transaction.
-        """
-        pass
-
-    @abstractmethod
-    def update(self, speech: Speech) -> None:
-        """
-        Update a speech aggregate.
-        Will update Speech, Speaker, and Text entities as needed.
-        """
-        pass
-
-    @abstractmethod
-    def delete(self, id: UUID) -> None:
-        """
-        Delete a speech aggregate.
-        Will cascade delete Text but preserve Speaker for other speeches.
-        """
         pass
 
     @abstractmethod
@@ -57,6 +25,23 @@ class ISpeechRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_period(self, period_id: UUID) -> List[Speech]:
+    def get_by_period(self, period_id: Period) -> List[Speech]:
         """Get all speeches for a given period (via protocol's period_id)."""
         pass
+
+    @abstractmethod
+    def list(self) -> List[Speech]:
+        pass
+
+    @abstractmethod
+    def add(self, speech: Speech) -> None:
+        pass
+
+    @abstractmethod
+    def update(self, speech: Speech) -> None:
+        pass
+
+    @abstractmethod
+    def delete(self, id: UUID) -> None:
+        pass
+

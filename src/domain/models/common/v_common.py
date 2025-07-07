@@ -47,6 +47,10 @@ class DateTime(ValueObject):
         else:
             raise ValueError("DateTime must be a datetime or ISO string.")
 
+    @property
+    def value(self) -> _datetime:
+        return self._value
+    
     @classmethod
     def now(cls) -> "DateTime":
         return cls(_datetime.now(_timezone.utc))
@@ -55,9 +59,6 @@ class DateTime(ValueObject):
     def from_timestamp(cls, ts: float) -> "DateTime":
         return cls(_datetime.fromtimestamp(ts, _timezone.utc))
 
-    @property
-    def value(self) -> _datetime:
-        return self._value
 
     def to_timestamp(self) -> float:
         return self._value.timestamp()

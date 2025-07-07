@@ -1,33 +1,24 @@
 from typing import Optional
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.models.common.v_common import UUID
-from src.domain.models.base_model import Entity
-from src.domain.models.text.v_text_metrics import TextMetrics   
-from src.domain.models.text.v_text_raw import RawText
-from src.domain.models.text.v_text_clean import CleanText
-from src.domain.models.text.v_text_tokenized import TokenizedText
-from src.domain.models.text.v_text_ngrams import NGramizedText
-from src.domain.models.text.v_speech_sentences import SpeechSentences
-from src.domain.models.text.v_text_translated import TranslatedText
+from src.domain.models.base_model import AggregateRoot
+from src.domain.models.text.e_text_raw import RawText
+from src.domain.models.text.v_text_metrics import TextMetrics
 
 
-# FIXME: this is very heavy. If a processor needs a part of it to load, there is an astronomical overhead. 
-class SpeechText(Entity):
-    """
-    Value Object (very special, proud and mutable and holding multiple subservants VO) 
-    for speech text and its linguistic features.
-    """
+class SpeechText(AggregateRoot):
+    """A collection of textual data for a speech"""
     def __init__(
         self,
         id: UUID,
         speech_id: UUID,
         raw_text: RawText,
         language_code: LanguageEnum,
-        clean_text: Optional[CleanText] = None,
-        translated_text: Optional[TranslatedText] = None,
-        tokens: Optional[TokenizedText] = None,
-        sentences: Optional[SpeechSentences] = None,
-        ngram_tokens: Optional[NGramizedText] = None,
+        clean_text: Optional[UUID] = None,
+        translated_text: Optional[UUID] = None,
+        sentences: Optional[UUID] = None,
+        tokens: Optional[UUID] = None,
+        ngram_tokens: Optional[UUID] = None,
         text_metrics: Optional[TextMetrics] = None,
     ):
         super().__init__(id)
@@ -66,35 +57,35 @@ class SpeechText(Entity):
         self._raw_text = value
 
     @property
-    def clean_text(self) -> Optional[CleanText]:
+    def clean_text(self) -> Optional[UUID]:
         return self._clean_text
 
     @clean_text.setter
-    def clean_text(self, value: CleanText):
+    def clean_text(self, value: UUID):
         self._clean_text = value
 
     @property
-    def tokens(self) -> Optional[TokenizedText]:
+    def tokens(self) -> Optional[UUID]:
         return self._tokens
 
     @tokens.setter
-    def tokens(self, value: TokenizedText):
+    def tokens(self, value: UUID):
         self._tokens = value
 
     @property
-    def sentences(self) -> Optional[SpeechSentences]:
+    def sentences(self) -> Optional[UUID]:
         return self._sentences
     
     @sentences.setter
-    def sentences(self, value: SpeechSentences):
+    def sentences(self, value: UUID):
         self._sentences = value
 
     @property
-    def ngram_tokens(self) -> Optional[NGramizedText]:
+    def ngram_tokens(self) -> Optional[UUID]:
         return self._ngram_tokens
 
     @ngram_tokens.setter
-    def ngram_tokens(self, value: NGramizedText):
+    def ngram_tokens(self, value: UUID):
         self._ngram_tokens = value
 
     @property
@@ -104,15 +95,6 @@ class SpeechText(Entity):
     @text_metrics.setter
     def text_metrics(self, value: TextMetrics):
         self._text_metrics = value
-
-    def split_sentences(self) -> SpeechSentences:
-        """Splits the clean text into sentences."""
-        if not self._clean_text:
-            raise ValueError("Clean text is not set.")
-        sentences = self._clean_text.split_sentences()
-        self._sentences = SpeechSentences(sentences=sentences)
-        return self._sentences
-
 
     def __repr__(self) -> str:
         return f"<TextVO lang={self._language_code} words={self._text_metrics}>"

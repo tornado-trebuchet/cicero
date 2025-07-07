@@ -1,7 +1,7 @@
 from domain.services.utils.ngrammer.base_ngrammer import Ngrammer
 from src.domain.models.common.a_corpora import Corpora
 from src.domain.models.common.v_enums import LanguageEnum
-from src.domain.models.text.v_text_ngrams import NGramizedText
+from domain.models.text.e_text_ngrams import NGramizedText
 from gensim.models.phrases import Phrases, Phraser
 
 # Processes corpora by extracting sentences and applying gensim n-gram generation

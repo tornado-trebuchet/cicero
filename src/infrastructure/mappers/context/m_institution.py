@@ -1,5 +1,5 @@
 from src.domain.models.context.e_institution import Institution
-from src.domain.models.context.v_period import Period
+from domain.models.context.e_period import Period
 from src.domain.models.common.v_common import UUID, DateTime
 from src.domain.models.common.v_enums import InstitutionTypeEnum
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin

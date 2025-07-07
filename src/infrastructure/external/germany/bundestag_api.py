@@ -9,7 +9,7 @@ from src.domain.models.context.e_institution import Institution
 
 from src.domain.models.common.v_enums import ProtocolTypeEnum
 from src.domain.models.common.v_common import HttpUrl, UUID, DateTime
-from src.domain.models.context.v_period import Period
+from domain.models.context.e_period import Period
 from src.domain.models.text.v_protocol_text import ProtocolText
 from src.domain.models.text.v_protocol_agenda import Agenda
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin

@@ -1,11 +1,19 @@
 import re
 import string
-from src.domain.models.base_model import ValueObject
+from src.domain.models.base_model import Entity
+from src.domain.models.common.v_common import UUID
 
-class CleanText(ValueObject):
+class CleanText(Entity):
 
-    def __init__(self, text: str):
+    def __init__(
+        self,
+        id: UUID,
+        speech_id: UUID,
+        text: str
+    ):
         self._text = text
+        self._speech_id = speech_id
+        super().__init__(id)
 
     @property
     def text(self) -> str:
@@ -14,6 +22,10 @@ class CleanText(ValueObject):
     @text.setter
     def text(self, value: str):
         self._text = value
+
+    @property
+    def speech_id(self) -> UUID:
+        return self._speech_id
 
     def num_words(self) -> int:
         return len(self._text.split())
@@ -39,3 +51,6 @@ class CleanText(ValueObject):
 
     def __str__(self) -> str:
         return self.text
+
+    def __repr__(self) -> str:
+        return f"<CleanText id={self.id} speech_id={self.speech_id} text='{self.text[:30]}...'>"

@@ -1,11 +1,11 @@
 from typing import Optional, List
-from src.domain.models.text.e_speech_text import SpeechText
+from domain.models.text.a_speech_text import SpeechText
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import LanguageEnum
-from src.domain.models.text.v_text_raw import RawText
-from src.domain.models.text.v_text_clean import CleanText
-from src.domain.models.text.v_text_tokenized import TokenizedText
-from src.domain.models.text.v_text_ngrams import NGramizedText
+from domain.models.text.e_text_raw import RawText
+from domain.models.text.e_text_clean import CleanText
+from domain.models.text.e_text_tokenized import TokenizedText
+from domain.models.text.e_text_ngrams import NGramizedText
 from src.infrastructure.orm.text.orm_speech_text import TextORM
 
 # TODO:  definitely needs a way to load partially with elegance 

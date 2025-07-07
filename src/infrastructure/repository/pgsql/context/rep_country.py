@@ -3,12 +3,14 @@ from sqlalchemy.orm import Session, joinedload
 from sqlalchemy.exc import NoResultFound
 
 from src.domain.irepository.context.i_country import ICountryRepository
+
 from src.domain.models.context.a_country import Country
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.context.e_speaker import Speaker
 from src.domain.models.context.e_party import Party
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import CountryEnum
+
 from src.infrastructure.orm.context.orm_country import CountryORM
 from src.infrastructure.orm.context.orm_institution import InstitutionORM
 from src.infrastructure.orm.context.orm_speaker import SpeakerORM
@@ -28,11 +30,7 @@ class CountryRepository(ICountryRepository):
     def get_by_id(self, id: UUID) -> Optional[Country]:
         """Get country by ID."""
         try:
-            orm_country = self._session.query(CountryORM).options(
-                joinedload(CountryORM.institutions),
-                joinedload(CountryORM.speakers),
-                joinedload(CountryORM.parties)
-            ).filter(CountryORM.id == id.value).one()
+            orm_country = self._session.query(CountryORM).filter(CountryORM.id == id.value).one()
             return self._rehydrate_country_aggregate(orm_country)
         except NoResultFound:
             return None

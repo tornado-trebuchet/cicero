@@ -3,7 +3,7 @@ import uuid
 from datetime import datetime, timezone
 from src.infrastructure.mappers.context.m_period import PeriodMapper
 from src.infrastructure.orm.context.orm_period import PeriodORM
-from src.domain.models.context.v_period import Period
+from domain.models.context.e_period import Period
 from src.domain.models.common.v_common import UUID, DateTime
 
 def make_period_orm():

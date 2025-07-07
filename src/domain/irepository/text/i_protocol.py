@@ -2,13 +2,18 @@ from abc import ABC, abstractmethod
 from typing import Optional, List
 from src.domain.models.text.a_protocol import Protocol
 from domain.models.common.v_common import UUID
-from src.domain.models.text.a_speech import Speech
+
 class IProtocolRepository(ABC):
     """Repository for Protocol entity handling."""
     
     @abstractmethod
     def get_by_id(self, id: UUID) -> Optional[Protocol]:
         """Get protocol by ID."""
+        pass
+
+    @abstractmethod
+    def get_by_country_id(self, country_id: UUID) -> List[Protocol]:
+        """Get all protocols for a country."""
         pass
 
     @abstractmethod

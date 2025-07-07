@@ -13,26 +13,24 @@ if TYPE_CHECKING:
 class TextORM(Base):
     __tablename__ = "texts"
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
-    speech_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speeches.id", ondelete="CASCADE"), nullable=False, unique=True)
+    speech_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speeches.id"), nullable=False, unique=True)
     language_code: Mapped[Optional[LanguageEnum]] = mapped_column(PG_ENUM(LanguageEnum, name="language_enum"), nullable=True)
     raw_text: Mapped[str] = mapped_column(SQLText, nullable=False)
     clean_text: Mapped[Optional[str]] = mapped_column(SQLText, nullable=True)
     tokens: Mapped[Optional[List[str]]] = mapped_column(ARRAY(String), nullable=True)
     ngram_tokens: Mapped[Optional[List[str]]] = mapped_column(ARRAY(String), nullable=True)
-    # TODO: add translated text from domain model and check if it is properly integrated 
     translated_text: Mapped[Optional[str]] = mapped_column(SQLText, nullable=True)
-    word_count: Mapped[Optional[int]] = mapped_column(Integer, nullable=True) # fucking idiot mutated it here to 0, I'll fucking eat your firstborn if that repeats again
+    word_count: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     
     # Relationships
     speech: Mapped["SpeechORM"] = relationship(
         "SpeechORM", 
-        back_populates="text"
+        back_populates="text",
+        cascade="all, delete-orphan",
+        passive_deletes=True
     )
 
     __table_args__ = (
-        CheckConstraint('word_count >= 0', name='check_word_count_positive'), # TF is this?
         Index('idx_text_speech', 'speech_id'),
-        Index('idx_text_language', 'language_code'),
-        Index('idx_text_word_count', 'word_count'),
     )
-    
+

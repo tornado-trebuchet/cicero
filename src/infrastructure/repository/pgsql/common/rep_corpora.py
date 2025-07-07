@@ -60,5 +60,4 @@ class CorporaRepository(ICorporaRepository):
             self._session.delete(orm_corpora)
             self._session.flush()
         except NoResultFound:
-            # Silently handle case where corpora doesn't exist
             pass

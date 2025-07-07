@@ -5,56 +5,42 @@ from src.domain.models.common.v_enums import ProtocolTypeEnum
 from src.domain.models.text.v_protocol_text import ProtocolText
 from src.domain.models.text.v_protocol_agenda import Agenda
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
-from src.domain.models.context.v_period import Period
 
 class Protocol(AggregateRoot):
     """Represents a protocol e.g., parliamentary session."""
     def __init__(
         self,
         id: UUID,
-        country_id: UUID, # Same consideration of relationships
-        institution_id: UUID, # Same consideration of relationships
+        country_id: UUID,
+        institution_id: UUID,
         date: DateTime,
         protocol_type: ProtocolTypeEnum,
         protocol_text: ProtocolText,
-        protocol_speeches: Optional[list[UUID]] = None,
         agenda: Optional[Agenda] = None,
-        period: Optional[Period] = None,
         file_source: Optional[HttpUrl] = None,
+        protocol_speeches: Optional[list[UUID]] = None,
         metadata: Optional[MetadataPlugin] = None,
     ):
         super().__init__(id)
         self._country_id = country_id
         self._institution_id = institution_id
-        self._period = period
         self._file_source = file_source
         self._protocol_type = protocol_type
         self._protocol_text = protocol_text
-        self._protocol_speeches = protocol_speeches
         self._agenda = agenda
         self._date = date
+        self._protocol_speeches = protocol_speeches if protocol_speeches is not None else []
         self._metadata = metadata
+
 
     @property
     def country_id(self) -> UUID:
         return self._country_id
-
+    
     @property
     def institution_id(self) -> UUID:
         return self._institution_id
-
-    @institution_id.setter
-    def institution_id(self, value: UUID):
-        self._institution_id = value
-
-    @property
-    def period(self) -> Optional[Period]:
-        return self._period
-
-    @period.setter
-    def period(self, value: Optional[Period]):
-        self._period = value
-
+    
     @property
     def file_source(self) -> Optional[HttpUrl]:
         return self._file_source
@@ -94,6 +80,10 @@ class Protocol(AggregateRoot):
     @metadata.setter
     def metadata(self, value: MetadataPlugin):
         self._metadata = value
+
+    def add_speech(self, speech_id: UUID):
+        if speech_id not in self._protocol_speeches:
+            self._protocol_speeches.append(speech_id)
 
     def __repr__(self) -> str:
         return f"<Protocol {self._protocol_type} {self._date} {self.id}>"

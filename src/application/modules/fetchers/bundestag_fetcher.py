@@ -1,7 +1,7 @@
 from typing import Optional
 from src.application.modules.fetchers.base_fetcher import BaseFetcher
 from src.domain.models.text.a_protocol import Protocol
-from src.domain.models.context.v_period import Period
+from domain.models.context.e_period import Period
 
 class BundestagFetcher(BaseFetcher):
     """Fetcher for orchestrating Bundestag API protocol acquisition and DB storage."""

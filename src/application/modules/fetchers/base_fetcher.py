@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, Any
 from src.domain.models.text.a_protocol import Protocol
-from src.domain.models.context.v_period import Period
+from domain.models.context.e_period import Period
 from src.domain.models.common.v_common import HttpUrl
 
 class BaseFetcher(ABC):

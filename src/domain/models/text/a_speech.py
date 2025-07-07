@@ -1,7 +1,7 @@
 from typing import Optional
 from src.domain.models.common.v_common import UUID
 from src.domain.models.base_model import Entity
-from src.domain.models.text.e_speech_text import SpeechText
+from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 
@@ -10,13 +10,17 @@ class Speech(Entity):
     def __init__(
         self,
         id: UUID,
+        country_id: UUID,
+        institution_id: UUID,
         protocol_id: UUID,
         speaker_id: UUID,
-        text: SpeechText, # TODO: It will load text,clean,tokens,translation and all stuff. I think it is needed, but will be a nightmare in memory heavy operations
+        text: SpeechText,
         metadata: Optional[MetadataPlugin] = None,
         metrics: Optional[MetricsPlugin] = None,
     ):
         super().__init__(id)
+        self._country_id = country_id
+        self._institution_id = institution_id
         self._protocol_id = protocol_id
         self._speaker_id = speaker_id
         self._text = text

@@ -1,21 +1,21 @@
 from enum import Enum
 
 class CountryEnum(str, Enum):
-    GERMANY = "GERMANY"
-    FRANCE = "FRANCE"
+    GERMANY = "Germany"
+    FRANCE = "France"
 
 class InstitutionTypeEnum(str, Enum):
-    PARLIAMENT = "PARLIAMENT"
-    FEDERAL_ASSEMBLY = "FEDERAL_ASSEMBLY"
+    PARLIAMENT = "Parliament"
+    FEDERAL_ASSEMBLY = "Feaderal Assembly"
 
 class ProtocolTypeEnum(str, Enum):
-    PLENARY = "PLENARY"
-    HEARING = "HEARING"
+    PLENARY = "Plenary"
+    HEARING = "Hearing"
 
 class GenderEnum(str, Enum):
-    MALE = "MALE"
-    FEMALE = "FEMALE"
-    NR = "NR"
+    MALE = "Male"
+    FEMALE = "Female"
+    OTHER = "Other"
 
 class LanguageEnum(str, Enum):
     DE = "german"
