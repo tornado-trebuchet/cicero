@@ -2,7 +2,6 @@ from typing import Optional
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.models.common.v_common import UUID
 from src.domain.models.base_model import AggregateRoot
-from src.domain.models.text.e_text_raw import RawText
 from src.domain.models.text.v_text_metrics import TextMetrics
 
 
@@ -12,7 +11,7 @@ class SpeechText(AggregateRoot):
         self,
         id: UUID,
         speech_id: UUID,
-        raw_text: RawText,
+        raw_text: UUID,
         language_code: LanguageEnum,
         clean_text: Optional[UUID] = None,
         translated_text: Optional[UUID] = None,
@@ -49,11 +48,11 @@ class SpeechText(AggregateRoot):
         self._language_code = value
 
     @property
-    def raw_text(self) -> RawText:
+    def raw_text(self) -> UUID:
         return self._raw_text
 
     @raw_text.setter
-    def raw_text(self, value: RawText):
+    def raw_text(self, value: UUID):
         self._raw_text = value
 
     @property
@@ -64,6 +63,14 @@ class SpeechText(AggregateRoot):
     def clean_text(self, value: UUID):
         self._clean_text = value
 
+    @property
+    def translated_text(self) -> Optional[UUID]:
+        return self._translated_text
+    
+    @translated_text.setter
+    def translated_text(self, value: UUID):
+        self._translated_text = value
+    
     @property
     def tokens(self) -> Optional[UUID]:
         return self._tokens

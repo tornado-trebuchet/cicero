@@ -1,5 +1,5 @@
 from uuid import UUID as _UUID
-from datetime import datetime as _datetime, timezone as _timezone
+from datetime import datetime as _datetime, timezone as _timezone, date as _date
 from urllib.parse import urlparse
 from src.domain.models.base_model import ValueObject
 
@@ -36,16 +36,19 @@ class UUID(ValueObject):
 class DateTime(ValueObject):
     __slots__ = ("_value",)
 
-    def __init__(self, value: _datetime | str):
+    def __init__(self, value: _datetime | _date | str):
         if isinstance(value, _datetime):
             self._value = value
+        elif isinstance(value, _date):
+            # Convert date to datetime at midnight
+            self._value = _datetime.combine(value, _datetime.min.time())
         elif isinstance(value, str):
             try:
                 self._value = _datetime.fromisoformat(value)
             except ValueError:
                 raise ValueError(f"Invalid ISO datetime string: {value}")
         else:
-            raise ValueError("DateTime must be a datetime or ISO string.")
+            raise ValueError("DateTime must be a datetime, date, or ISO string.")
 
     @property
     def value(self) -> _datetime:
@@ -90,4 +93,3 @@ class HttpUrl(ValueObject):
         return self._value
 
 
-        

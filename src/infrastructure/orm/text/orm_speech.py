@@ -32,7 +32,7 @@ class SpeechORM(Base):
         "SpeakerORM", 
         back_populates="speeches",
     )
-    text: Mapped[Optional["TextORM"]] = relationship(
+    text: Mapped["TextORM"] = relationship(
         "TextORM", 
         back_populates="speech", 
         uselist=False,

@@ -25,11 +25,11 @@ class Period(Entity):
         self._description = description
 
     @property
-    def label(self) -> Optional[Label]:
+    def label(self) -> Label:
         return self._label
 
     @label.setter
-    def label(self, value: Optional[Label]):
+    def label(self, value: Label):
         self._label = value
 
     @property
@@ -54,7 +54,7 @@ class Period(Entity):
         self._description = value
 
     def __repr__(self) -> str:
-        label = self._label if self._label is not None else ""
+        label = self._label
         start = self._start_date.value if self._start_date is not None else ""
         end = self._end_date.value if self._end_date is not None else ""
         return f"<Period {label} {start}–{end}>"

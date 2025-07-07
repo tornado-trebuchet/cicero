@@ -7,23 +7,24 @@ from src.infrastructure.orm.base_orm import Base
 import uuid
 
 if TYPE_CHECKING:
-    from src.infrastructure.orm.text.orm_speech import SpeechORM
+    from src.infrastructure.orm.text.orm_speech_text import TextORM
 
 class TextNgramsORM(Base):
     __tablename__ = "text_ngrams"
 
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
-    speech_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speeches.id"), nullable=False, unique=True)
+    speech_text_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("texts.id"), nullable=False, unique=True)
     ngram_tokens: Mapped[List[str]] = mapped_column(ARRAY(String), nullable=False)
 
     # Relationships
-    speech: Mapped["SpeechORM"] = relationship(
-        "SpeechORM",
-        back_populates="text_ngrams",
+    speech_text: Mapped["TextORM"] = relationship(
+        "TextORM",
+        back_populates="ngram_tokens",
         cascade="all, delete-orphan",
-        passive_deletes=True
+        passive_deletes=True,
+        uselist=False
     )
 
     __table_args__ = (
-        Index('idx_text_ngrams_speech', 'speech_id'),
+        Index('idx_text_ngrams_speech_text', 'speech_text_id'),
     )

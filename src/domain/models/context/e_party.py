@@ -13,7 +13,7 @@ class Party(Entity):
         country_id: UUID,
         party_name: PartyName,
         party_program: Optional[PartyProgramText] = None,
-        speakers: Optional[list[Speaker]] = None
+        speakers: Optional[list[UUID]] = None
     ):
         super().__init__(id)
         self._party_name = party_name
@@ -34,11 +34,11 @@ class Party(Entity):
         self._party_name = value
     
     @property
-    def speakers(self) -> Optional[list[Speaker]]:
+    def speakers(self) -> Optional[list[UUID]]:
         return self._speakers
     
     @speakers.setter
-    def speakers(self, value: list[Speaker]):
+    def speakers(self, value: list[UUID]):
         self._speakers = value
     
     @property
@@ -48,16 +48,6 @@ class Party(Entity):
     @party_program.setter  
     def party_program(self, value: Optional[PartyProgramText]):
         self._party_program = value
-    
-    def add_member(self, speaker: Speaker):
-        """Add a speaker to the party speakers."""
-        if speaker not in self._speakers:
-            self._speakers.append(speaker)
-    
-    def remove_member(self, speaker: Speaker):
-        """Remove a speaker from the party speakers."""
-        if speaker in self._speakers:
-            self._speakers.remove(speaker)
     
     def __repr__(self) -> str:
         return f"<Party {self._party_name} ({self._country_id})>"

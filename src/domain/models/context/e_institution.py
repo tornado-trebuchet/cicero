@@ -11,14 +11,14 @@ class Institution(Entity):
         self,
         id: UUID,
         country_id: UUID,
-        institution_type: InstitutionTypeEnum,
+        type: InstitutionTypeEnum,
         protocols: Optional[List[UUID]] = None,
-        periodisation: Optional[List[Period]] = None,
+        periodisation: Optional[List[UUID]] = None,
         metadata: Optional[MetadataPlugin] = None,
     ):
         super().__init__(id)
         self._country_id = country_id
-        self._institution_type = institution_type
+        self._institution_type = type
         self._protocols = protocols if protocols is not None else []
         self._periodisation = periodisation
         self._metadata = metadata
@@ -28,15 +28,15 @@ class Institution(Entity):
         return self._country_id
 
     @property
-    def institution_type(self) -> InstitutionTypeEnum:
+    def type(self) -> InstitutionTypeEnum:
         return self._institution_type
 
     @property
-    def periodisation(self) -> Optional[list[Period]]:
+    def periodisation(self) -> Optional[list[UUID]]:
         return self._periodisation
 
     @periodisation.setter
-    def periodisation(self, value: list[Period]):
+    def periodisation(self, value: list[UUID]):
         self._periodisation = value
 
     @property

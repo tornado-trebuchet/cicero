@@ -11,7 +11,6 @@ class Protocol(AggregateRoot):
     def __init__(
         self,
         id: UUID,
-        country_id: UUID,
         institution_id: UUID,
         date: DateTime,
         protocol_type: ProtocolTypeEnum,
@@ -22,7 +21,6 @@ class Protocol(AggregateRoot):
         metadata: Optional[MetadataPlugin] = None,
     ):
         super().__init__(id)
-        self._country_id = country_id
         self._institution_id = institution_id
         self._file_source = file_source
         self._protocol_type = protocol_type
@@ -32,10 +30,6 @@ class Protocol(AggregateRoot):
         self._protocol_speeches = protocol_speeches if protocol_speeches is not None else []
         self._metadata = metadata
 
-
-    @property
-    def country_id(self) -> UUID:
-        return self._country_id
     
     @property
     def institution_id(self) -> UUID:
@@ -56,6 +50,14 @@ class Protocol(AggregateRoot):
     @protocol_type.setter
     def protocol_type(self, value: ProtocolTypeEnum):
         self._protocol_type = value
+
+    @property
+    def agenda(self) -> Optional[Agenda]:
+        return self._agenda
+    
+    @agenda.setter
+    def agenda(self, value: Optional[Agenda]):
+        self._agenda = value
 
     @property
     def date(self) -> DateTime:

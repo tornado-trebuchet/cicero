@@ -10,8 +10,6 @@ class Speech(Entity):
     def __init__(
         self,
         id: UUID,
-        country_id: UUID,
-        institution_id: UUID,
         protocol_id: UUID,
         speaker_id: UUID,
         text: SpeechText,
@@ -19,8 +17,6 @@ class Speech(Entity):
         metrics: Optional[MetricsPlugin] = None,
     ):
         super().__init__(id)
-        self._country_id = country_id
-        self._institution_id = institution_id
         self._protocol_id = protocol_id
         self._speaker_id = speaker_id
         self._text = text

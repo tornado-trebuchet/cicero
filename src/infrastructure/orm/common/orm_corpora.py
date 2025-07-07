@@ -29,7 +29,8 @@ class CorporaORM(Base):
     periods: Mapped[Optional[List[uuid.UUID]]] = mapped_column(ARRAY(PG_UUID(as_uuid=True)), nullable=True)
     parties: Mapped[Optional[List[uuid.UUID]]] = mapped_column(ARRAY(PG_UUID(as_uuid=True)), nullable=True)
     speakers: Mapped[Optional[List[uuid.UUID]]] = mapped_column(ARRAY(PG_UUID(as_uuid=True)), nullable=True)
-
+    
+    # Relationships
     speeches: Mapped[List["SpeechORM"]] = relationship(
         "SpeechORM",
         secondary=corpora_speeches,

@@ -18,7 +18,7 @@ class PartyORM(Base):
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     country_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("countries.id"), nullable=False)
     label: Mapped[str] = mapped_column(String, nullable=False)
-    party_enum_value: Mapped[str] = mapped_column(String, nullable=False)
+    party_name: Mapped[str] = mapped_column(String, nullable=False)
     party_program: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     
     # Relationships

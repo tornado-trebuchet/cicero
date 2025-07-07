@@ -7,23 +7,24 @@ from src.infrastructure.orm.base_orm import Base
 import uuid
 
 if TYPE_CHECKING:
-    from src.infrastructure.orm.text.orm_speech import SpeechORM
+    from src.infrastructure.orm.text.orm_speech_text import TextORM
 
 class RawTextORM(Base):
     __tablename__ = "raw_texts"
 
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
-    speech_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speeches.id"), nullable=False, unique=True)
+    speech_text_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("texts.id"), nullable=False, unique=True)
     text: Mapped[str] = mapped_column(SQLText, nullable=False)
 
     # Relationships
-    speech: Mapped["SpeechORM"] = relationship(
-        "SpeechORM",
+    speech_text: Mapped["TextORM"] = relationship(
+        "TextORM",
         back_populates="raw_text",
         cascade="all, delete-orphan",
-        passive_deletes=True
+        passive_deletes=True,
+        uselist=False
     )
 
     __table_args__ = (
-        Index('idx_raw_text_speech', 'speech_id'),
+        Index('idx_raw_text_speech_text', 'speech_text_id'),
     )
