@@ -1,4 +1,4 @@
-from src.infrastructure.orm.base_orm import create_tables
+from src.infrastructure.orm.session import create_tables
 
 def main():
     print("Creating all tables...")

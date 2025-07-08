@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, Optional
 from sqlalchemy import ForeignKey, Index
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM as PG_ENUM, JSONB
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from src.infrastructure.orm.base_orm import Base
+from src.infrastructure.orm.base import Base
 from src.domain.models.common.v_enums import LanguageEnum
 import uuid
 
@@ -16,8 +16,8 @@ if TYPE_CHECKING:
     from src.infrastructure.orm.text.orm_text_tokenized import TokenizedTextORM
     from src.infrastructure.orm.text.orm_text_translated import TranslatedTextORM
 
-class TextORM(Base):
-    __tablename__ = "texts"
+class SpeechTextORM(Base):
+    __tablename__ = "speech_texts"
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     speech_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speeches.id"), nullable=False, unique=True)
     raw_text_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), nullable=False)

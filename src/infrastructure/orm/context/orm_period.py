@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING
 
 from sqlalchemy.types import DateTime, String
 from sqlalchemy.orm import Mapped, mapped_column
-from src.infrastructure.orm.base_orm import Base
+from src.infrastructure.orm.base import Base
 import uuid
 from datetime import datetime
 

@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, List
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM as PG_ENUM
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
-from src.infrastructure.orm.base_orm import Base
+from src.infrastructure.orm.base import Base
 from src.domain.models.common.v_enums import CountryEnum
 import uuid
 

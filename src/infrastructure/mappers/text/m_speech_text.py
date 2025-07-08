@@ -1,13 +1,13 @@
 from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.text.v_text_metrics import TextMetrics
 from src.domain.models.common.v_common import UUID
-from src.infrastructure.orm.text.orm_speech_text import TextORM
+from src.infrastructure.orm.text.orm_speech_text import SpeechTextORM
 
 class SpeechTextMapper:
     @staticmethod
-    def to_orm(domain_entity: SpeechText) -> TextORM:
+    def to_orm(domain_entity: SpeechText) -> SpeechTextORM:
         metrics_data = SpeechTextMapper._metrics_to_orm(domain_entity.text_metrics)
-        orm = TextORM(
+        orm = SpeechTextORM(
             id=domain_entity.id.value,
             speech_id=domain_entity.speech_id.value,
             raw_text_id=domain_entity.raw_text.value,
@@ -22,7 +22,7 @@ class SpeechTextMapper:
         return orm
 
     @staticmethod
-    def to_domain(orm_entity: TextORM) -> SpeechText:
+    def to_domain(orm_entity: SpeechTextORM) -> SpeechText:
         metrics = SpeechTextMapper._metrics_to_domain(orm_entity.metrics)
         return SpeechText(
             id=UUID(orm_entity.id),
