@@ -2,23 +2,23 @@ from typing import Dict, Any, Optional, List
 from pathlib import Path
 from dataclasses import dataclass, field
 from src.domain.models.common.v_enums import LanguageEnum
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 
 @dataclass
 class TextProcessingConfig:
-    # Text cleaning parameters
     remove_extra_whitespace: bool = True
     normalize_unicode: bool = True
     remove_control_chars: bool = True
     preserve_line_breaks: bool = False
-    
-    # Encoding settings
     default_encoding: str = "utf-8"
 
 
 @dataclass
 class TokenizationConfig:
-    # Basic tokenization
     lowercase_tokens: bool = True
     remove_punctuation: bool = True
     min_token_length: int = 1
@@ -34,15 +34,7 @@ class TokenizationConfig:
 
 @dataclass
 class SpeakerExtractionConfig:
-    # Pattern matching
-    use_active_patterns_only: bool = True
-    pattern_priority_order: List[str] = field(default_factory=lambda: ["period_specific", "institution_specific", "country_specific"])
-    
-    # Speaker metadata extraction
-    extract_party_info: bool = True
-    extract_role_info: bool = True
-    normalize_speaker_names: bool = False
-
+    pass
 
 @dataclass
 class CountingConfig:
@@ -74,27 +66,10 @@ class LoggingConfig:
     max_log_file_size: int = 10 * 1024 * 1024  # 10MB
     log_file_backup_count: int = 5
 
-
-@dataclass
-class RepositoryConfig:
-    """Configuration for repository integration."""
-    # RegexPattern repository settings
-    cache_regex_patterns: bool = True
-    pattern_cache_ttl: int = 3600  # 1 hour in seconds
-    
-    # Future stopwords repository settings
-    cache_stopwords: bool = True
-    stopwords_cache_ttl: int = 7200  # 2 hours in seconds
-    
-    # Batch processing
-    batch_size: int = 1000
-    max_concurrent_operations: int = 5
-
-
 @dataclass
 class APIConfig:
-    BASE_URL: str = "https://search.dip.bundestag.de/api/v1/"
-    API_KEY: str = "OSOegLs.PR2lwJ1dwCeje9vTj7FPOt3hvpYKtwKkhw"
+    BASE_URL: str = "https://search.dip.bundestag.de/api/v1/" # We will dynamically sort it out later
+    API_KEY: str = os.environ.get("API_KEY", "")
     TIMEOUT: int = 10  
     MAX_RETRIES: int = 3
 
@@ -102,7 +77,12 @@ class APIConfig:
 @dataclass
 class DatabaseConfig:
     """Configuration for database integration."""
-    database_url: str = "postgresql+psycopg2://cicero:develop1@localhost:5432/your_db" # FIXME: Replace with env var or config for prod
+    POSTGRES_USER: str = os.environ.get("POSTGRES_USER", "")
+    POSTGRES_PASSWORD: str = os.environ.get("POSTGRES_PASSWORD", "")
+    POSTGRES_DB: str = os.environ.get("POSTGRES_DB", "")
+    POSTGRES_HOST: str = os.environ.get("POSTGRES_HOST", "")
+    POSTGRES_PORT: str = os.environ.get("POSTGRES_PORT","")
+    database_url: str = f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
     echo: bool = False
     pool_pre_ping: bool = True
     pool_recycle: int = 3600
