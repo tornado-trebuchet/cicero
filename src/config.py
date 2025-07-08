@@ -102,7 +102,7 @@ class APIConfig:
 @dataclass
 class DatabaseConfig:
     """Configuration for database integration."""
-    database_url: str = "sqlite:///../cicero_dev.db"  # FIXME: Replace with env var or config for prod
+    database_url: str = "postgresql+psycopg2://cicero:develop1@localhost:5432/your_db" # FIXME: Replace with env var or config for prod
     echo: bool = False
     pool_pre_ping: bool = True
     pool_recycle: int = 3600

@@ -1,7 +1,6 @@
 from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.text.v_text_metrics import TextMetrics
 from src.domain.models.common.v_common import UUID
-from src.domain.models.common.v_enums import LanguageEnum
 from src.infrastructure.orm.text.orm_speech_text import TextORM
 
 class SpeechTextMapper:
