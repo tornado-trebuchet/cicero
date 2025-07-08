@@ -25,8 +25,8 @@ class ISpeechRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_period(self, period_id: Period) -> List[Speech]:
-        """Get all speeches for a given period (via protocol's period_id)."""
+    def get_by_period(self, period: Period) -> List[Speech]:
+        """Get all speeches for a given period."""
         pass
 
     @abstractmethod
