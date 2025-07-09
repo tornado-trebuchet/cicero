@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, Any
 from src.domain.models.text.a_protocol import Protocol
-from domain.models.context.e_period import Period
-from src.domain.models.common.v_common import HttpUrl
+from src.domain.models.context.e_period import Period
 
 class BaseFetcher(ABC):
     """Abstract orchestrator for fetching and storing protocols from external APIs."""
@@ -20,7 +19,7 @@ class BaseFetcher(ABC):
         params: Optional[dict] = None
     ) -> Protocol:
         """Fetch a protocol from the API and store it in the repository."""
-        ...
+        pass
 
     @abstractmethod
     def fetch_protocols(
@@ -30,4 +29,4 @@ class BaseFetcher(ABC):
         params: Optional[dict] = None
     ) -> list[Protocol]:
         """Fetch multiple protocols from the API and store them in the repository."""
-        ...
+        pass

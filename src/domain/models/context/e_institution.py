@@ -1,7 +1,6 @@
 from typing import List, Optional
 from src.domain.models.common.v_common import UUID
-from src.domain.models.base_model import Entity
-from domain.models.context.e_period import Period
+from src.domain.models.base_entity import Entity
 from src.domain.models.common.v_enums import InstitutionTypeEnum
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 

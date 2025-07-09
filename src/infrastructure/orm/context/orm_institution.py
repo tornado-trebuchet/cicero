@@ -6,7 +6,7 @@ from sqlalchemy.dialects.postgresql import UUID as PG_UUID, JSONB, ENUM as PG_EN
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from src.infrastructure.orm.base import Base
-from src.domain.models.common.v_enums import InstitutionTypeEnum
+from src.domain.models.common.v_enums import InstitutionTypeEnum, OwnerTypeEnum
 import uuid
 
 if TYPE_CHECKING:
@@ -26,12 +26,6 @@ class InstitutionORM(Base):
     country: Mapped["CountryORM"] = relationship(
         "CountryORM", 
         back_populates="institutions"
-    )
-    periods: Mapped[List["PeriodORM"]] = relationship(
-        "PeriodORM",
-        back_populates="institution",
-        cascade="all, delete-orphan",
-        passive_deletes=True
     )
     protocols: Mapped[List["ProtocolORM"]] = relationship(
         "ProtocolORM",

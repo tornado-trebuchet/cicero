@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
 from src.domain.models.text.a_protocol import Protocol
-from domain.models.common.v_common import UUID
+from src.domain.models.common.v_common import UUID
 
 class IProtocolRepository(ABC):
     """Repository for Protocol entity handling."""

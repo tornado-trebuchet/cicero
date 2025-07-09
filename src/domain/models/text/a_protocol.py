@@ -1,6 +1,6 @@
 from typing import Optional
 from src.domain.models.common.v_common import UUID, DateTime, HttpUrl
-from src.domain.models.base_model import AggregateRoot
+from src.domain.models.base_aggregate import AggregateRoot
 from src.domain.models.common.v_enums import ProtocolTypeEnum
 from src.domain.models.text.v_protocol_text import ProtocolText
 from src.domain.models.text.v_protocol_agenda import Agenda

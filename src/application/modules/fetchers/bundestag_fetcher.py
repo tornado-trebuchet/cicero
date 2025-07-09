@@ -1,7 +1,8 @@
 from typing import Optional
 from src.application.modules.fetchers.base_fetcher import BaseFetcher
 from src.domain.models.text.a_protocol import Protocol
-from domain.models.context.e_period import Period
+from src.domain.models.context.e_period import Period
+from src.infrastructure.external.germany.bundestag_api import BundestagAPI
 
 class BundestagFetcher(BaseFetcher):
     """Fetcher for orchestrating Bundestag API protocol acquisition and DB storage."""
@@ -19,6 +20,8 @@ class BundestagFetcher(BaseFetcher):
         self._repository.add(protocol)
         return protocol
     
+
+    # later FIXME:what the fuck is this? LOL U stupid? 
     def fetch_protocols(
         self,
         protocol_spec: str,

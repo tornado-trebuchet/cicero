@@ -21,3 +21,9 @@ class LanguageEnum(str, Enum):
     DE = "german"
     FR = "french"
     EN = "english"
+
+class OwnerTypeEnum(str, Enum):
+    COUNTRY = "country"
+    INSTITUTION = "institution"
+    PARTY = "party"
+    SPEAKER = "speaker"

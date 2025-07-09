@@ -1,5 +1,5 @@
 from typing import Optional
-from src.domain.models.base_model import Entity 
+from domain.models.base_vo import Entity 
 from src.domain.models.common.v_common import UUID
 from src.domain.models.context.v_party_name import PartyName
 from src.domain.models.context.e_speaker import Speaker

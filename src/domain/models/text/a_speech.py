@@ -1,6 +1,6 @@
 from typing import Optional
 from src.domain.models.common.v_common import UUID
-from src.domain.models.base_model import Entity
+from domain.models.base_entity import Entity
 from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin

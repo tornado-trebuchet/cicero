@@ -1,7 +1,8 @@
 from typing import Optional
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_common import DateTime
-from src.domain.models.base_model import Entity
+from src.domain.models.common.v_enums import OwnerTypeEnum
+from src.domain.models.base_entity import Entity
 from src.domain.models.context.v_label import Label
 
 class Period(Entity):
@@ -10,18 +11,20 @@ class Period(Entity):
         self,
         id: UUID,
         owner_id: UUID,
+        owner_type: OwnerTypeEnum,
         label: Label,
         start_date: DateTime,
         end_date: DateTime,
         description: Optional[str] = None,
     ):
         super().__init__(id)
+        self._owner_id = owner_id
+        self._owner_type = owner_type
         self._label = label
         self._start_date = start_date
         self._end_date = end_date
         if start_date.value > end_date.value:
             raise ValueError("Start date must be before end date")
-        self._owner_id = owner_id
         self._description = description
 
     @property
@@ -47,6 +50,10 @@ class Period(Entity):
     @property
     def owner_id(self) -> UUID:
         return self._owner_id
+
+    @property
+    def owner_type(self) -> OwnerTypeEnum:
+        return self._owner_type
 
     # TODO: Needs just a little of constraint
     @description.setter

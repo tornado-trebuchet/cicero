@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Optional, List
 from src.domain.models.context.e_period import Period
 from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_enums import OwnerTypeEnum
 from src.domain.models.context.v_label import Label
 
 class IPeriodRepository(ABC):
@@ -15,6 +16,11 @@ class IPeriodRepository(ABC):
     @abstractmethod
     def get_by_owner_id(self, owner_id: UUID) -> List[Period]:
         """Get periods by owner ID."""
+        pass
+
+    @abstractmethod
+    def get_by_owner(self, owner_id: UUID, owner_type: OwnerTypeEnum) -> List[Period]:
+        """Get periods by specific owner type and id."""
         pass
     
     @abstractmethod

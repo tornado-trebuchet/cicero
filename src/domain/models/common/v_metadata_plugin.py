@@ -1,5 +1,5 @@
 from typing import Any, Optional
-from src.domain.models.base_model import ValueObject
+from src.domain.models.base_vo import ValueObject
 
 class MetadataPlugin(ValueObject):
     """
