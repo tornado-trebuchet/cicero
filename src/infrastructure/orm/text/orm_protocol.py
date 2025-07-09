@@ -30,7 +30,6 @@ class ProtocolORM(Base):
     institution: Mapped["InstitutionORM"] = relationship(
         "InstitutionORM", 
         back_populates="protocols",
-        cascade="all, delete-orphan",
         passive_deletes=True
     )
     speeches: Mapped[List["SpeechORM"]] = relationship(

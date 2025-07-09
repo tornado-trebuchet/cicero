@@ -20,7 +20,6 @@ class RawTextORM(Base):
     speech_text: Mapped["SpeechTextORM"] = relationship(
         "SpeechTextORM",
         back_populates="raw_text",
-        cascade="all, delete-orphan",
         passive_deletes=True,
         uselist=False
     )

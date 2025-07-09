@@ -33,7 +33,6 @@ class SpeechTextORM(Base):
     speech: Mapped["SpeechORM"] = relationship(
         "SpeechORM", 
         back_populates="text",
-        cascade="all, delete-orphan",
         passive_deletes=True
     )
     clean_text: Mapped[Optional["CleanTextORM"]] = relationship(

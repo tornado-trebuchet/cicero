@@ -20,7 +20,6 @@ class TextNgramsORM(Base):
     speech_text: Mapped["SpeechTextORM"] = relationship(
         "SpeechTextORM",
         back_populates="ngram_tokens",
-        cascade="all, delete-orphan",
         passive_deletes=True,
         uselist=False
     )

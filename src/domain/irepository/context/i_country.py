@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
 from src.domain.models.context.a_country import Country
-from domain.models.common.v_common import UUID
-from domain.models.common.v_enums import CountryEnum
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_enums import CountryEnum
 
 class ICountryRepository(ABC):
     """Top level aggregate"""

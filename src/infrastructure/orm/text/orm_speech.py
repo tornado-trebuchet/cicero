@@ -36,7 +36,6 @@ class SpeechORM(Base):
         "SpeechTextORM", 
         back_populates="speech", 
         uselist=False,
-        cascade="all, delete-orphan",
         passive_deletes=True
     )
 

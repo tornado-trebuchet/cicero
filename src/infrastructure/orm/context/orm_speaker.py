@@ -30,13 +30,11 @@ class SpeakerORM(Base):
     country: Mapped["CountryORM"] = relationship(
         "CountryORM",
         back_populates="speakers",
-        cascade="all, delete-orphan",
         passive_deletes=True
     )
     party_ref: Mapped[Optional["PartyORM"]] = relationship(
         "PartyORM",
         back_populates="members",
-        cascade="all, delete-orphan",
         passive_deletes=True
     )
     speeches: Mapped[List["SpeechORM"]] = relationship(

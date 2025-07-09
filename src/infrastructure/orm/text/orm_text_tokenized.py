@@ -20,7 +20,6 @@ class TokenizedTextORM(Base):
     speech_text: Mapped["SpeechTextORM"] = relationship(
         "SpeechTextORM",
         back_populates="tokens",
-        cascade="all, delete-orphan",
         passive_deletes=True,
         uselist=False
     )

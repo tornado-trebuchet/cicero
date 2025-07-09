@@ -25,7 +25,6 @@ class PartyORM(Base):
     country: Mapped["CountryORM"] = relationship(
         "CountryORM",
         back_populates="parties",
-        cascade="all, delete-orphan",
         passive_deletes=True
     )
     members: Mapped[List["SpeakerORM"]] = relationship(

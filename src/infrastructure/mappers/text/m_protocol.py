@@ -16,8 +16,8 @@ class ProtocolMapper:
             protocol_type=domain_entity.protocol_type.value,
             protocol_text=domain_entity.protocol_text.protocol_text,
             agenda=domain_entity.agenda.items if domain_entity.agenda is not None else None,
-            file_source=domain_entity.file_source if domain_entity.file_source else None,
-            metadata_data=domain_entity.metadata,
+            file_source=domain_entity.file_source.value if domain_entity.file_source else None,
+            metadata_data=domain_entity.metadata.get_properties() if domain_entity.metadata is not None else None,
         )
         return orm
 
