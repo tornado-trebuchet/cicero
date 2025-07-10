@@ -1,9 +1,9 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Optional, Any
 from sqlalchemy import ForeignKey, Index
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM as PG_ENUM, JSONB
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from src.infrastructure.orm.base import Base
+from src.infrastructure.orm.orm_base import Base
 from src.domain.models.common.v_enums import LanguageEnum
 import uuid
 
@@ -27,7 +27,7 @@ class SpeechTextORM(Base):
     sentences_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), nullable=True)
     tokens_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), nullable=True)
     ngram_tokens_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), nullable=True)
-    metrics: Mapped[Optional[dict]] = mapped_column(JSONB, nullable=True)
+    metrics: Mapped[Optional[dict[str, Any]]] = mapped_column(JSONB, nullable=True)
 
     # Relationships
     speech: Mapped["SpeechORM"] = relationship(

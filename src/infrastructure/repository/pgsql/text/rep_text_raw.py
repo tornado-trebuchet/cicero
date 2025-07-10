@@ -3,7 +3,7 @@ from src.domain.models.text.e_text_raw import RawText
 from src.domain.models.common.v_common import UUID
 from src.infrastructure.orm.text.orm_text_raw import RawTextORM
 from src.infrastructure.mappers.text.m_text_raw import RawTextMapper
-from src.infrastructure.orm.session import session_scope
+from infrastructure.orm.orm_session import session_scope
 from typing import Optional
 
 class RawTextRepository(IRawTextRepository):

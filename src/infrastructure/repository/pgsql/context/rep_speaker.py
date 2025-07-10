@@ -4,7 +4,7 @@ from src.domain.models.common.v_common import UUID
 from src.domain.models.context.v_name import Name
 from src.infrastructure.orm.context.orm_speaker import SpeakerORM
 from src.infrastructure.mappers.context.m_speaker import SpeakerMapper
-from src.infrastructure.orm.session import session_scope
+from infrastructure.orm.orm_session import session_scope
 from typing import Optional, List
 
 class SpeakerRepository(ISpeakerRepository):

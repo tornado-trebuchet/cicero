@@ -10,13 +10,13 @@ class BaseFetcher(ABC):
         """Initialize with an API client and a protocol repository."""
         self._api = api
         self._repository = repository
-
+        # TODO: discover protocol spec based on the called class
     @abstractmethod
     def fetch_protocol(
         self,
         protocol_spec: str,
         period: Optional[Period] = None,
-        params: Optional[dict] = None
+        params: Optional[dict[str, Any]] = None
     ) -> Protocol:
         """Fetch a protocol from the API and store it in the repository."""
         pass
@@ -26,7 +26,7 @@ class BaseFetcher(ABC):
         self,
         protocol_spec: str,
         period: Optional[Period] = None,
-        params: Optional[dict] = None
+        params: Optional[dict[str, Any]] = None
     ) -> list[Protocol]:
         """Fetch multiple protocols from the API and store them in the repository."""
         pass

@@ -2,6 +2,7 @@ from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.text.v_text_metrics import TextMetrics
 from src.domain.models.common.v_common import UUID
 from src.infrastructure.orm.text.orm_speech_text import SpeechTextORM
+from typing import Any, Optional
 
 class SpeechTextMapper:
     @staticmethod
@@ -38,7 +39,7 @@ class SpeechTextMapper:
         )
 
     @staticmethod
-    def _metrics_to_orm(metrics: TextMetrics | None):
+    def _metrics_to_orm(metrics: Optional[TextMetrics]) -> Optional[dict[str, Any]]:
         if metrics:
             return {
                 'word_count': metrics.word_count,
@@ -50,7 +51,7 @@ class SpeechTextMapper:
         return None
 
     @staticmethod
-    def _metrics_to_domain(metrics_data):
+    def _metrics_to_domain(metrics_data: Optional[dict[str, Any]]) -> Optional[TextMetrics]:
         if metrics_data:
             tm = TextMetrics()
             tm.word_count = metrics_data.get('word_count')

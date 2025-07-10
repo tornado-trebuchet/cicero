@@ -29,7 +29,7 @@ class TokenizeCleanText(TextService):
             return stopwords_cls(language_code)
         else:
             raise ValueError(f"No stopwords found for language code: {language_code}")
-
+    # FIXME: Generate ID (in domain probably) and pass there it's owner's speech id 
     def process(self, clean_text: CleanText) -> TokenizedText:
         tokens = self.tokenizer.tokenize_external_lib(clean_text)
         filtered_tokens = [token for token in tokens.tokens if token.lower() not in self.stopwords]

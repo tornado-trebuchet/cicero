@@ -4,7 +4,7 @@ from src.domain.models.common.v_common import UUID
 from src.domain.models.context.e_period import Period
 from src.infrastructure.orm.text.orm_speech import SpeechORM
 from src.infrastructure.mappers.text.m_speech import SpeechMapper
-from src.infrastructure.orm.session import session_scope
+from infrastructure.orm.orm_session import session_scope
 from typing import Optional, List
 from datetime import datetime
 

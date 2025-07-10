@@ -1,5 +1,5 @@
 from typing import Optional, List
-from domain.models.base_vo import Entity
+from src.domain.models.base_entity import Entity
 from src.domain.models.common.v_common import DateTime
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import GenderEnum

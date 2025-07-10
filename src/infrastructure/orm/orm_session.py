@@ -1,6 +1,6 @@
 from contextlib import contextmanager
-from .engine import SessionLocal, engine
-from .base import Base
+from .orm_engine import SessionLocal, engine
+from .orm_base import Base
 
 @contextmanager
 def session_scope():

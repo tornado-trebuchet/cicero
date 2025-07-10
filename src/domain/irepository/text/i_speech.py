@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
 from src.domain.models.text.a_speech import Speech
-from domain.models.common.v_common import UUID
+from domain.models.common.v_common import UUID, DateTime
 from domain.models.context.e_period import Period
 
 class ISpeechRepository(ABC):
@@ -20,7 +20,7 @@ class ISpeechRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_date_range(self, start_date, end_date) -> List[Speech]:
+    def get_by_date_range(self, start_date: DateTime, end_date: DateTime) -> List[Speech]:
         """Get all speeches whose protocol date is within the given range."""
         pass
 

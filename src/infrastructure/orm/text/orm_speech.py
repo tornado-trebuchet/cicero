@@ -5,7 +5,7 @@ from sqlalchemy import ForeignKey, Index
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, JSONB
 from sqlalchemy.orm import relationship, Mapped, mapped_column
 
-from src.infrastructure.orm.base import Base
+from src.infrastructure.orm.orm_base import Base
 import uuid
 
 if TYPE_CHECKING:

@@ -2,9 +2,10 @@ from src.domain.irepository.context.i_institution import IInstitutionRepository
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import InstitutionTypeEnum
+from src.domain.models.context.v_label import Label
 from src.infrastructure.orm.context.orm_institution import InstitutionORM
 from src.infrastructure.mappers.context.m_institution import InstitutionMapper
-from src.infrastructure.orm.session import session_scope
+from src.infrastructure.orm.orm_session import session_scope
 from typing import Optional, List
 
 class InstitutionRepository(IInstitutionRepository):
@@ -19,6 +20,13 @@ class InstitutionRepository(IInstitutionRepository):
         with session_scope() as session:
             orm_institutions = session.query(InstitutionORM).filter_by(institution_type=institution_type).all()
             return [InstitutionMapper.to_domain(orm) for orm in orm_institutions]
+
+    def get_by_label(self, label: Label) -> Optional[Institution]:
+        with session_scope() as session:
+            orm_institution = session.query(InstitutionORM).filter_by(label=label).one_or_none()
+            if orm_institution:
+                return InstitutionMapper.to_domain(orm_institution)
+            return None
 
     def list(self) -> List[Institution]:
         with session_scope() as session:

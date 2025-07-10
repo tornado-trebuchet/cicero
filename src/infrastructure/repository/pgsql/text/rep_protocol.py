@@ -4,7 +4,7 @@ from src.domain.models.common.v_common import UUID
 from src.domain.models.context.v_label import Label # TODO: maybe later? 
 from src.infrastructure.orm.text.orm_protocol import ProtocolORM
 from src.infrastructure.mappers.text.m_protocol import ProtocolMapper
-from src.infrastructure.orm.session import session_scope
+from infrastructure.orm.orm_session import session_scope
 from typing import Optional, List
 
 class ProtocolRepository(IProtocolRepository):

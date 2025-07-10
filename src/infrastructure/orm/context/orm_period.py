@@ -1,14 +1,13 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
 
 from sqlalchemy import Index
 from sqlalchemy.types import DateTime, String
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM as PG_ENUM
 from sqlalchemy.orm import Mapped, mapped_column
-from src.infrastructure.orm.base import Base
+from src.infrastructure.orm.orm_base import Base
 from src.domain.models.common.v_enums import OwnerTypeEnum
-import uuid
 from datetime import datetime
+import uuid
 
 class PeriodORM(Base):
     __tablename__ = "periods"

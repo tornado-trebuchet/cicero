@@ -1,4 +1,4 @@
-from src.infrastructure.orm.session import Base, engine
+from infrastructure.orm.orm_session import Base, engine
 from sqlalchemy import text
 
 def reset_database():

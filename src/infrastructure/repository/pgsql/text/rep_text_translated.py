@@ -3,7 +3,7 @@ from src.domain.models.text.e_text_translated import TranslatedText
 from src.domain.models.common.v_common import UUID
 from src.infrastructure.orm.text.orm_text_translated import TranslatedTextORM
 from src.infrastructure.mappers.text.m_text_translated import TranslatedTextMapper
-from src.infrastructure.orm.session import session_scope
+from infrastructure.orm.orm_session import session_scope
 from typing import Optional
 
 class TranslatedTextRepository(ITranslatedTextRepository):

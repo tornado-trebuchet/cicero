@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional, List
 from src.domain.models.text.a_protocol import Protocol
-from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_common import UUID, DateTime
 
 class IProtocolRepository(ABC):
     """Repository for Protocol entity handling."""
@@ -27,7 +27,7 @@ class IProtocolRepository(ABC):
         pass
         
     @abstractmethod
-    def get_by_date_range(self, start_date, end_date) -> List[Protocol]:
+    def get_by_date_range(self, start_date: DateTime, end_date: DateTime) -> List[Protocol]:
         """Get protocols within a date range."""
         pass
 

@@ -61,7 +61,7 @@ class Speech(Entity):
 
     @metadata.setter
     def metadata(self, value: MetadataPlugin):
-        self._metadata = value if value is not None else MetadataPlugin({})
+        self._metadata = value
 
     def __repr__(self) -> str:
         return f"<Speech {self.id} by {self._speaker_id}>"

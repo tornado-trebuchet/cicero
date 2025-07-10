@@ -4,7 +4,7 @@ from src.domain.models.common.v_common import UUID
 from src.domain.models.context.v_party_name import PartyName
 from src.infrastructure.orm.context.orm_party import PartyORM
 from src.infrastructure.mappers.context.m_party import PartyMapper
-from src.infrastructure.orm.session import session_scope
+from infrastructure.orm.orm_session import session_scope
 from typing import Optional, List
 
 class PartyRepository(IPartyRepository):

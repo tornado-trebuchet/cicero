@@ -1,3 +1,4 @@
+from typing import Optional
 from src.domain.models.common.v_common import UUID
 from domain.models.text.a_speech_text import SpeechText
 from domain.models.text.e_text_raw import RawText
@@ -14,10 +15,10 @@ class ExtractSpeakersFromProtocol(TextService):
 
     def _pick_pattern(
         self,
-        country_code=None,
-        institution_code=None,
-        language_code=None,
-        protocol_type=None,
+        country_code: Optional[str] = None,
+        institution_code: Optional[str] = None,
+        language_code: Optional[str] = None,
+        protocol_type: Optional[str] = None,
     ) -> type[RegexPattern] | None:
         """
         Find and return the regex pattern class matching the protocol's specifications.

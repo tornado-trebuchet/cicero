@@ -1,8 +1,7 @@
 from typing import Optional
-from domain.models.base_vo import Entity 
+from src.domain.models.base_entity import Entity
 from src.domain.models.common.v_common import UUID
 from src.domain.models.context.v_party_name import PartyName
-from src.domain.models.context.e_speaker import Speaker
 from src.domain.models.text.v_party_program_text import PartyProgramText
 
 class Party(Entity):

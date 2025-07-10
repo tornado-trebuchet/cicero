@@ -1,3 +1,4 @@
+from typing import Any, Optional
 from src.domain.models.text.a_speech import Speech
 from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
@@ -36,7 +37,7 @@ class SpeechMapper:
         )
 
     @staticmethod
-    def _metrics_to_orm(metrics: MetricsPlugin | None):
+    def _metrics_to_orm(metrics: Optional[MetricsPlugin]) -> Optional[dict[str, Any]]:
         if metrics:
             return {
                 'dominant_topics': metrics.dominant_topics,
@@ -46,7 +47,7 @@ class SpeechMapper:
         return None
 
     @staticmethod
-    def _metrics_to_domain(metrics_data):
+    def _metrics_to_domain(metrics_data: Optional[dict[str, Any]]) -> Optional[MetricsPlugin]:
         if metrics_data:
             return MetricsPlugin(
                 dominant_topics=metrics_data.get('dominant_topics'),
@@ -56,9 +57,9 @@ class SpeechMapper:
         return None
 
     @staticmethod
-    def _metadata_to_orm(metadata: MetadataPlugin | None):
+    def _metadata_to_orm(metadata: Optional[MetadataPlugin]) -> Optional[dict[str, Any]]:
         return metadata.get_properties() if metadata else None
 
     @staticmethod
-    def _metadata_to_domain(meta_data):
+    def _metadata_to_domain(meta_data: Optional[dict[str, Any]]) -> Optional[MetadataPlugin]:
         return MetadataPlugin(meta_data) if meta_data else None

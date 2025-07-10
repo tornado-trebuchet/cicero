@@ -1,7 +1,6 @@
 from src.domain.models.context.e_period import Period
 from src.domain.models.context.v_label import Label
 from src.domain.models.common.v_common import UUID, DateTime
-from src.domain.models.common.v_enums import OwnerTypeEnum
 from src.infrastructure.orm.context.orm_period import PeriodORM
 
 class PeriodMapper:

@@ -3,7 +3,7 @@ from typing import TYPE_CHECKING, List
 from sqlalchemy import ForeignKey, Index, String
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ARRAY
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from src.infrastructure.orm.base import Base
+from src.infrastructure.orm.orm_base import Base
 import uuid
 
 if TYPE_CHECKING:

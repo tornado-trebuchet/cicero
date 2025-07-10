@@ -18,7 +18,9 @@ class MetadataPlugin(ValueObject):
         self._data[key] = value
     
     def get_properties(self) -> Optional[dict[str, Any]]:
-        return self._data
+        if self._data is not None:
+            return self._data
+        return None
     
     def get_property(self, key: str) -> Optional[Any]:
         if self._data is not None:

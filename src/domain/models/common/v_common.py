@@ -9,7 +9,7 @@ class UUID(ValueObject):
     def __init__(self, value: str | _UUID):
         if isinstance(value, _UUID):
             self._value = value
-        elif isinstance(value, str):
+        else:
             value = value.strip()
             if not value:
                 raise ValueError("UUID cannot be empty.")
@@ -17,8 +17,6 @@ class UUID(ValueObject):
                 self._value = _UUID(value)
             except Exception:
                 raise ValueError(f"Invalid UUID: {value}")
-        else:
-            raise ValueError("UUID must be a string or uuid.UUID instance.")
 
     @property
     def value(self) -> _UUID:
@@ -31,6 +29,14 @@ class UUID(ValueObject):
 
     def __str__(self) -> str:
         return str(self._value)
+
+    def __eq__(self, other: object) -> bool:
+        if isinstance(other, UUID):
+            return self._value == other._value
+        return False
+
+    def __hash__(self) -> int:
+        return hash(self._value)
     
 
 class DateTime(ValueObject):
@@ -42,7 +48,7 @@ class DateTime(ValueObject):
         elif isinstance(value, _date):
             # Convert date to datetime at midnight
             self._value = _datetime.combine(value, _datetime.min.time())
-        elif isinstance(value, str):
+        elif type(value) is str:
             try:
                 self._value = _datetime.fromisoformat(value)
             except ValueError:

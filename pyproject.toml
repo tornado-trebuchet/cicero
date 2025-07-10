@@ -1,0 +1,12 @@
+[tool.poetry]
+name = "cicero"
+version = "0.1.0"
+description = "Cicero project"
+authors = ["jannenda"]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.14"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

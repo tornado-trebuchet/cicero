@@ -62,6 +62,6 @@ class Period(Entity):
 
     def __repr__(self) -> str:
         label = self._label
-        start = self._start_date.value if self._start_date is not None else ""
-        end = self._end_date.value if self._end_date is not None else ""
+        start = self._start_date.value
+        end = self._end_date.value
         return f"<Period {label} {start}–{end}>"

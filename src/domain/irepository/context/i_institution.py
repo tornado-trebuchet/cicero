@@ -3,7 +3,7 @@ from typing import Optional, List
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import InstitutionTypeEnum
-
+from src.domain.models.context.v_label import Label
 class IInstitutionRepository(ABC):
     """Repository interface for Institution aggregate."""
 
@@ -15,6 +15,11 @@ class IInstitutionRepository(ABC):
     @abstractmethod
     def get_by_type(self, institution_type: InstitutionTypeEnum) -> List[Institution]:
         """Get institutions by type (e.g., Parliament, Federal Assembly)."""
+        pass
+    
+    @abstractmethod
+    def get_by_label(self, label: Label) -> Optional[Institution]:
+        """Get institution by label."""
         pass
 
     @abstractmethod

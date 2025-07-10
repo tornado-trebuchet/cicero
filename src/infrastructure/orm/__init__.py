@@ -1,4 +1,4 @@
-from .base import Base
+from .orm_base import Base
 
 from .context.orm_country import CountryORM
 from .context.orm_institution import InstitutionORM
