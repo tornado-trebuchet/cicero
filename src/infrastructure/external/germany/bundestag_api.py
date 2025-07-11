@@ -7,29 +7,44 @@ from src.domain.models.context.a_country import Country
 from src.domain.models.text.a_protocol import Protocol
 from src.domain.models.context.e_institution import Institution
 
-from src.domain.models.common.v_enums import ProtocolTypeEnum
+from src.domain.models.common.v_enums import ProtocolTypeEnum, CountryEnum, InstitutionTypeEnum
 from src.domain.models.common.v_common import HttpUrl, UUID, DateTime
 from src.domain.models.context.e_period import Period
 from src.domain.models.text.v_protocol_text import ProtocolText
 from src.domain.models.text.v_protocol_agenda import Agenda
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
+from src.domain.models.context.v_label import Label
 
 from src.config import APIConfig
 from urllib.parse import urlencode
 import requests
 
+
+# TODO: that's hot garbage. But ok for now. Refactor later.
 class BundestagAPI(API):
     """API for fetching data from the German Bundestag."""
+
+    @staticmethod
+    def default_country() -> Country:
+        return Country(UUID.new(), CountryEnum.GERMANY)
+
+    @staticmethod
+    def default_institution(country: Country) -> Institution:
+        return Institution(UUID.new(), country.id, InstitutionTypeEnum.PARLIAMENT, Label("Bundestag"))
 
     def __init__(
         self,
         config: APIConfig,
-        country: Country,
-        institution: Institution
+        country: Optional[Country] = None,
+        institution: Optional[Institution] = None
     ) -> None:
+        if country is None:
+            country = self.default_country()
+        if institution is None:
+            institution = self.default_institution(country)
         super().__init__(config, country, institution)
         self._base_url = getattr(config, 'BASE_URL', None)
-        self._api_key = getattr(config, 'API_KEY', None)
+        self._api_key = getattr(config, 'BUNDESTAG_API_KEY', None)
         self._country = country
         self._institution = institution
 
@@ -49,11 +64,11 @@ class BundestagAPI(API):
         self,
         protocol_spec: str,
         period: Optional[Period] = None,
-        params: Optional[dict] = None
+        params: Optional[dict[str, Any]] = None
     ) -> HttpUrl:
         """Construct the request URL for the Bundestag plenarprotokoll-text endpoint."""
         base_url = f"{self._base_url}/{self.endpoint_spec}"
-        query = {}
+        query: dict[str, str] = {} 
         if protocol_spec:
             query["f.dokumentnummer"] = protocol_spec
         if period is not None:

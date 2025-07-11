@@ -83,6 +83,10 @@ class Protocol(AggregateRoot):
     def metadata(self, value: MetadataPlugin):
         self._metadata = value
 
+    @property
+    def protocol_speeches(self) -> list[UUID]:
+        return self._protocol_speeches
+
     def add_speech(self, speech_id: UUID):
         if speech_id not in self._protocol_speeches:
             self._protocol_speeches.append(speech_id)

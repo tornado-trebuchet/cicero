@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Any
 from abc import ABC, abstractmethod
 from src.domain.models.context.e_institution import Institution
 from src.domain.models.text.a_protocol import Protocol
@@ -45,7 +45,7 @@ class API(ABC):
         self,
         protocol_spec: str,
         period: Optional[Period] = None,
-        params: Optional[dict] = None
+        params: Optional[dict[str, Any]] = None
     ) -> HttpUrl:
         """Construct the request URL for the API call."""
         ...
