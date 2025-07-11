@@ -3,10 +3,8 @@ services:
     image: postgres:15
     container_name: cicero_postgres_dev
     restart: unless-stopped
-    environment:
-      POSTGRES_USER: cicero
-      POSTGRES_PASSWORD: develop1
-      POSTGRES_DB: cicero_dev
+    env_file:
+      - .env
     ports:
       - "5433:5432"
     volumes:
@@ -23,6 +21,8 @@ services:
     command: uvicorn src.interface.api.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - ./src:/app/src
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     depends_on:

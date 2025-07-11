@@ -2,10 +2,25 @@
 name = "cicero"
 version = "0.1.0"
 description = "Cicero project"
-authors = ["jannenda"]
+authors = ["janeenda"]
+package-mode = false
 
 [tool.poetry.dependencies]
-python = ">=3.10,<3.14"
+python = "3.12.11"
+uvicorn = "^0.29.0"
+fastapi = "^0.116.0"
+psycopg2-binary = "^2.9.10"
+spacy = "^3.8.7"
+gensim = "^4.3.3"
+python-dotenv = "^1.1.1"
+SQLAlchemy = "^2.0.41"
+requests = "^2.32.4"
+rich = "^14.0.0"
+tqdm = "^4.67.1"
+typer = "^0.16.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

@@ -18,6 +18,9 @@ RUN apt-get update && apt-get install -y \
 COPY pyproject.toml ./
 RUN pip install --upgrade pip && pip install poetry && poetry config virtualenvs.create false && poetry install --no-interaction --no-ansi
 
+# Ensure Poetry-installed binaries (like uvicorn) are in PATH
+ENV PATH="/root/.local/bin:$PATH"
+
 # Copy project files
 COPY . .
 
