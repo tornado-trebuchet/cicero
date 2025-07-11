@@ -3,6 +3,10 @@ from src.domain.irepository.context.i_country import ICountryRepository
 from src.domain.models.context.a_country import Country
 from src.domain.irepository.context.i_institution import IInstitutionRepository
 from src.domain.models.context.e_institution import Institution
+from src.domain.irepository.context.i_party import IPartyRepository
+from src.domain.models.context.e_party import Party
+from src.domain.irepository.context.i_period import IPeriodRepository
+from src.domain.models.context.e_period import Period
 
 class ListCountriesUseCase:
     def __init__(self, country_repository: ICountryRepository):
@@ -17,3 +21,17 @@ class ListInstitutionsUseCase:
 
     def execute(self) -> List[Institution]:
         return self.institution_repository.list()
+
+class ListPartiesUseCase:
+    def __init__(self, party_repository: IPartyRepository):
+        self.party_repository = party_repository
+
+    def execute(self) -> List[Party]:
+        return self.party_repository.list()
+
+class ListPeriodsUseCase:
+    def __init__(self, period_repository: IPeriodRepository):
+        self.period_repository = period_repository
+
+    def execute(self) -> List[Period]:
+        return self.period_repository.list()

@@ -3,6 +3,7 @@ from typing import Optional, Any
 from src.domain.models.text.a_protocol import Protocol
 from src.domain.models.context.e_period import Period
 
+# TODO: complete redesign!!!!!!! Implement as use case! 
 class BaseFetcher(ABC):
     """Abstract orchestrator for fetching and storing protocols from external APIs."""
 

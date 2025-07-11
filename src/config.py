@@ -1,12 +1,10 @@
-from typing import Dict, Any, Optional
+from typing import Optional, Tuple
 from pathlib import Path
-from dataclasses import dataclass, field
-from src.domain.models.common.v_enums import LanguageEnum
+from dataclasses import dataclass
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
-
 
 @dataclass
 class TextProcessingConfig:
@@ -23,12 +21,10 @@ class TokenizationConfig:
     remove_punctuation: bool = True
     min_token_length: int = 1
     max_token_length: int = 100
-    
-    # Language-specific tokenization
-    language_specific_rules: Dict[LanguageEnum, Dict[str, Any]] = field(default_factory=dict)
+    # TODO: language-specific tokenization settings
     
     # N-gram settings
-    ngram_range: tuple = (1, 3)
+    ngram_range: Tuple[int, int] = (1, 3)
     min_ngram_freq: int = 1
 
 

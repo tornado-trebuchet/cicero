@@ -1,8 +1,33 @@
+# Repository imports
 from src.infrastructure.repository.pgsql.context.rep_country import CountryRepository
 from src.infrastructure.repository.pgsql.context.rep_institution import InstitutionRepository
-from src.application.use_cases.context.list import ListCountriesUseCase, ListInstitutionsUseCase
-from src.application.use_cases.context.get_by import GetCountryByIdUseCase, GetInstitutionByIdUseCase
-from src.application.use_cases.context.get_by import GetCountryByEnumUseCase, GetInstitutionsByTypeUseCase
+from src.infrastructure.repository.pgsql.context.rep_party import PartyRepository
+from src.infrastructure.repository.pgsql.context.rep_period import PeriodRepository
+from src.infrastructure.repository.pgsql.context.rep_speaker import SpeakerRepository
+
+# Use case imports
+from src.application.use_cases.context.list import (
+    ListCountriesUseCase,
+    ListInstitutionsUseCase,
+    ListPartiesUseCase,
+    ListPeriodsUseCase,
+)
+from src.application.use_cases.context.get_by import (
+    GetCountryByIdUseCase,
+    GetInstitutionByIdUseCase,
+    GetCountryByEnumUseCase,
+    GetInstitutionsByTypeUseCase,
+    GetPartyByIdUseCase,
+    GetPartyByNameUseCase,
+    GetPeriodByIdUseCase,
+    GetPeriodsByOwnerIdUseCase,
+    GetPeriodsByOwnerUseCase,
+    GetPeriodByLabelUseCase,
+    GetSpeakerByIdUseCase,
+    GetSpeakersByNameUseCase,
+)
+
+# ============= Repository Injection ==============
 
 def get_country_repository():
     return CountryRepository()
@@ -10,21 +35,62 @@ def get_country_repository():
 def get_institution_repository():
     return InstitutionRepository()
 
+def get_party_repository():
+    return PartyRepository()
+
+def get_period_repository():
+    return PeriodRepository()
+
+def get_speaker_repository():
+    return SpeakerRepository()
+
+# ============= UseCase Injection ==============
+
 def get_list_countries_use_case():
     return ListCountriesUseCase(get_country_repository())
 
 def get_country_by_id_use_case():
-    return GetCountryByIdUseCase()
+    return GetCountryByIdUseCase(get_country_repository())
 
 def get_institution_by_id_use_case():
-    return GetInstitutionByIdUseCase()
+    return GetInstitutionByIdUseCase(get_institution_repository())
 
 def get_country_by_enum_use_case():
-    return GetCountryByEnumUseCase()
+    return GetCountryByEnumUseCase(get_country_repository())
 
 def get_institutions_by_type_use_case():
-    return GetInstitutionsByTypeUseCase()
+    return GetInstitutionsByTypeUseCase(get_institution_repository())
 
 def get_list_institutions_use_case():
     return ListInstitutionsUseCase(get_institution_repository())
+
+def get_party_by_id_use_case():
+    return GetPartyByIdUseCase(get_party_repository())
+
+def get_party_by_name_use_case():
+    return GetPartyByNameUseCase(get_party_repository())
+
+def get_list_parties_use_case():
+    return ListPartiesUseCase(get_party_repository())
+
+def get_period_by_id_use_case():
+    return GetPeriodByIdUseCase(get_period_repository())
+
+def get_periods_by_owner_id_use_case():
+    return GetPeriodsByOwnerIdUseCase(get_period_repository())
+
+def get_periods_by_owner_use_case():
+    return GetPeriodsByOwnerUseCase(get_period_repository())
+
+def get_period_by_label_use_case():
+    return GetPeriodByLabelUseCase(get_period_repository())
+
+def get_list_periods_use_case():
+    return ListPeriodsUseCase(get_period_repository())
+
+def get_speaker_by_id_use_case():
+    return GetSpeakerByIdUseCase(get_speaker_repository())
+
+def get_speakers_by_name_use_case():
+    return GetSpeakersByNameUseCase(get_speaker_repository())
 

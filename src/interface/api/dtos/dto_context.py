@@ -1,7 +1,8 @@
 from pydantic import BaseModel
 from typing import List, Optional, Any
 from uuid import UUID
-from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum
+from datetime import datetime
+from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum, OwnerTypeEnum
 
 class CountryDTO(BaseModel):
     id: UUID
@@ -19,3 +20,28 @@ class InstitutionDTO(BaseModel):
     protocols: Optional[List[UUID]] = None
     periodisation: Optional[List[UUID]] = None
     metadata: Optional[dict[str, Any]] = None
+
+class PartyDTO(BaseModel):
+    id: UUID
+    country_id: UUID
+    party_name: str
+    party_program: Optional[str] = None
+    speakers: Optional[List[UUID]] = None
+
+class PeriodDTO(BaseModel):
+    id: UUID
+    owner_id: UUID
+    owner_type: OwnerTypeEnum
+    label: str
+    start_date: Optional[datetime] = None
+    end_date: Optional[datetime] = None
+
+class SpeakerDTO(BaseModel):
+    id: UUID
+    country_id: UUID
+    name: str
+    speeches: Optional[List[UUID]] = None
+    party: Optional[UUID] = None
+    role: Optional[str] = None
+    birth_date: Optional[datetime] = None
+    gender: Optional[str] = None
