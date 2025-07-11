@@ -1,4 +1,4 @@
-from domain.models.base_vo import ValueObject
+from src.domain.models.base_vo import ValueObject
 
 class PartyProgramText(ValueObject):
     """Represents the text of a party program as a value object."""

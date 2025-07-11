@@ -1,9 +1,9 @@
-from domain.irepository.common.i_corpora import ICorporaRepository
+from src.domain.irepository.common.i_corpora import ICorporaRepository
 from src.domain.models.common.a_corpora import Corpora
 from src.domain.models.common.v_common import UUID
 from src.infrastructure.orm.common.orm_corpora import CorporaORM
 from src.infrastructure.mappers.common.m_corpora import CorporaMapper
-from infrastructure.orm.orm_session import session_scope
+from src.infrastructure.orm.orm_session import session_scope
 from typing import Optional, List
 
 class CorporaRepository(ICorporaRepository):

@@ -1,7 +1,6 @@
 from src.domain.irepository.text.i_protocol import IProtocolRepository
 from src.domain.models.text.a_protocol import Protocol
-from src.domain.models.common.v_common import UUID
-from src.domain.models.context.v_label import Label # TODO: maybe later? 
+from src.domain.models.common.v_common import UUID, DateTime
 from src.infrastructure.orm.text.orm_protocol import ProtocolORM
 from src.infrastructure.mappers.text.m_protocol import ProtocolMapper
 from infrastructure.orm.orm_session import session_scope
@@ -30,7 +29,7 @@ class ProtocolRepository(IProtocolRepository):
             orm_protocols = session.query(ProtocolORM).filter_by(institution_id=institution_id.value, period_id=period_id.value).all()
             return [ProtocolMapper.to_domain(orm) for orm in orm_protocols]
 
-    def get_by_date_range(self, start_date, end_date) -> List[Protocol]:
+    def get_by_date_range(self, start_date: DateTime, end_date: DateTime) -> List[Protocol]:
         with session_scope() as session:
             orm_protocols = session.query(ProtocolORM).filter(ProtocolORM.date >= start_date, ProtocolORM.date <= end_date).all()
             return [ProtocolMapper.to_domain(orm) for orm in orm_protocols]

@@ -1,4 +1,4 @@
-from domain.models.base_vo import ValueObject
+from src.domain.models.base_vo import ValueObject
 
 # TODO: Add format and length validation
 class PartyName(ValueObject):

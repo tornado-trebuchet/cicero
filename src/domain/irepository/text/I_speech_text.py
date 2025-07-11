@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 from src.domain.models.text.a_speech_text import SpeechText
-from domain.models.common.v_common import UUID
+from src.domain.models.common.v_common import UUID
 
 class ISpeechTextRepository(ABC):
     """Repository for SpeechText entity handling."""

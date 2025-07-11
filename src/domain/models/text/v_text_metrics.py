@@ -1,4 +1,4 @@
-from domain.models.base_vo import ValueObject
+from src.domain.models.base_vo import ValueObject
 from typing import Optional
 
 class TextMetrics(ValueObject):

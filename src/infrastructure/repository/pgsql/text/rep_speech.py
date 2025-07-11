@@ -1,12 +1,11 @@
 from src.domain.irepository.text.i_speech import ISpeechRepository
 from src.domain.models.text.a_speech import Speech
-from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_common import UUID, DateTime
 from src.domain.models.context.e_period import Period
 from src.infrastructure.orm.text.orm_speech import SpeechORM
 from src.infrastructure.mappers.text.m_speech import SpeechMapper
-from infrastructure.orm.orm_session import session_scope
+from src.infrastructure.orm.orm_session import session_scope
 from typing import Optional, List
-from datetime import datetime
 
 class SpeechRepository(ISpeechRepository):
     def get_by_id(self, id: UUID) -> Optional[Speech]:
@@ -25,7 +24,7 @@ class SpeechRepository(ISpeechRepository):
             return [SpeechMapper.to_domain(orm) for orm in orm_speeches]
         
     # Complex query
-    def get_by_date_range(self, start_date: datetime, end_date: datetime) -> List[Speech]:
+    def get_by_date_range(self, start_date: DateTime, end_date: DateTime) -> List[Speech]:
         from src.infrastructure.orm.text.orm_protocol import ProtocolORM
         with session_scope() as session:
             orm_speeches = (

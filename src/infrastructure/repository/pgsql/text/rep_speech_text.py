@@ -3,7 +3,7 @@ from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.common.v_common import UUID
 from src.infrastructure.orm.text.orm_speech_text import SpeechTextORM
 from src.infrastructure.mappers.text.m_speech_text import SpeechTextMapper
-from infrastructure.orm.orm_session import session_scope
+from src.infrastructure.orm.orm_session import session_scope
 from typing import Optional
 
 class SpeechTextRepository(ISpeechTextRepository):

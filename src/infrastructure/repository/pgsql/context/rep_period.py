@@ -5,7 +5,7 @@ from src.domain.models.common.v_enums import OwnerTypeEnum
 from src.domain.models.context.v_label import Label
 from src.infrastructure.orm.context.orm_period import PeriodORM
 from src.infrastructure.mappers.context.m_period import PeriodMapper
-from infrastructure.orm.orm_session import session_scope
+from src.infrastructure.orm.orm_session import session_scope
 from typing import Optional, List
 
 class PeriodRepository(IPeriodRepository):
