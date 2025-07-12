@@ -14,31 +14,14 @@ class API(ABC):
     @abstractmethod
     def __init__(
         self,
-        config: APIConfig,
-        country: Country,
-        institution: Institution
+        config: APIConfig, # Что он делает? 
+        country: Country, # Страна для того, чтобы апи правильно собрал объект и выбрал подходящий метод
+        institution: Institution, # То же самое что и выше
+        protocol_spec: str #FIXME: Need to properly abstract it now it is quite confusing. Не нужно ли сделать это динамически? 
     ) -> None:
         """Initialize the API with shared required parameters."""
         self._country = country
         self._institution = institution
-
-    @property
-    @abstractmethod
-    def country(self) -> Country:
-        """Country for the API."""
-        return self._country
-
-    @property
-    @abstractmethod
-    def institution(self) -> Institution:
-        """Institution type for the API."""
-        return self._institution
-
-    @property
-    @abstractmethod
-    def endpoint_spec(self) -> str:
-        """Endpoint specification string. URL for fetching a protocol"""
-        ...
 
     @abstractmethod
     def build_request(

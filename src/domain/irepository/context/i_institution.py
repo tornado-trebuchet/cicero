@@ -24,8 +24,18 @@ class IInstitutionRepository(ABC):
         pass
 
     @abstractmethod
+    def get_by_country_id_and_type(self, country_id: UUID, institution_type: InstitutionTypeEnum) -> Optional[Institution]:
+        """Get institution by country ID and type."""
+        pass
+
+    @abstractmethod
     def list(self) -> List[Institution]:
         """List all institutions."""
+        pass
+
+    @abstractmethod
+    def list_by_country_id(self, country_id: UUID) -> List[Institution]:
+        """List institutions by country ID."""
         pass
 
     @abstractmethod
