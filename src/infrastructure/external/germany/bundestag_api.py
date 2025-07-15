@@ -1,21 +1,17 @@
 from typing import Any, Optional, cast
 
 from src.infrastructure.external.base_api import API
-from src.infrastructure.external.base_response import Response
+from src.infrastructure.external.base_response import ResponseProtocol
 
-from src.domain.models.context.a_country import Country
 from src.domain.models.text.a_protocol import Protocol
-from src.domain.models.context.e_institution import Institution
 
 from src.domain.models.common.v_enums import ProtocolTypeEnum
 from src.domain.models.common.v_common import HttpUrl, UUID, DateTime
-from src.domain.models.context.e_period import Period
 from src.domain.models.text.v_protocol_text import ProtocolText
 from src.domain.models.text.v_protocol_agenda import Agenda
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 
 from src.config import APIConfig
-from urllib.parse import urlencode
 import requests
 
 
@@ -26,42 +22,25 @@ class BundestagAPI(API):
     def __init__(
         self,
         config: APIConfig,
-        country: Country,
-        institution: Institution,
-        protocol_spec: str
     ) -> None:
-        super().__init__(config, country, institution)
-        self._base_url = getattr(config, 'BASE_URL', None)
-        self._api_key = getattr(config, 'BUNDESTAG_API_KEY', None)
-        self._country = country
-        self._institution = institution
-        self._endpoint_spec = "plenarprotokoll-text"
-        self._protocol_spec = protocol_spec
-
-    def build_request(
-        self,
-        protocol_spec: str,
-        period: Optional[Period] = None,
-        params: Optional[dict[str, Any]] = None
-    ) -> HttpUrl:
-        """Construct the request URL for the Bundestag plenarprotokoll-text endpoint."""
-        base_url = f"{self._base_url}/{self._endpoint_spec}"
-        query: dict[str, str] = {} 
-        if protocol_spec:
-            query["f.dokumentnummer"] = protocol_spec
-        if period is not None:
-            query["f.wahlperiode"] = str(period)
-        if params:
-            query.update(params)
-        url = base_url
-        if query:
-            url += "?" + urlencode(query, doseq=True)
+        super().__init__(config)
+        self._default_api_key = "OSOegLs.PR2lwJ1dwCeje9vTj7FPOt3hvpYKtwKkhw"
+        self._default_server_base = "https://search.dip.bundestag.de/api/v1"
+        self._default_endpoint_spec = "plenarprotokoll-text"
+        self._default_endpoint_val = ""
+    # Not a secret, public API key
+    def build_request(self, spec: dict[str, Optional[Any]]) -> HttpUrl:
+        self._full_link = spec.get('full_link') if spec.get('full_link') else None
+        if self._full_link is not None:
+            return HttpUrl(self._full_link)
+        self._api_key = spec.get('api_key') or self._default_api_key
+        self._server_base = spec.get('server_base') or self._default_server_base
+        self._endpoint_spec = spec.get('endpoint_spec') or self._default_endpoint_spec
+        self._endpoint_val = spec.get('endpoint_val') or self._default_endpoint_val
+        url = f"{self._server_base}/{self._endpoint_spec}/{self._endpoint_val}"
         return HttpUrl(url)
 
-    def fetch_protocol(
-        self,
-        url: HttpUrl
-    ) -> Response:
+    def fetch_protocol(self,url: HttpUrl) -> ResponseProtocol:
         headers = {"Authorization": f"ApiKey {self._api_key}"} if self._api_key else {}
         response = requests.get(str(url), headers=headers)
         response.raise_for_status()
@@ -87,7 +66,7 @@ class BundestagAPI(API):
         ]
         if missing:
             raise ValueError(f"Missing required fields in response: {', '.join(missing)}")
-        return Response(
+        return ResponseProtocol(
             date=str(date),
             title=str(title),
             link=str(link),
@@ -95,8 +74,8 @@ class BundestagAPI(API):
             text=str(text)
         )
 
-    def parse_response(self, response: Response) -> Protocol:
-        protocol_id = UUID.new()
+    def parse_response(self, response: ResponseProtocol, institution_id: UUID) -> Protocol:
+        protocol_id = UUID.new() # TODO: rredirect to domain responsibility
         protocol_type = ProtocolTypeEnum.PLENARY 
         date = DateTime(response.date)  
         protocol_text = ProtocolText(response.text)
@@ -106,7 +85,7 @@ class BundestagAPI(API):
 
         return Protocol(
             id=protocol_id,
-            institution_id=self._institution.id,
+            institution_id=institution_id,
             protocol_type=protocol_type,
             date=date,
             protocol_text=protocol_text,

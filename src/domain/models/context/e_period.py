@@ -60,6 +60,15 @@ class Period(Entity):
     def description(self, value: Optional[str]):
         self._description = value
 
+    def to_range_dict(self) -> Optional[dict[str, DateTime]]:
+        """Convert the Period to a dictionary with start and end dates."""
+        if not self.start_date or not self.end_date:
+            return None
+        return {
+            "start_date": self.start_date,
+            "end_date": self.end_date
+        }
+    
     def __repr__(self) -> str:
         label = self._label
         start = self._start_date.value

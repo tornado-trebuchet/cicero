@@ -64,8 +64,6 @@ class LoggingConfig:
 
 @dataclass
 class APIConfig:
-    BASE_URL: str = "https://search.dip.bundestag.de/api/v1/" # We will dynamically sort it out later
-    API_KEY: str = os.environ.get("API_KEY", "")
     TIMEOUT: int = 10  
     MAX_RETRIES: int = 3
 

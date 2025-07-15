@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any, Optional, Dict
 
 @dataclass
-class Response:
+class ResponseProtocol:
     """Internal Parsed response with all required fields."""
     date: str
     title: str
