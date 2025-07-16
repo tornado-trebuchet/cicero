@@ -1,7 +1,8 @@
 from typing import Optional, Any, Dict, Union
 
 #TODO: add better type consistency and validation
-class Spec():
+# FIXME: Pretentious, probnably this should be a dataclass
+class FetcherSpec():
     def __init__(
         self, 
         server_base: Optional[str],

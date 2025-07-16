@@ -1,4 +1,4 @@
-from src.application.modules.fetchers.spec import Spec
+from src.application.modules.fetchers.fetcher_spec import Spec
 from src.interface.api.dtos.dto_service import ProtocolSpecDTO
 
 def protocol_spec_to_dto(spec: Spec) -> ProtocolSpecDTO:

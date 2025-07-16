@@ -22,6 +22,7 @@ class RegexPattern(ABC):
         """
         pass
 
+    # TODO: add an override for manual pattern picks 
     @classmethod
     def find_by_specifications(
         cls: type[T],

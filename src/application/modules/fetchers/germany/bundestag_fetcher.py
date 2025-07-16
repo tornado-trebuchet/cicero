@@ -2,13 +2,13 @@ from src.application.modules.fetchers.base_fetcher import BaseFetcher
 from src.domain.models.text.a_protocol import Protocol
 from src.infrastructure.external.germany.bundestag_api import BundestagAPI
 from src.infrastructure.repository.pgsql.text.rep_protocol import ProtocolRepository
-from src.application.modules.fetchers.spec import Spec
+from src.application.modules.fetchers.fetcher_spec import FetcherSpec
 from src.infrastructure.repository.pgsql.common.rep_joint_q import JointQRepository
 from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum
 class BundestagFetcher(BaseFetcher):
     """Fetcher for orchestrating Bundestag API protocol acquisition and DB storage."""
 
-    def __init__(self, api: BundestagAPI, repository: ProtocolRepository, spec: Spec) -> None:
+    def __init__(self, api: BundestagAPI, repository: ProtocolRepository, spec: FetcherSpec) -> None:
         super().__init__(api, repository, spec)
         self._joint_q_repo = JointQRepository()
         self._institution = self._joint_q_repo.get_institution_by_country_and_institution_enum(
