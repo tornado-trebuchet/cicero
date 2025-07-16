@@ -1,9 +1,9 @@
 from src.domain.models.common.v_enums import LanguageEnum
-from domain.models.text.e_text_clean import CleanText
-from domain.models.text.e_text_tokenized import TokenizedText
+from src.domain.models.text.e_text_clean import CleanText
+from src.domain.models.text.e_text_tokenized import TokenizedText
 from src.domain.services.text.base_text_service import TextService
-from src.domain.services.utils.tokenizer.base_tokenizer import Tokenizer
-from src.domain.services.utils.stopwords.base_stopwords import Stopwords
+from src.domain.services.text.tokenizer.base_tokenizer import Tokenizer
+from src.domain.services.text.preprocessor.stopwords.base_stopwords import Stopwords
 
 
 class TokenizeCleanText(TextService):

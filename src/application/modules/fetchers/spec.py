@@ -1,30 +1,18 @@
-from typing import Optional, Any
-from src.domain.models.context.e_period import Period
+from typing import Optional, Any, Dict, Union
 
+#TODO: add better type consistency and validation
 class Spec():
     def __init__(
         self, 
-        token: Optional[str], 
         server_base: Optional[str],
-        period: Optional[Period], 
         endpoint_spec: Optional[str],
-        endpoint_val: Optional[str],
-        full_link: Optional[str]
+        full_link: Optional[str],
+        params: Optional[Dict[str, Union[str, list[str]]]] = None
     ) -> None:
-        self.token = token if token else None
         self.server_base = server_base if server_base else None
-        self.period = period if period else None
         self.endpoint_spec = endpoint_spec if endpoint_spec else None
-        self.endpoint_val = endpoint_val if endpoint_val else None
         self.full_link = full_link if full_link else None
-
-    @property
-    def token(self) -> Optional[str]:
-        return self._token
-    
-    @token.setter
-    def token(self, value: Optional[str]) -> None:
-        self._token = value
+        self.params = params if params else {}
 
     @property
     def server_base(self) -> Optional[str]:
@@ -41,14 +29,6 @@ class Spec():
     @full_link.setter
     def full_link(self, value: Optional[str]) -> None:
         self._full_link = value
-
-    @property
-    def period(self) -> Optional[Period]:
-        return self._period
-    
-    @period.setter
-    def period(self, value: Optional[Period]) -> None:
-        self._period = value
     
     @property
     def endpoint_spec(self) -> Optional[str]:
@@ -59,20 +39,18 @@ class Spec():
         self._endpoint_spec = value
 
     @property
-    def endpoint_val(self) -> Optional[str]:
-        return self._endpoint
+    def params(self) -> Dict[str, Union[str, list[str]]]:
+        return self._params
     
-    @endpoint_val.setter
-    def endpoint_val(self, value: Optional[str]) -> None:
-        self._endpoint = value
-    
+    @params.setter
+    def params(self, value: Optional[Dict[str, Union[str, list[str]]]]) -> None:
+        self._params = value if value else {}
+
     def get_spec_dict(self) -> dict[str, Optional[Any]]:
         """Convert the Spec to a dictionary."""
         return {
-            "api_key": self.token,
             "server_base": self.server_base,
-            "period": self.period.to_range_dict if self.period else None,
             "endpoint_spec": self.endpoint_spec,
-            "endpoint_val": self.endpoint_val,
-            "full_link": self.full_link
+            "full_link": self.full_link,
+            "params": self.params
         }

@@ -6,6 +6,6 @@ class ResponseProtocol:
     """Internal Parsed response with all required fields."""
     date: str
     title: str
-    link: Optional[str]
+    link: str
     agenda: Optional[Dict[str, Any]]
     text: str

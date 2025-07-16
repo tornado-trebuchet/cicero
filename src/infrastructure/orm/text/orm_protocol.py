@@ -20,7 +20,7 @@ class ProtocolORM(Base):
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     institution_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("institutions.id"), nullable=False)
     agenda: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
-    file_source: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    file_source: Mapped[str] = mapped_column(String, nullable=False)
     protocol_type: Mapped[ProtocolTypeEnum] = mapped_column(PG_ENUM(ProtocolTypeEnum, name="protocol_type_enum"), nullable=False)
     date: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     protocol_text: Mapped[str] = mapped_column(String, nullable=False)

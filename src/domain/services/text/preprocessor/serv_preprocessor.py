@@ -1,7 +1,7 @@
-from domain.models.text.e_text_raw import RawText
-from domain.models.text.e_text_clean import CleanText
+from src.domain.models.text.e_text_raw import RawText
+from src.domain.models.text.e_text_clean import CleanText
 from src.domain.services.text.base_text_service import TextService
-from src.domain.services.utils.preprocessor.base_preprocessor import Preprocessor
+from src.domain.services.text.preprocessor.base_preprocessor import Preprocessor
 from src.domain.models.common.v_enums import LanguageEnum
 
 class PreprocessRawText(TextService):

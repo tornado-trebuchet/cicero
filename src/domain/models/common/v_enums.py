@@ -21,6 +21,7 @@ class LanguageEnum(str, Enum):
     DE = "german"
     FR = "french"
     EN = "english"
+    M = "missing"
 
 class OwnerTypeEnum(str, Enum):
     COUNTRY = "country"

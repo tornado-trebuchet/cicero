@@ -2,8 +2,7 @@ from typing import Optional, List
 from src.domain.models.common.v_common import UUID
 from src.domain.models.base_aggregate import AggregateRoot
 from src.domain.models.common.v_enums import CountryEnum
-# so TODO: domain events
-# and think how to ensure speaker deduplication 
+
 class Country(AggregateRoot):
     """Represents a Country in the domain model."""
     def __init__(

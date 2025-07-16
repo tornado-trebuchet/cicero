@@ -1,6 +1,6 @@
-import re 
+import re
 from src.domain.models.common.v_enums import LanguageEnum, InstitutionTypeEnum, CountryEnum, ProtocolTypeEnum
-from src.domain.services.utils.regex.base_regex import RegexPattern
+from src.domain.services.text.extractor.base_regex import RegexPattern
 
 class BundestagProtocolRegex(RegexPattern):
 

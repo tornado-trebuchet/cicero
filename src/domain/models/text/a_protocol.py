@@ -5,7 +5,7 @@ from src.domain.models.common.v_enums import ProtocolTypeEnum
 from src.domain.models.text.v_protocol_text import ProtocolText
 from src.domain.models.text.v_protocol_agenda import Agenda
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
-
+from src.domain.models.context.v_label import Label
 class Protocol(AggregateRoot):
     """Represents a protocol e.g., parliamentary session."""
     def __init__(
@@ -15,8 +15,9 @@ class Protocol(AggregateRoot):
         date: DateTime,
         protocol_type: ProtocolTypeEnum,
         protocol_text: ProtocolText,
+        file_source: HttpUrl,
+        label: Optional[Label] = None, # TODO: add to ORM
         agenda: Optional[Agenda] = None,
-        file_source: Optional[HttpUrl] = None,
         protocol_speeches: Optional[list[UUID]] = None,
         metadata: Optional[MetadataPlugin] = None,
     ):
@@ -27,6 +28,7 @@ class Protocol(AggregateRoot):
         self._protocol_text = protocol_text
         self._agenda = agenda
         self._date = date
+        self._label = label
         self._protocol_speeches = protocol_speeches if protocol_speeches is not None else []
         self._metadata = metadata
 
@@ -36,11 +38,11 @@ class Protocol(AggregateRoot):
         return self._institution_id
     
     @property
-    def file_source(self) -> Optional[HttpUrl]:
+    def file_source(self) -> HttpUrl:
         return self._file_source
 
     @file_source.setter
-    def file_source(self, value: Optional[HttpUrl]):
+    def file_source(self, value: HttpUrl):
         self._file_source = value
 
     @property

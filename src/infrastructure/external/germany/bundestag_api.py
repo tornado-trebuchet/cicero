@@ -1,4 +1,6 @@
-from typing import Any, Optional, cast
+from urllib.parse import urlencode
+from typing import Any, Optional, Dict, Union, DefaultDict
+from collections import defaultdict
 
 from src.infrastructure.external.base_api import API
 from src.infrastructure.external.base_response import ResponseProtocol
@@ -15,7 +17,6 @@ from src.config import APIConfig
 import requests
 
 
-# TODO: that's hot garbage. But ok for now. Refactor later.
 class BundestagAPI(API):
     """API for fetching data from the German Bundestag."""
 
@@ -24,36 +25,49 @@ class BundestagAPI(API):
         config: APIConfig,
     ) -> None:
         super().__init__(config)
-        self._default_api_key = "OSOegLs.PR2lwJ1dwCeje9vTj7FPOt3hvpYKtwKkhw"
         self._default_server_base = "https://search.dip.bundestag.de/api/v1"
         self._default_endpoint_spec = "plenarprotokoll-text"
+        self._default_params = {
+            "f.dokumentnummer": "20/6",
+            "format": "json",
+            "apikey": "OSOegLs.PR2lwJ1dwCeje9vTj7FPOt3hvpYKtwKkhw"
+        }
         self._default_endpoint_val = ""
     # Not a secret, public API key
     def build_request(self, spec: dict[str, Optional[Any]]) -> HttpUrl:
         self._full_link = spec.get('full_link') if spec.get('full_link') else None
         if self._full_link is not None:
             return HttpUrl(self._full_link)
-        self._api_key = spec.get('api_key') or self._default_api_key
         self._server_base = spec.get('server_base') or self._default_server_base
         self._endpoint_spec = spec.get('endpoint_spec') or self._default_endpoint_spec
-        self._endpoint_val = spec.get('endpoint_val') or self._default_endpoint_val
-        url = f"{self._server_base}/{self._endpoint_spec}/{self._endpoint_val}"
+        params: Dict[str, Union[str, list[str]]] = dict(self._default_params)
+        user_params: Dict[str, Union[str, list[str]]] = spec.get('params') or {}
+        params.update(user_params)
+        url = f"{self._server_base}/{self._endpoint_spec}"
+        if params:
+            url += f"?{urlencode(params, doseq=True)}"
         return HttpUrl(url)
 
-    def fetch_protocol(self,url: HttpUrl) -> ResponseProtocol:
-        headers = {"Authorization": f"ApiKey {self._api_key}"} if self._api_key else {}
+    def fetch(self,url: HttpUrl) -> ResponseProtocol:
+        headers: dict[str, str] = {}
         response = requests.get(str(url), headers=headers)
         response.raise_for_status()
         data = response.json()
-        # Bundestag API returns a dict with 'documents' key containing a list
         documents = data.get('documents', [])
         if not documents:
             raise ValueError("No documents found in response")
         doc = documents[0]
         date = doc.get('fundstelle', {}).get('datum') or doc.get('datum')
         title = doc.get('titel')
-        link = doc.get('fundstelle', {}).get('pdf_url')
-        agenda = doc.get('vorgangsbezug')
+        link = doc.get('fundstelle').get('pdf_url')
+        vorgangsbezug = doc.get('vorgangsbezug', [])
+        agenda_dict: DefaultDict[str, list[str]] = defaultdict(list)
+        for item in vorgangsbezug:
+            typ: str = item.get("vorgangstyp", "Unknown")
+            titel: str = item.get("titel", "")
+            if titel:
+                agenda_dict[typ].append(titel)
+        agenda: dict[str, list[str]] = dict(agenda_dict)
         text = doc.get('text')
         missing = [
             name for name, value in [
@@ -70,17 +84,17 @@ class BundestagAPI(API):
             date=str(date),
             title=str(title),
             link=str(link),
-            agenda=cast(dict[str, Any], agenda),
+            agenda=agenda,
             text=str(text)
         )
 
-    def parse_response(self, response: ResponseProtocol, institution_id: UUID) -> Protocol:
+    def parse(self, response: ResponseProtocol, institution_id: UUID) -> Protocol:
         protocol_id = UUID.new() # TODO: rredirect to domain responsibility
         protocol_type = ProtocolTypeEnum.PLENARY 
         date = DateTime(response.date)  
         protocol_text = ProtocolText(response.text)
         agenda = Agenda(response.agenda or {})  
-        file_source = HttpUrl(response.link) if response.link else None
+        file_source = HttpUrl(response.link)
         metadata = MetadataPlugin()
 
         return Protocol(

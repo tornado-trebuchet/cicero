@@ -13,6 +13,3 @@ class TextService(ABC):
         This method should be overridden by subclasses to implement specific text processing logic.
         """
         raise NotImplementedError("Subclasses must implement this method.")
-    
-    def get_config(self):
-        return self.config
