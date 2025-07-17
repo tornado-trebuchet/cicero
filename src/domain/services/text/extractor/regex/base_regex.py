@@ -2,6 +2,8 @@ import re
 from abc import ABC, abstractmethod
 from typing import Type, TypeVar
 
+from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum, LanguageEnum, ProtocolTypeEnum
+
 T = TypeVar('T', bound='RegexPattern')
 
 class RegexPattern(ABC):
@@ -9,10 +11,10 @@ class RegexPattern(ABC):
     Abstract base class for all regex pattern classes.
     Enforces required metadata and a compile method contract.
     """
-    country_code: str
-    institution_code: str
-    language_code: str
-    protocol_type: str
+    country_code: CountryEnum
+    institution_code: InstitutionTypeEnum
+    language_code: LanguageEnum
+    protocol_type: ProtocolTypeEnum
 
     @classmethod
     @abstractmethod
@@ -26,16 +28,17 @@ class RegexPattern(ABC):
     @classmethod
     def find_by_specifications(
         cls: type[T],
-        country_code: str,
-        institution_code: str,
-        language_code: str,
-        protocol_type: str
+        country_code: CountryEnum,
+        institution_code: InstitutionTypeEnum,
+        language_code: LanguageEnum,
+        protocol_type: ProtocolTypeEnum
     ) -> Type[T] | None:
         """
         Find a subclass matching the given specifications.
         Returns the class if found, else None.
         """
         for subclass in cls.__subclasses__():
+            print("DEBUG RegexPattern subclass:", subclass, getattr(subclass, 'country_code', None), getattr(subclass, 'institution_code', None), getattr(subclass, 'language_code', None), getattr(subclass, 'protocol_type', None))
             if ((getattr(subclass, 'country_code', None) == country_code) and
                 (getattr(subclass, 'institution_code', None) == institution_code) and
                 (getattr(subclass, 'language_code', None) == language_code) and

@@ -26,5 +26,6 @@ def dto_to_extraction_spec(dto: ExtractionSpecDTO) -> ExtractionSpec:
         country=dto.country,
         institution=dto.institution,
         language=dto.language,
+        protocol_type=dto.protocol_type,
         pattern_spec=dto.pattern_spec
     )

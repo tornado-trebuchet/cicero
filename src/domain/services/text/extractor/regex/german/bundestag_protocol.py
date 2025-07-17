@@ -1,13 +1,13 @@
 import re
-from src.domain.models.common.v_enums import LanguageEnum, InstitutionTypeEnum, CountryEnum, ProtocolTypeEnum
+# from src.domain.models.common.v_enums import LanguageEnum, InstitutionTypeEnum, CountryEnum, ProtocolTypeEnum
 from src.domain.services.text.extractor.regex.base_regex import RegexPattern
 
 class BundestagProtocolRegex(RegexPattern):
 
-    country_code = CountryEnum.GERMANY
-    institution_code = InstitutionTypeEnum.PARLIAMENT
-    language_code = LanguageEnum.DE
-    protocol_type = ProtocolTypeEnum.PLENARY
+    # country_code = CountryEnum.GERMANY
+    # institution_code = InstitutionTypeEnum.PARLIAMENT
+    # language_code = LanguageEnum.DE
+    # protocol_type = ProtocolTypeEnum.PLENARY
 
     start_pattern = r"\nBeginn: \d{1,2}\.\d{2} Uhr"
     end_pattern = r"\n\(Schluss: \d{1,2}\.\d{2} Uhr\)"

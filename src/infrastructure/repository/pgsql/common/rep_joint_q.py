@@ -30,7 +30,7 @@ class JointQRepository(IJointQRepository):
     def get_country_by_institution_id(self, institution_id: UUID) -> Optional[Country]:
         with session_scope() as session:
             # Find the institution by id
-            orm_institution = session.query(InstitutionORM).filter_by(id=institution_id).one_or_none()
+            orm_institution = session.query(InstitutionORM).filter_by(id=institution_id.value).one_or_none()
             if not orm_institution:
                 return None
             # Get the country associated with the institution

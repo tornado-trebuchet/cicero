@@ -13,7 +13,7 @@ class Speech(Entity):
         protocol_id: UUID,
         speaker_id: UUID,
         protocol_order: int, #TODO: add to ORM
-        text: SpeechText,
+        text: Optional[SpeechText] = None, # FIXME: shouldn't be like that although, by ID?
         metadata: Optional[MetadataPlugin] = None,
         metrics: Optional[MetricsPlugin] = None,
     ):
@@ -50,7 +50,7 @@ class Speech(Entity):
         self._protocol_order = value
     
     @property
-    def text(self) -> SpeechText:
+    def text(self) -> Optional[SpeechText]:
         return self._text
 
     @text.setter
