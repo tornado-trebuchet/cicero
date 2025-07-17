@@ -31,6 +31,6 @@ class SpeechDTO(BaseModel):
     id: UUID
     protocol_id: UUID
     speaker_id: UUID
-    text: SpeechTextDTO
+    text: UUID
     metrics: Optional[dict[str, Any]] = None
     metadata: Optional[dict[str, Any]] = None

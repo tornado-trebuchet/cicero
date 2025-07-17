@@ -4,20 +4,17 @@ from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.domain.models.common.v_common import UUID
 from src.infrastructure.orm.text.orm_speech import SpeechORM
-from src.infrastructure.mappers.text.m_speech_text import SpeechTextMapper
 
 class SpeechMapper:
     @staticmethod
     def to_orm(domain_entity: Speech) -> SpeechORM:
         metrics_data = SpeechMapper._metrics_to_orm(domain_entity.metrics)
         meta_data = SpeechMapper._metadata_to_orm(domain_entity.metadata)
-        speech_text = SpeechTextMapper.to_orm(domain_entity.text)
         orm = SpeechORM(
             id=domain_entity.id.value,
             protocol_id=domain_entity.protocol_id.value,
             speaker_id=domain_entity.speaker_id.value,
             protocol_order=domain_entity.protocol_order,
-            text = speech_text,
             metrics_data=metrics_data,
             meta_data=meta_data,
         )
@@ -25,15 +22,14 @@ class SpeechMapper:
 
     @staticmethod
     def to_domain(orm_entity: SpeechORM) -> Speech:
-        text = SpeechTextMapper.to_domain(orm_entity.text)
         metrics = SpeechMapper._metrics_to_domain(orm_entity.metrics_data)
         metadata = SpeechMapper._metadata_to_domain(orm_entity.meta_data)
         return Speech(
             id=UUID(orm_entity.id),
             protocol_id=UUID(orm_entity.protocol_id),
             speaker_id=UUID(orm_entity.speaker_id),
+            text=UUID(orm_entity.speech_text.id),
             protocol_order=orm_entity.protocol_order,
-            text=text,
             metrics=metrics,
             metadata=metadata
         )

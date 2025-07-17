@@ -8,7 +8,12 @@ from src.infrastructure.orm.orm_session import session_scope
 from src.infrastructure.mappers.context.m_country import CountryMapper
 from src.domain.models.context.a_country import Country
 from src.domain.models.common.v_common import UUID
-
+from src.infrastructure.mappers.text.m_speech import SpeechMapper
+from src.infrastructure.mappers.text.m_speech_text import SpeechTextMapper
+from src.infrastructure.mappers.text.m_text_raw import RawTextMapper
+from src.domain.models.text.a_speech import Speech
+from src.domain.models.text.a_speech_text import SpeechText
+from src.domain.models.text.e_text_raw import RawText
 from typing import Optional
 
 class JointQRepository(IJointQRepository):
@@ -38,3 +43,21 @@ class JointQRepository(IJointQRepository):
             if orm_country:
                 return CountryMapper.to_domain(orm_country)
             return None
+        
+
+    def add_speech_speech_text_and_raw_text(
+        self, 
+        speech: Speech,
+        speech_text: SpeechText,
+        raw_text: RawText
+    ) -> None:
+        with session_scope() as session:
+
+            orm_speech = SpeechMapper.to_orm(speech)
+            session.add(orm_speech)
+
+            orm_speech_text = SpeechTextMapper.to_orm(speech_text)
+            session.add(orm_speech_text)
+
+            orm_raw_text = RawTextMapper.to_orm(raw_text)
+            session.add(orm_raw_text)

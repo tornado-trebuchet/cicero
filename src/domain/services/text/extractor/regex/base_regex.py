@@ -38,7 +38,6 @@ class RegexPattern(ABC):
         Returns the class if found, else None.
         """
         for subclass in cls.__subclasses__():
-            print("DEBUG RegexPattern subclass:", subclass, getattr(subclass, 'country_code', None), getattr(subclass, 'institution_code', None), getattr(subclass, 'language_code', None), getattr(subclass, 'protocol_type', None))
             if ((getattr(subclass, 'country_code', None) == country_code) and
                 (getattr(subclass, 'institution_code', None) == institution_code) and
                 (getattr(subclass, 'language_code', None) == language_code) and

@@ -43,7 +43,7 @@ def speech_to_dto(speech: Speech) -> SpeechDTO:
         id=speech.id.value,
         protocol_id=speech.protocol_id.value,
         speaker_id=speech.speaker_id.value,
-        text=speech_text_to_dto(speech.text),
+        text=speech.text.value,
         metrics={
             'dominant_topics': speech.metrics.dominant_topics if speech.metrics else None,
             'sentiment': speech.metrics.sentiment if speech.metrics else None,

@@ -79,18 +79,6 @@ class ExtractorService:
             speech_text_id = UUID.new()
             raw_text_id = UUID.new()
 
-            # Create Speech entity first
-            speech_entity = Speech(
-                id=speech_id,
-                protocol_id=spec.protocol,
-                speaker_id=speaker_entity.id,
-                protocol_order=protocol_order,
-                text=None,  # Will be set after SpeechText is created
-                metadata=MetadataPlugin(speech_dto.metadata) if speech_dto.metadata else None,
-                metrics=MetricsPlugin(**speech_dto.metrics) if speech_dto.metrics else None
-            )
-            self.speech_repo.add(speech_entity)
-
             # Create SpeechText aggregate with proper links
             speech_text_entity = SpeechText(
                 id=speech_text_id,
@@ -98,7 +86,17 @@ class ExtractorService:
                 raw_text=raw_text_id,  # Links to RawText
                 language_code=spec.language,
             )
-            self.speech_text_repo.add(speech_text_entity)
+
+            # Create Speech entity
+            speech_entity = Speech(
+                id=speech_id,
+                protocol_id=spec.protocol,
+                speaker_id=speaker_entity.id,
+                protocol_order=protocol_order,
+                text=speech_text_id,
+                metadata=MetadataPlugin(speech_dto.metadata) if speech_dto.metadata else None,
+                metrics=MetricsPlugin(**speech_dto.metrics) if speech_dto.metrics else None
+            )
 
             # Create RawText entity linked to SpeechText
             raw_text_entity = RawText(
@@ -106,13 +104,14 @@ class ExtractorService:
                 speech_id=speech_text_id,  # Links to SpeechText
                 text=speech_dto.raw_text.text
             )
-            self.raw_text_repo.add(raw_text_entity)
 
-            # Update Speech entity to link SpeechText aggregate
-            speech_entity.text = speech_text_entity
-            self.speech_repo.update(speech_entity)
-            speeches.append(speech_entity)
-            
+            # Add all three entities in a single transaction
+            self.joint_q_repo.add_speech_speech_text_and_raw_text(
+                speech=speech_entity,
+                speech_text=speech_text_entity,
+                raw_text=raw_text_entity
+            )
+
             # Update bidirectional relationships
             if speaker_entity.speeches is None:
                 speaker_entity.speeches = []
@@ -122,7 +121,7 @@ class ExtractorService:
             # Update protocol speeches collection
             protocol.add_speech(speech_id)
             self.protocol_repo.update(protocol)
-            
+            speeches.append(speech_entity)
             protocol_order += 1
         
         return speeches

@@ -11,8 +11,8 @@ import uuid
 if TYPE_CHECKING:
     from src.infrastructure.orm.text.orm_protocol import ProtocolORM
     from src.infrastructure.orm.context.orm_speaker import SpeakerORM
-    from src.infrastructure.orm.text.orm_speech_text import SpeechTextORM
     from src.infrastructure.orm.common.orm_corpora import CorporaORM
+    from src.infrastructure.orm.text.orm_speech_text import SpeechTextORM
 
 class SpeechORM(Base):
     __tablename__ = "speeches"
@@ -23,7 +23,7 @@ class SpeechORM(Base):
     speaker_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speakers.id"), nullable=False)
     metrics_data: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
     meta_data: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
-    
+
     # Relationships
     protocol: Mapped["ProtocolORM"] = relationship(
         "ProtocolORM", 
@@ -33,13 +33,11 @@ class SpeechORM(Base):
         "SpeakerORM", 
         back_populates="speeches",
     )
-    text: Mapped["SpeechTextORM"] = relationship(
-        "SpeechTextORM", 
-        back_populates="speech", 
-        uselist=False,
-        passive_deletes=True
+    speech_text: Mapped["SpeechTextORM"] = relationship(
+        "SpeechTextORM",
+        back_populates="speech",
+        uselist=False
     )
-
     corpora: Mapped[List["CorporaORM"]] = relationship(
         "CorporaORM",
         secondary="corpora_speeches",

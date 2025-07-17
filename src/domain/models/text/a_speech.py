@@ -1,7 +1,6 @@
 from typing import Optional
 from src.domain.models.common.v_common import UUID
 from src.domain.models.base_entity import Entity
-from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 
@@ -12,8 +11,8 @@ class Speech(Entity):
         id: UUID,
         protocol_id: UUID,
         speaker_id: UUID,
-        protocol_order: int, #TODO: add to ORM
-        text: Optional[SpeechText] = None, # FIXME: shouldn't be like that although, by ID?
+        text: UUID,
+        protocol_order: int,
         metadata: Optional[MetadataPlugin] = None,
         metrics: Optional[MetricsPlugin] = None,
     ):
@@ -50,11 +49,11 @@ class Speech(Entity):
         self._protocol_order = value
     
     @property
-    def text(self) -> Optional[SpeechText]:
+    def text(self) -> UUID:
         return self._text
 
     @text.setter
-    def text(self, value: SpeechText):
+    def text(self, value: UUID):
         self._text = value
 
     @property

@@ -32,8 +32,9 @@ class SpeechTextORM(Base):
     # Relationships
     speech: Mapped["SpeechORM"] = relationship(
         "SpeechORM", 
-        back_populates="text",
-        passive_deletes=True
+        back_populates="speech_text",
+        passive_deletes=True,
+        foreign_keys="SpeechTextORM.speech_id"
     )
     clean_text: Mapped[Optional["CleanTextORM"]] = relationship(
         "CleanTextORM",
@@ -84,6 +85,6 @@ class SpeechTextORM(Base):
         foreign_keys="TranslatedTextORM.speech_text_id"
     )
     __table_args__ = (
-        Index('idx_text_speech', 'speech_id'),
+        Index('idx_text_speech', "speech_id"),
     )
 
