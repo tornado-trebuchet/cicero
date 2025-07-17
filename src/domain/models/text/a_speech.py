@@ -12,6 +12,7 @@ class Speech(Entity):
         id: UUID,
         protocol_id: UUID,
         speaker_id: UUID,
+        protocol_order: int, #TODO: add to ORM
         text: SpeechText,
         metadata: Optional[MetadataPlugin] = None,
         metrics: Optional[MetricsPlugin] = None,
@@ -19,6 +20,7 @@ class Speech(Entity):
         super().__init__(id)
         self._protocol_id = protocol_id
         self._speaker_id = speaker_id
+        self._protocol_order = protocol_order
         self._text = text
         self._metrics = metrics
         self._metadata = metadata
@@ -39,6 +41,14 @@ class Speech(Entity):
     def speaker_id(self, value: UUID):
         self._speaker_id = value
 
+    @property
+    def protocol_order(self) -> int:
+        return self._protocol_order
+    
+    @protocol_order.setter
+    def protocol_order(self, value: int):
+        self._protocol_order = value
+    
     @property
     def text(self) -> SpeechText:
         return self._text

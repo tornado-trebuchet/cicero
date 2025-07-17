@@ -35,6 +35,10 @@ class Speaker(Entity):
     def country_id(self) -> UUID:
         return self._country_id
 
+    @country_id.setter
+    def country_id(self, value: UUID):
+        self._country_id = value
+    
     @property
     def name(self) -> Name:
         return self._name

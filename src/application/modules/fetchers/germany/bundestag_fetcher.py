@@ -5,6 +5,8 @@ from src.infrastructure.repository.pgsql.text.rep_protocol import ProtocolReposi
 from src.application.modules.fetchers.fetcher_spec import FetcherSpec
 from src.infrastructure.repository.pgsql.common.rep_joint_q import JointQRepository
 from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum
+
+ # TODO: Duplicates problem do I need a factory? Or repo method?
 class BundestagFetcher(BaseFetcher):
     """Fetcher for orchestrating Bundestag API protocol acquisition and DB storage."""
 

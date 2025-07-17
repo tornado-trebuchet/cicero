@@ -16,6 +16,7 @@ class SpeechMapper:
             id=domain_entity.id.value,
             protocol_id=domain_entity.protocol_id.value,
             speaker_id=domain_entity.speaker_id.value,
+            protocol_order=domain_entity.protocol_order,
             text = speech_text,
             metrics_data=metrics_data,
             meta_data=meta_data,
@@ -31,6 +32,7 @@ class SpeechMapper:
             id=UUID(orm_entity.id),
             protocol_id=UUID(orm_entity.protocol_id),
             speaker_id=UUID(orm_entity.speaker_id),
+            protocol_order=orm_entity.protocol_order,
             text=text,
             metrics=metrics,
             metadata=metadata

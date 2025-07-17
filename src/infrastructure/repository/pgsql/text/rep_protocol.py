@@ -1,6 +1,6 @@
 from src.domain.irepository.text.i_protocol import IProtocolRepository
 from src.domain.models.text.a_protocol import Protocol
-from src.domain.models.common.v_common import UUID, DateTime
+from src.domain.models.common.v_common import UUID, DateTime, HttpUrl
 from src.infrastructure.orm.text.orm_protocol import ProtocolORM
 from src.infrastructure.mappers.text.m_protocol import ProtocolMapper
 from src.infrastructure.orm.orm_session import session_scope
@@ -64,3 +64,18 @@ class ProtocolRepository(IProtocolRepository):
             if orm_protocol and hasattr(orm_protocol, 'speeches'):
                 return [UUID(s.id) for s in orm_protocol.speeches]
             return []
+
+    def get_by_date(self, date: DateTime) -> List[Protocol]:
+        with session_scope() as session:
+            orm_protocols = session.query(ProtocolORM).filter_by(date=date).all()
+            return [ProtocolMapper.to_domain(orm) for orm in orm_protocols]
+
+    def get_by_source(self, source: HttpUrl) -> List[Protocol]:
+        with session_scope() as session:
+            orm_protocols = session.query(ProtocolORM).filter_by(file_source=str(source)).all()
+            return [ProtocolMapper.to_domain(orm) for orm in orm_protocols]
+
+    def exists(self, source: HttpUrl) -> bool:
+        with session_scope() as session:
+            orm_protocol = session.query(ProtocolORM).filter_by(file_source=str(source)).one_or_none()
+            return orm_protocol is not None

@@ -3,6 +3,7 @@ from typing import Optional
 from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.common.v_common import UUID
 
+# TODO: grey zone no way to implement robust exists 
 class ISpeechTextRepository(ABC):
     """Repository for SpeechText entity handling."""
 

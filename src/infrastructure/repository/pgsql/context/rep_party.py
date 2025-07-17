@@ -45,3 +45,16 @@ class PartyRepository(IPartyRepository):
             orm_party = session.query(PartyORM).filter_by(id=id.value).one_or_none()
             if orm_party:
                 session.delete(orm_party)
+
+    def get_by_country_id(self, country_id: UUID) -> List[Party]:
+        with session_scope() as session:
+            orm_parties = session.query(PartyORM).filter_by(country_id=country_id.value).all()
+            return [PartyMapper.to_domain(orm) for orm in orm_parties]
+
+    def exists(self, country_id: UUID, party_name: PartyName) -> bool:
+        with session_scope() as session:
+            orm_party = session.query(PartyORM).filter_by(
+                country_id=country_id.value,
+                party_name=str(party_name)
+            ).one_or_none()
+            return orm_party is not None

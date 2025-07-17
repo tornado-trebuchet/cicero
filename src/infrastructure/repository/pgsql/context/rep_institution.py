@@ -67,3 +67,11 @@ class InstitutionRepository(IInstitutionRepository):
             if orm_institution:
                 session.delete(orm_institution)
 
+    def exists(self, country_id: UUID, institution_type: InstitutionTypeEnum) -> bool:
+        with session_scope() as session:
+            orm_institution = session.query(InstitutionORM).filter_by(
+                country_id=country_id.value,
+                institution_type=institution_type
+            ).one_or_none()
+            return orm_institution is not None
+

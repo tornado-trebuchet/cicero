@@ -46,3 +46,8 @@ class CountryRepository(ICountryRepository):
             if orm_country:
                 session.delete(orm_country)
 
+    def exists(self, country: CountryEnum) -> bool:
+        with session_scope() as session:
+            orm_country = session.query(CountryORM).filter_by(country=country).one_or_none()
+            return orm_country is not None
+

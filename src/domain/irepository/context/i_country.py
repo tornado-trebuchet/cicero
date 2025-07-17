@@ -18,6 +18,11 @@ class ICountryRepository(ABC):
         pass
 
     @abstractmethod
+    def exists(self, country: CountryEnum) -> bool:
+        """Check if a country exists by its enum value."""
+        pass
+
+    @abstractmethod
     def list(self) -> List[Country]:
         """List all countries."""
         pass

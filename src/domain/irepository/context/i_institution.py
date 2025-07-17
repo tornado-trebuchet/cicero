@@ -29,6 +29,11 @@ class IInstitutionRepository(ABC):
         pass
 
     @abstractmethod
+    def exists(self, country_id: UUID, institution_type: InstitutionTypeEnum) -> bool:
+        """Check if an institution exists by country ID and type."""
+        pass
+
+    @abstractmethod
     def list(self) -> List[Institution]:
         """List all institutions."""
         pass

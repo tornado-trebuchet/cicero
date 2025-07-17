@@ -4,6 +4,7 @@ from src.domain.models.common.v_common import UUID
 from src.domain.models.context.v_name import Name
 from src.infrastructure.orm.context.orm_speaker import SpeakerORM
 from src.infrastructure.mappers.context.m_speaker import SpeakerMapper
+from src.domain.models.common.v_enums import CountryEnum
 from src.infrastructure.orm.orm_session import session_scope
 from typing import Optional, List
 
@@ -43,3 +44,21 @@ class SpeakerRepository(ISpeakerRepository):
             orm_speaker = session.query(SpeakerORM).filter_by(id=id.value).one_or_none()
             if orm_speaker:
                 session.delete(orm_speaker)
+
+    def get_by_country_id_and_name(self, country_id: UUID, name: Name) -> Optional[Speaker]:
+        with session_scope() as session:
+            orm_speaker = session.query(SpeakerORM).filter_by(
+                country_id=country_id.value,
+                name=str(name)
+            ).one_or_none()
+            if orm_speaker:
+                return SpeakerMapper.to_domain(orm_speaker)
+            return None
+
+    def exists(self, country: CountryEnum, name: Name) -> bool:
+        with session_scope() as session:
+            orm_speaker = session.query(SpeakerORM).filter_by(
+                country=country.value,
+                name=str(name)
+            ).one_or_none()
+            return orm_speaker is not None

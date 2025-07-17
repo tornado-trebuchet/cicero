@@ -18,6 +18,16 @@ class IPartyRepository(ABC):
         pass
 
     @abstractmethod
+    def get_by_country_id(self, country_id: UUID) -> List[Party]:
+        """Get parties by country ID."""
+        pass
+
+    @abstractmethod
+    def exists(self, country_id: UUID, party_name: PartyName) -> bool:
+        """Check if a party exists by its name."""
+        pass
+
+    @abstractmethod
     def list(self) -> List[Party]:
         """List all parties."""
         pass
