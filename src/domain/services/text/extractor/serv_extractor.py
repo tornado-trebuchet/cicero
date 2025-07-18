@@ -27,11 +27,24 @@ class ExtractSpeakersFromProtocol(TextService):
         text = protocol.protocol_text.protocol_text
         pattern_instance = pattern_cls()
         regex = pattern_instance.compile_pattern()
-        matches = regex.findall(text)
+        matches = list(regex.finditer(text))
         speeches: List[SpeechDTO] = []
-        for match in matches:
-            speaker_name = match[0]
-            speech_text = match[1]
+        for idx, match in enumerate(matches):
+            speaker_name = match.group(1)  # VALID
+            #speaker_party = match.group(3) # THAT'S THE PARTY, VALID
+            #speaker_role = match.group(4) # IN QUESTION BUT NO TOUCHY
+            start = match.end()
+            if idx + 1 < len(matches):
+                end = matches[idx + 1].start()
+            else:
+                end = len(text)
+            speech_text = text[start:end].strip()
+            # Add the first letter of the speech IA AM SORRY FOR THAT!
+            first_letter = match.group(match.lastindex) if match.lastindex else ''
+            if speech_text:
+                speech_text = first_letter + speech_text[1:] if speech_text[0] != first_letter else speech_text
+            else:
+                speech_text = first_letter
             speaker_dto = SpeakerDTO(name=speaker_name)
             raw_text_dto = RawTextDTO(text=speech_text)
             speech_dto = SpeechDTO(

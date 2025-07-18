@@ -17,7 +17,10 @@ from src.infrastructure.repository.pgsql.common.rep_joint_q import JointQReposit
 from src.application.modules.text_services.extractor.extractor_spec import ExtractionSpec
 from src.domain.services.text.extractor.serv_extractor import ExtractSpeakersFromProtocol
 
-# TODO: MB inject repositories in DI, would be cool?
+# TODO: inject repositories in DI, would be cool?
+
+# FIXME: 
+# 3) Parties are not extracted
 class ExtractorService:
     def __init__(self):
         self.protocol_repo = ProtocolRepository()

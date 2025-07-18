@@ -20,13 +20,7 @@ class SpeechTextORM(Base):
     __tablename__ = "speech_texts"
     id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     speech_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speeches.id"), nullable=False, unique=True)
-    raw_text_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), nullable=False)
     language_code: Mapped[LanguageEnum] = mapped_column(PG_ENUM(LanguageEnum, name="language_enum"), nullable=True)
-    clean_text_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), nullable=True)
-    translated_text_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), nullable=True)
-    sentences_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), nullable=True)
-    tokens_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), nullable=True)
-    ngram_tokens_id: Mapped[Optional[uuid.UUID]] = mapped_column(PG_UUID(as_uuid=True), nullable=True)
     metrics: Mapped[Optional[dict[str, Any]]] = mapped_column(JSONB, nullable=True)
 
     # Relationships
@@ -52,7 +46,7 @@ class SpeechTextORM(Base):
         passive_deletes=True,
         foreign_keys="TextNgramsORM.speech_text_id"
     )
-    raw_text: Mapped[Optional["RawTextORM"]] = relationship(
+    raw_text: Mapped["RawTextORM"] = relationship(
         "RawTextORM",
         back_populates="speech_text",
         uselist=False,

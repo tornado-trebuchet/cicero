@@ -11,13 +11,7 @@ class SpeechTextMapper:
         orm = SpeechTextORM(
             id=domain_entity.id.value,
             speech_id=domain_entity.speech_id.value,
-            raw_text_id=domain_entity.raw_text.value,
             language_code=domain_entity.language_code,
-            clean_text_id=domain_entity.clean_text.value if domain_entity.clean_text else None,
-            translated_text_id=domain_entity.translated_text.value if domain_entity.translated_text else None,
-            sentences_id=domain_entity.sentences.value if domain_entity.sentences else None,
-            tokens_id=domain_entity.tokens.value if domain_entity.tokens else None,
-            ngram_tokens_id=domain_entity.ngram_tokens.value if domain_entity.ngram_tokens else None,
             metrics=metrics_data
         )
         return orm
@@ -28,13 +22,13 @@ class SpeechTextMapper:
         return SpeechText(
             id=UUID(orm_entity.id),
             speech_id=UUID(orm_entity.speech_id),
-            raw_text=UUID(orm_entity.raw_text_id),
             language_code=orm_entity.language_code,
-            clean_text=UUID(orm_entity.clean_text_id) if orm_entity.clean_text_id else None,
-            translated_text=UUID(orm_entity.translated_text_id) if orm_entity.translated_text_id else None,
-            sentences=UUID(orm_entity.sentences_id) if orm_entity.sentences_id else None,
-            tokens=UUID(orm_entity.tokens_id) if orm_entity.tokens_id else None,
-            ngram_tokens=UUID(orm_entity.ngram_tokens_id) if orm_entity.ngram_tokens_id else None,
+            raw_text=UUID(orm_entity.raw_text.id),
+            clean_text=UUID(orm_entity.clean_text.id) if orm_entity.clean_text else None,
+            translated_text=UUID(orm_entity.translated_text.id) if orm_entity.translated_text else None,
+            sentences=UUID(orm_entity.sentences.id) if orm_entity.sentences else None,
+            tokens=UUID(orm_entity.tokens.id) if orm_entity.tokens else None,
+            ngram_tokens=UUID(orm_entity.ngram_tokens.id) if orm_entity.ngram_tokens else None,
             text_metrics=metrics
         )
 

@@ -8,7 +8,7 @@ from src.application.di.di_text import (
     get_protocols_by_institution_id_use_case,
     get_protocols_by_institution_and_period_use_case,
     get_protocols_by_date_range_use_case,
-    get_list_protocols_use_case,
+    list_protocols_use_case,
     get_speech_text_by_id_use_case,
     get_speech_by_id_use_case,
     get_speeches_by_protocol_id_use_case,
@@ -55,7 +55,7 @@ def get_protocols_by_date_range(
     return [protocol_to_dto(p) for p in protocols]
 
 @text_router.get("/protocols", response_model=List[ProtocolDTO])
-def list_protocols(list_protocols_use_case: Any = Depends(get_list_protocols_use_case)) -> List[ProtocolDTO]:
+def list_protocols(list_protocols_use_case: Any = Depends(list_protocols_use_case)) -> List[ProtocolDTO]:
     protocols = list_protocols_use_case.execute()
     return [protocol_to_dto(p) for p in protocols]
 

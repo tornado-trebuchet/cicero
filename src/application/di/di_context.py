@@ -26,6 +26,13 @@ from src.application.use_cases.context.get_by import (
     GetSpeakerByIdUseCase,
     GetSpeakersByNameUseCase,
 )
+from src.application.use_cases.context.delete import (
+    DeleteCountryUseCase,
+    DeleteInstitutionUseCase,
+    DeletePartyUseCase,
+    DeletePeriodUseCase,
+    DeleteSpeakerUseCase,
+)
 
 # ============= Repository Injection ==============
 
@@ -46,7 +53,7 @@ def get_speaker_repository():
 
 # ============= UseCase Injection ==============
 
-def get_list_countries_use_case():
+def list_countries_use_case(): 
     return ListCountriesUseCase(get_country_repository())
 
 def get_country_by_id_use_case():
@@ -61,7 +68,7 @@ def get_country_by_enum_use_case():
 def get_institutions_by_type_use_case():
     return GetInstitutionsByTypeUseCase(get_institution_repository())
 
-def get_list_institutions_use_case():
+def list_institutions_use_case():
     return ListInstitutionsUseCase(get_institution_repository())
 
 def get_party_by_id_use_case():
@@ -70,7 +77,7 @@ def get_party_by_id_use_case():
 def get_party_by_name_use_case():
     return GetPartyByNameUseCase(get_party_repository())
 
-def get_list_parties_use_case():
+def list_parties_use_case():
     return ListPartiesUseCase(get_party_repository())
 
 def get_period_by_id_use_case():
@@ -85,7 +92,7 @@ def get_periods_by_owner_use_case():
 def get_period_by_label_use_case():
     return GetPeriodByLabelUseCase(get_period_repository())
 
-def get_list_periods_use_case():
+def list_periods_use_case():
     return ListPeriodsUseCase(get_period_repository())
 
 def get_speaker_by_id_use_case():
@@ -93,4 +100,19 @@ def get_speaker_by_id_use_case():
 
 def get_speakers_by_name_use_case():
     return GetSpeakersByNameUseCase(get_speaker_repository())
+
+def delete_country_use_case():
+    return DeleteCountryUseCase(get_country_repository())
+
+def delete_institution_use_case():
+    return DeleteInstitutionUseCase(get_institution_repository())
+
+def delete_party_use_case():
+    return DeletePartyUseCase(get_party_repository())
+
+def delete_period_use_case():
+    return DeletePeriodUseCase(get_period_repository())
+
+def delete_speaker_use_case():
+    return DeleteSpeakerUseCase(get_speaker_repository())
 

@@ -3,7 +3,7 @@ from src.domain.models.text.e_text_split import TextSentences
 from src.domain.models.common.v_common import UUID
 from src.infrastructure.orm.text.orm_text_split import SplitTextORM
 from src.infrastructure.mappers.text.m_text_split import TextSentencesMapper
-from infrastructure.orm.orm_session import session_scope
+from src.infrastructure.orm.orm_session import session_scope
 from typing import Optional
 
 class TextSentencesRepository(ITextSentencesRepository):
