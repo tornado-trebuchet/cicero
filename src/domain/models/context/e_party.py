@@ -1,52 +1,55 @@
 from typing import Optional
+
 from src.domain.models.base_entity import Entity
 from src.domain.models.common.v_common import UUID
 from src.domain.models.context.v_party_name import PartyName
 from src.domain.models.text.v_party_program_text import PartyProgramText
 
+
 class Party(Entity):
     """Represents a political party"""
+
     def __init__(
-        self, 
+        self,
         id: UUID,
         country_id: UUID,
         party_name: PartyName,
         party_program: Optional[PartyProgramText] = None,
-        speakers: Optional[list[UUID]] = None
+        speakers: Optional[list[UUID]] = None,
     ):
         super().__init__(id)
         self._party_name = party_name
         self._country_id = country_id
         self._party_program = party_program
         self._speakers = speakers if speakers is not None else []
-    
+
     @property
     def country_id(self) -> UUID:
-        return self._country_id 
+        return self._country_id
 
     @property
     def party_name(self) -> PartyName:
         return self._party_name
-    
+
     @party_name.setter
     def party_name(self, value: PartyName):
         self._party_name = value
-    
+
     @property
     def speakers(self) -> Optional[list[UUID]]:
         return self._speakers
-    
+
     @speakers.setter
     def speakers(self, value: list[UUID]):
         self._speakers = value
-    
+
     @property
     def party_program(self) -> Optional[PartyProgramText]:
         return self._party_program
-    
-    @party_program.setter  
+
+    @party_program.setter
     def party_program(self, value: Optional[PartyProgramText]):
         self._party_program = value
-    
+
     def __repr__(self) -> str:
         return f"<Party {self._party_name} ({self._country_id})>"

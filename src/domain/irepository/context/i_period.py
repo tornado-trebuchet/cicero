@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List
-from src.domain.models.context.e_period import Period
+from typing import List, Optional
+
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import OwnerTypeEnum
+from src.domain.models.context.e_period import Period
 from src.domain.models.context.v_label import Label
+
 
 class IPeriodRepository(ABC):
     """Repository interface for Period aggregate."""
@@ -19,10 +21,12 @@ class IPeriodRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_owner(self, owner_id: UUID, owner_type: OwnerTypeEnum) -> List[Period]:
+    def get_by_owner(
+        self, owner_id: UUID, owner_type: OwnerTypeEnum
+    ) -> List[Period]:
         """Get periods by specific owner type and id."""
         pass
-    
+
     @abstractmethod
     def get_by_label(self, label: Label) -> Optional[Period]:
         """Get period by label."""
@@ -47,4 +51,3 @@ class IPeriodRepository(ABC):
     def delete(self, id: UUID) -> None:
         """Delete a period."""
         pass
-

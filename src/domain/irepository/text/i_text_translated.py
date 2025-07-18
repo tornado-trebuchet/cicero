@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from src.domain.models.text.e_text_translated import TranslatedText
+
 from src.domain.models.common.v_common import UUID
+from src.domain.models.text.e_text_translated import TranslatedText
+
 
 class ITranslatedTextRepository(ABC):
     """Repository contract for TranslatedText entity handling."""

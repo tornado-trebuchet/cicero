@@ -1,12 +1,14 @@
-from typing import Optional, List
+from typing import List, Optional
+
 from src.domain.models.base_entity import Entity
-from src.domain.models.common.v_common import DateTime
-from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_common import UUID, DateTime
 from src.domain.models.common.v_enums import GenderEnum
 from src.domain.models.context.v_name import Name
 
+
 class Speaker(Entity):
     """Speaker references it's speeches, belongs to a country and sometimes party"""
+
     def __init__(
         self,
         id: UUID,
@@ -30,7 +32,7 @@ class Speaker(Entity):
     @property
     def id(self) -> UUID:
         return self._id
-    
+
     @property
     def country_id(self) -> UUID:
         return self._country_id
@@ -38,7 +40,7 @@ class Speaker(Entity):
     @country_id.setter
     def country_id(self, value: UUID):
         self._country_id = value
-    
+
     @property
     def name(self) -> Name:
         return self._name
@@ -50,7 +52,7 @@ class Speaker(Entity):
     @property
     def speeches(self) -> Optional[List[UUID]]:
         return self._speeches
-    
+
     @speeches.setter
     def speeches(self, value: List[UUID]):
         self._speeches = value
@@ -88,5 +90,5 @@ class Speaker(Entity):
         self._gender = value
 
     def __repr__(self) -> str:
-        party_str = str(self._party) if self._party else 'No Party'
+        party_str = str(self._party) if self._party else "No Party"
         return f"<Speaker {self._name} ({party_str})>"

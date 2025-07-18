@@ -1,16 +1,13 @@
 import re
 import string
+
 from src.domain.models.base_entity import Entity
 from src.domain.models.common.v_common import UUID
 
+
 class CleanText(Entity):
 
-    def __init__(
-        self,
-        id: UUID,
-        speech_id: UUID,
-        text: str
-    ):
+    def __init__(self, id: UUID, speech_id: UUID, text: str):
         self._text = text
         self._speech_id = speech_id
         super().__init__(id)
@@ -18,7 +15,7 @@ class CleanText(Entity):
     @property
     def text(self) -> str:
         return self._text
-    
+
     @text.setter
     def text(self, value: str):
         self._text = value
@@ -29,24 +26,26 @@ class CleanText(Entity):
 
     def num_words(self) -> int:
         return len(self._text.split())
-    
-    def num_characters(self, include_whitespace: bool = True, include_punctuation: bool = True) -> int:
+
+    def num_characters(
+        self, include_whitespace: bool = True, include_punctuation: bool = True
+    ) -> int:
         if not include_whitespace:
-            text = ''.join(self._text.split())
+            text = "".join(self._text.split())
         else:
             text = self._text
-        
+
         if not include_punctuation:
-            text = text.translate(str.maketrans('', '', string.punctuation))
-        
+            text = text.translate(str.maketrans("", "", string.punctuation))
+
         return len(text)
-    
-    def num_sentences(self) -> int:       
-        sentences = re.split(r'[.!?]+', self.text)
+
+    def num_sentences(self) -> int:
+        sentences = re.split(r"[.!?]+", self.text)
         return len([s for s in sentences if s.strip()])
-    
+
     def split_sentences(self) -> list[str]:
-        sentences = re.split(r'[.!?]+', self.text)
+        sentences = re.split(r"[.!?]+", self.text)
         return [s.strip() for s in sentences if s.strip()]
 
     def __str__(self) -> str:

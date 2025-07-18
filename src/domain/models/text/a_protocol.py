@@ -1,13 +1,17 @@
 from typing import Optional
-from src.domain.models.common.v_common import UUID, DateTime, HttpUrl
+
 from src.domain.models.base_aggregate import AggregateRoot
+from src.domain.models.common.v_common import UUID, DateTime, HttpUrl
 from src.domain.models.common.v_enums import ProtocolTypeEnum
-from src.domain.models.text.v_protocol_text import ProtocolText
-from src.domain.models.text.v_protocol_agenda import Agenda
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.domain.models.context.v_label import Label
+from src.domain.models.text.v_protocol_agenda import Agenda
+from src.domain.models.text.v_protocol_text import ProtocolText
+
+
 class Protocol(AggregateRoot):
     """Represents a protocol e.g., parliamentary session."""
+
     def __init__(
         self,
         id: UUID,
@@ -16,7 +20,7 @@ class Protocol(AggregateRoot):
         protocol_type: ProtocolTypeEnum,
         protocol_text: ProtocolText,
         file_source: HttpUrl,
-        label: Optional[Label] = None, # TODO: add to ORM
+        label: Optional[Label] = None,  # TODO: add to ORM
         agenda: Optional[Agenda] = None,
         protocol_speeches: Optional[list[UUID]] = None,
         metadata: Optional[MetadataPlugin] = None,
@@ -29,14 +33,15 @@ class Protocol(AggregateRoot):
         self._agenda = agenda
         self._date = date
         self._label = label
-        self._protocol_speeches = protocol_speeches if protocol_speeches is not None else []
+        self._protocol_speeches = (
+            protocol_speeches if protocol_speeches is not None else []
+        )
         self._metadata = metadata
 
-    
     @property
     def institution_id(self) -> UUID:
         return self._institution_id
-    
+
     @property
     def file_source(self) -> HttpUrl:
         return self._file_source
@@ -56,7 +61,7 @@ class Protocol(AggregateRoot):
     @property
     def agenda(self) -> Optional[Agenda]:
         return self._agenda
-    
+
     @agenda.setter
     def agenda(self, value: Optional[Agenda]):
         self._agenda = value
@@ -72,7 +77,7 @@ class Protocol(AggregateRoot):
     @property
     def protocol_text(self) -> ProtocolText:
         return self._protocol_text
-    
+
     @protocol_text.setter
     def protocol_text(self, value: ProtocolText):
         self._protocol_text = value

@@ -1,7 +1,9 @@
-from typing import Optional, Set, List
+from typing import List, Optional, Set
+
 from src.domain.models.base_aggregate import AggregateRoot
 from src.domain.models.common.v_common import UUID
 from src.domain.models.context.v_label import Label
+
 
 class Corpora(AggregateRoot):
     def __init__(

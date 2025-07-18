@@ -1,9 +1,10 @@
 from src.domain.models.base_vo import ValueObject
 
-# TODO: Add format and length validation 
+
+# TODO: Add format and length validation
 class Name(ValueObject):
     """Name of a speaker"""
-    
+
     def __init__(self, name: str):
         self._name = name
 

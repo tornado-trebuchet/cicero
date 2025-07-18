@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from src.domain.models.text.e_text_ngrams import NGramizedText
+
 from src.domain.models.common.v_common import UUID
+from src.domain.models.text.e_text_ngrams import NGramizedText
+
 
 class INGramizedTextRepository(ABC):
     """Repository contract for NGramizedText entity handling."""

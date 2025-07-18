@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Any
-from src.domain.models.text.a_protocol import Protocol
+
 from src.application.modules.fetchers.fetcher_spec import FetcherSpec
+from src.domain.models.text.a_protocol import Protocol
+
 
 class BaseFetcher(ABC):
     """Abstract orchestrator for fetching and storing protocols from external APIs."""

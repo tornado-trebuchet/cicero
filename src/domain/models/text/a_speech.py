@@ -1,11 +1,14 @@
 from typing import Optional
-from src.domain.models.common.v_common import UUID
+
 from src.domain.models.base_entity import Entity
-from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
+from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
+from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
+
 
 class Speech(Entity):
     """Represents a speech in a protocol"""
+
     def __init__(
         self,
         id: UUID,
@@ -43,11 +46,11 @@ class Speech(Entity):
     @property
     def protocol_order(self) -> int:
         return self._protocol_order
-    
+
     @protocol_order.setter
     def protocol_order(self, value: int):
         self._protocol_order = value
-    
+
     @property
     def text(self) -> UUID:
         return self._text

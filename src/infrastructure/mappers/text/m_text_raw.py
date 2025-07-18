@@ -1,6 +1,7 @@
-from src.domain.models.text.e_text_raw import RawText
 from src.domain.models.common.v_common import UUID
+from src.domain.models.text.e_text_raw import RawText
 from src.infrastructure.orm.text.orm_text_raw import RawTextORM
+
 
 class RawTextMapper:
     @staticmethod
@@ -8,7 +9,7 @@ class RawTextMapper:
         orm = RawTextORM(
             id=domain_entity.id.value,
             speech_text_id=domain_entity.speech_id.value,
-            text=domain_entity.text
+            text=domain_entity.text,
         )
         return orm
 
@@ -17,5 +18,5 @@ class RawTextMapper:
         return RawText(
             id=UUID(orm_entity.id),
             speech_id=UUID(orm_entity.speech_text_id),
-            text=orm_entity.text
+            text=orm_entity.text,
         )

@@ -1,12 +1,14 @@
 from typing import Optional
-from src.domain.models.common.v_common import UUID
-from src.domain.models.common.v_common import DateTime
-from src.domain.models.common.v_enums import OwnerTypeEnum
+
 from src.domain.models.base_entity import Entity
+from src.domain.models.common.v_common import UUID, DateTime
+from src.domain.models.common.v_enums import OwnerTypeEnum
 from src.domain.models.context.v_label import Label
+
 
 class Period(Entity):
     """Justified time between two dates"""
+
     def __init__(
         self,
         id: UUID,
@@ -64,11 +66,8 @@ class Period(Entity):
         """Convert the Period to a dictionary with start and end dates."""
         if not self.start_date or not self.end_date:
             return None
-        return {
-            "start_date": self.start_date,
-            "end_date": self.end_date
-        }
-    
+        return {"start_date": self.start_date, "end_date": self.end_date}
+
     def __repr__(self) -> str:
         label = self._label
         start = self._start_date.value

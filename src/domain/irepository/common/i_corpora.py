@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List
+from typing import List, Optional
+
 from src.domain.models.common.a_corpora import Corpora
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import CountryEnum
 from src.domain.models.context.v_label import Label
+
 
 class ICorporaRepository(ABC):
     """Repository contract for Corpora aggregates."""

@@ -1,8 +1,11 @@
-from pydantic import BaseModel
-from typing import Optional, List, Dict, Any
-from uuid import UUID
 from datetime import datetime
-from src.domain.models.common.v_enums import ProtocolTypeEnum, LanguageEnum
+from typing import Any, Dict, List, Optional
+from uuid import UUID
+
+from pydantic import BaseModel
+
+from src.domain.models.common.v_enums import LanguageEnum, ProtocolTypeEnum
+
 
 class ProtocolDTO(BaseModel):
     id: UUID
@@ -15,6 +18,7 @@ class ProtocolDTO(BaseModel):
     protocol_speeches: Optional[List[UUID]] = None
     metadata: Optional[Dict[str, Any]] = None
 
+
 class SpeechTextDTO(BaseModel):
     id: UUID
     speech_id: UUID
@@ -26,6 +30,7 @@ class SpeechTextDTO(BaseModel):
     tokens: Optional[UUID] = None
     ngram_tokens: Optional[UUID] = None
     text_metrics: Optional[dict[str, int | None]] = None
+
 
 class SpeechDTO(BaseModel):
     id: UUID

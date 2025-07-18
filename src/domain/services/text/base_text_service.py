@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any
 
+
 class TextService(ABC):
 
     def __init__(self, config: Any):

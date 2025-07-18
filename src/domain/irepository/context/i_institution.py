@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List
-from src.domain.models.context.e_institution import Institution
+from typing import List, Optional
+
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import InstitutionTypeEnum
+from src.domain.models.context.e_institution import Institution
 from src.domain.models.context.v_label import Label
+
 
 class IInstitutionRepository(ABC):
     """Repository interface for Institution aggregate."""
@@ -14,22 +16,28 @@ class IInstitutionRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_type(self, institution_type: InstitutionTypeEnum) -> List[Institution]:
+    def get_by_type(
+        self, institution_type: InstitutionTypeEnum
+    ) -> List[Institution]:
         """Get institutions by type (e.g., Parliament, Federal Assembly)."""
         pass
-    
+
     @abstractmethod
     def get_by_label(self, label: Label) -> Optional[Institution]:
         """Get institution by label."""
         pass
 
     @abstractmethod
-    def get_by_country_id_and_type(self, country_id: UUID, institution_type: InstitutionTypeEnum) -> Optional[Institution]:
+    def get_by_country_id_and_type(
+        self, country_id: UUID, institution_type: InstitutionTypeEnum
+    ) -> Optional[Institution]:
         """Get institution by country ID and type."""
         pass
 
     @abstractmethod
-    def exists(self, country_id: UUID, institution_type: InstitutionTypeEnum) -> bool:
+    def exists(
+        self, country_id: UUID, institution_type: InstitutionTypeEnum
+    ) -> bool:
         """Check if an institution exists by country ID and type."""
         pass
 

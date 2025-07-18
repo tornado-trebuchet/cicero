@@ -1,6 +1,13 @@
 import re
-from src.domain.models.common.v_enums import LanguageEnum, InstitutionTypeEnum, CountryEnum, ProtocolTypeEnum
+
+from src.domain.models.common.v_enums import (
+    CountryEnum,
+    InstitutionTypeEnum,
+    LanguageEnum,
+    ProtocolTypeEnum,
+)
 from src.domain.services.text.extractor.regex.base_regex import RegexPattern
+
 
 class BundestagGeneralRegex(RegexPattern):
     country_code = CountryEnum.GERMANY
@@ -40,6 +47,3 @@ class BundestagGeneralRegex(RegexPattern):
     @classmethod
     def compile_pattern(cls) -> re.Pattern[str]:
         return re.compile(cls.speaker_pattern, re.VERBOSE)
-
-
-

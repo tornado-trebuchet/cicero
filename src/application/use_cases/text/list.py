@@ -1,6 +1,8 @@
-from src.domain.irepository.text.i_protocol import IProtocolRepository
 from typing import List
+
+from src.domain.irepository.text.i_protocol import IProtocolRepository
 from src.domain.models.text.a_protocol import Protocol
+
 
 class ListProtocolsUseCase:
     def __init__(self, protocol_repository: IProtocolRepository):

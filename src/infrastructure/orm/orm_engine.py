@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+
 from src.config import DatabaseConfig
 
 config = DatabaseConfig()
@@ -11,8 +12,4 @@ engine = create_engine(
     pool_recycle=config.pool_recycle,
 )
 
-SessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine
-)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

@@ -1,6 +1,7 @@
-from src.domain.models.text.e_text_split import TextSentences
 from src.domain.models.common.v_common import UUID
+from src.domain.models.text.e_text_split import TextSentences
 from src.infrastructure.orm.text.orm_text_split import SplitTextORM
+
 
 class TextSentencesMapper:
     @staticmethod
@@ -8,7 +9,7 @@ class TextSentencesMapper:
         orm = SplitTextORM(
             id=domain_entity.id.value,
             speech_text_id=domain_entity.speech_id.value,
-            sentences=domain_entity.sentences
+            sentences=domain_entity.sentences,
         )
         return orm
 
@@ -17,5 +18,5 @@ class TextSentencesMapper:
         return TextSentences(
             id=UUID(orm_entity.id),
             speech_id=UUID(orm_entity.speech_text_id),
-            sentences=orm_entity.sentences
+            sentences=orm_entity.sentences,
         )

@@ -1,6 +1,8 @@
 from contextlib import contextmanager
-from src.infrastructure.orm.orm_engine import SessionLocal, engine
+
 from src.infrastructure.orm.orm_base import Base
+from src.infrastructure.orm.orm_engine import SessionLocal, engine
+
 
 @contextmanager
 def session_scope():
@@ -14,6 +16,7 @@ def session_scope():
         raise
     finally:
         session.close()
+
 
 def create_tables():
     Base.metadata.create_all(bind=engine)

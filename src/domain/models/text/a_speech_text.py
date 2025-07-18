@@ -1,12 +1,14 @@
 from typing import Optional
-from src.domain.models.common.v_enums import LanguageEnum
-from src.domain.models.common.v_common import UUID
+
 from src.domain.models.base_aggregate import AggregateRoot
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.models.text.v_text_metrics import TextMetrics
 
 
 class SpeechText(AggregateRoot):
     """A collection of textual data for a speech"""
+
     def __init__(
         self,
         id: UUID,
@@ -66,11 +68,11 @@ class SpeechText(AggregateRoot):
     @property
     def translated_text(self) -> Optional[UUID]:
         return self._translated_text
-    
+
     @translated_text.setter
     def translated_text(self, value: UUID):
         self._translated_text = value
-    
+
     @property
     def tokens(self) -> Optional[UUID]:
         return self._tokens
@@ -82,7 +84,7 @@ class SpeechText(AggregateRoot):
     @property
     def sentences(self) -> Optional[UUID]:
         return self._sentences
-    
+
     @sentences.setter
     def sentences(self, value: UUID):
         self._sentences = value
@@ -98,10 +100,12 @@ class SpeechText(AggregateRoot):
     @property
     def text_metrics(self) -> Optional[TextMetrics]:
         return self._text_metrics
-    
+
     @text_metrics.setter
     def text_metrics(self, value: TextMetrics):
         self._text_metrics = value
 
     def __repr__(self) -> str:
-        return f"<TextVO lang={self._language_code} words={self._text_metrics}>"
+        return (
+            f"<TextVO lang={self._language_code} words={self._text_metrics}>"
+        )

@@ -1,5 +1,6 @@
-from src.domain.services.utils.stopwords.base_stopwords import Stopwords
 from src.domain.models.common.v_enums import LanguageEnum
+from src.domain.services.utils.stopwords.base_stopwords import Stopwords
+
 
 class EnglishStopwords(Stopwords):
     @property
@@ -17,7 +18,53 @@ class EnglishStopwords(Stopwords):
     @property
     def general_stopwords(self) -> set[str]:
         return {
-            "the", "and", "is", "in", "it", "you", "that", "he", "was", "for", "on", "are", "with", "as", "I", "his", "they", "be", "at", "one", "have", "this", "from", "or", "had", "by", "not", "word", "but", "what", "some", "we", "can", "out", "other", "were", "all", "there", "when", "up", "use", "your", "how", "said", "an", "each", "she"
+            "the",
+            "and",
+            "is",
+            "in",
+            "it",
+            "you",
+            "that",
+            "he",
+            "was",
+            "for",
+            "on",
+            "are",
+            "with",
+            "as",
+            "I",
+            "his",
+            "they",
+            "be",
+            "at",
+            "one",
+            "have",
+            "this",
+            "from",
+            "or",
+            "had",
+            "by",
+            "not",
+            "word",
+            "but",
+            "what",
+            "some",
+            "we",
+            "can",
+            "out",
+            "other",
+            "were",
+            "all",
+            "there",
+            "when",
+            "up",
+            "use",
+            "your",
+            "how",
+            "said",
+            "an",
+            "each",
+            "she",
         }
 
     @property

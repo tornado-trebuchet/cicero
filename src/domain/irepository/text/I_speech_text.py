@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from src.domain.models.text.a_speech_text import SpeechText
-from src.domain.models.common.v_common import UUID
 
-# TODO: grey zone no way to implement robust exists 
+from src.domain.models.common.v_common import UUID
+from src.domain.models.text.a_speech_text import SpeechText
+
+
+# TODO: grey zone no way to implement robust exists
 class ISpeechTextRepository(ABC):
     """Repository for SpeechText entity handling."""
 
@@ -26,4 +28,3 @@ class ISpeechTextRepository(ABC):
     def delete(self, id: UUID) -> None:
         """Delete a SpeechText entity by its unique ID."""
         pass
-

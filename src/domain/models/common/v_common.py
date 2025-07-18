@@ -1,7 +1,11 @@
-from uuid import UUID as _UUID
-from datetime import datetime as _datetime, timezone as _timezone, date as _date
+from datetime import date as _date
+from datetime import datetime as _datetime
+from datetime import timezone as _timezone
 from urllib.parse import urlparse
+from uuid import UUID as _UUID
+
 from src.domain.models.base_vo import ValueObject
+
 
 class UUID(ValueObject):
     __slots__ = ("_value",)
@@ -25,6 +29,7 @@ class UUID(ValueObject):
     @staticmethod
     def new() -> "UUID":
         import uuid
+
         return UUID(uuid.uuid4())
 
     def __str__(self) -> str:
@@ -37,7 +42,7 @@ class UUID(ValueObject):
 
     def __hash__(self) -> int:
         return hash(self._value)
-    
+
 
 class DateTime(ValueObject):
     __slots__ = ("_value",)
@@ -54,12 +59,14 @@ class DateTime(ValueObject):
             except ValueError:
                 raise ValueError(f"Invalid ISO datetime string: {value}")
         else:
-            raise ValueError("DateTime must be a datetime, date, or ISO string.")
+            raise ValueError(
+                "DateTime must be a datetime, date, or ISO string."
+            )
 
     @property
     def value(self) -> _datetime:
         return self._value
-    
+
     @classmethod
     def now(cls) -> "DateTime":
         return cls(_datetime.now(_timezone.utc))
@@ -67,7 +74,6 @@ class DateTime(ValueObject):
     @classmethod
     def from_timestamp(cls, ts: float) -> "DateTime":
         return cls(_datetime.fromtimestamp(ts, _timezone.utc))
-
 
     def to_timestamp(self) -> float:
         return self._value.timestamp()
@@ -100,5 +106,3 @@ class HttpUrl(ValueObject):
 
     def __str__(self) -> str:
         return self._value
-
-

@@ -1,9 +1,11 @@
 from typing import Any, Optional
+
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.domain.models.text.a_speech import Speech
 from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
-from src.domain.models.common.v_metadata_plugin import MetadataPlugin
-from src.domain.models.common.v_common import UUID
 from src.infrastructure.orm.text.orm_speech import SpeechORM
+
 
 class SpeechMapper:
     @staticmethod
@@ -31,33 +33,41 @@ class SpeechMapper:
             text=UUID(orm_entity.speech_text.id),
             protocol_order=orm_entity.protocol_order,
             metrics=metrics,
-            metadata=metadata
+            metadata=metadata,
         )
 
     @staticmethod
-    def _metrics_to_orm(metrics: Optional[MetricsPlugin]) -> Optional[dict[str, Any]]:
+    def _metrics_to_orm(
+        metrics: Optional[MetricsPlugin],
+    ) -> Optional[dict[str, Any]]:
         if metrics:
             return {
-                'dominant_topics': metrics.dominant_topics,
-                'sentiment': metrics.sentiment,
-                'dynamic_codes': metrics.dynamic_codes
+                "dominant_topics": metrics.dominant_topics,
+                "sentiment": metrics.sentiment,
+                "dynamic_codes": metrics.dynamic_codes,
             }
         return None
 
     @staticmethod
-    def _metrics_to_domain(metrics_data: Optional[dict[str, Any]]) -> Optional[MetricsPlugin]:
+    def _metrics_to_domain(
+        metrics_data: Optional[dict[str, Any]],
+    ) -> Optional[MetricsPlugin]:
         if metrics_data:
             return MetricsPlugin(
-                dominant_topics=metrics_data.get('dominant_topics'),
-                sentiment=metrics_data.get('sentiment'),
-                dynamic_codes=metrics_data.get('dynamic_codes')
+                dominant_topics=metrics_data.get("dominant_topics"),
+                sentiment=metrics_data.get("sentiment"),
+                dynamic_codes=metrics_data.get("dynamic_codes"),
             )
         return None
 
     @staticmethod
-    def _metadata_to_orm(metadata: Optional[MetadataPlugin]) -> Optional[dict[str, Any]]:
+    def _metadata_to_orm(
+        metadata: Optional[MetadataPlugin],
+    ) -> Optional[dict[str, Any]]:
         return metadata.get_properties() if metadata else None
 
     @staticmethod
-    def _metadata_to_domain(meta_data: Optional[dict[str, Any]]) -> Optional[MetadataPlugin]:
+    def _metadata_to_domain(
+        meta_data: Optional[dict[str, Any]],
+    ) -> Optional[MetadataPlugin]:
         return MetadataPlugin(meta_data) if meta_data else None

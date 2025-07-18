@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from src.domain.models.text.e_text_clean import CleanText
+
 from src.domain.models.common.v_common import UUID
+from src.domain.models.text.e_text_clean import CleanText
+
 
 class ICleanTextRepository(ABC):
     """Repository contract for CleanText entity handling."""

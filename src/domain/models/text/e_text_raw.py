@@ -1,22 +1,18 @@
 from src.domain.models.base_entity import Entity
 from src.domain.models.common.v_common import UUID
 
+
 class RawText(Entity):
 
-    def __init__(
-        self,
-        id: UUID,
-        speech_id: UUID,
-        text: str
-    ):
+    def __init__(self, id: UUID, speech_id: UUID, text: str):
         self._text = text
         self._speech_id = speech_id
         super().__init__(id)
-    
+
     @property
     def text(self) -> str:
         return self._text
-    
+
     @text.setter
     def text(self, value: str):
         self._text = value

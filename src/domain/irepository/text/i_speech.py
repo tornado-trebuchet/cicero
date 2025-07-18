@@ -1,12 +1,14 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List
-from src.domain.models.text.a_speech import Speech
+from typing import List, Optional
+
 from src.domain.models.common.v_common import UUID, DateTime
 from src.domain.models.context.e_period import Period
+from src.domain.models.text.a_speech import Speech
+
 
 class ISpeechRepository(ABC):
     """Speech links text and author"""
-    
+
     @abstractmethod
     def get_by_id(self, id: UUID) -> Optional[Speech]:
         pass
@@ -20,7 +22,9 @@ class ISpeechRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_date_range(self, start_date: DateTime, end_date: DateTime) -> List[Speech]:
+    def get_by_date_range(
+        self, start_date: DateTime, end_date: DateTime
+    ) -> List[Speech]:
         """Get all speeches whose protocol date is within the given range."""
         pass
 
@@ -44,4 +48,3 @@ class ISpeechRepository(ABC):
     @abstractmethod
     def delete(self, id: UUID) -> None:
         pass
-

@@ -1,22 +1,19 @@
 from typing import List
+
 from src.domain.models.base_entity import Entity
 from src.domain.models.common.v_common import UUID
 
+
 class NGramizedText(Entity):
 
-    def __init__(
-        self,
-        id: UUID,
-        speech_id: UUID,
-        tokens: List[str]
-    ):
+    def __init__(self, id: UUID, speech_id: UUID, tokens: List[str]):
         self._tokens = tokens
         self._speech_id = speech_id
         super().__init__(id)
-    
+
     @property
     def tokens(self) -> List[str]:
-        return self._tokens 
+        return self._tokens
 
     @tokens.setter
     def tokens(self, value: List[str]):

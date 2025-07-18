@@ -1,9 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List
-from src.domain.models.context.e_speaker import Speaker
+from typing import List, Optional
+
 from src.domain.models.common.v_common import UUID
-from src.domain.models.context.v_name import Name
 from src.domain.models.common.v_enums import CountryEnum
+from src.domain.models.context.e_speaker import Speaker
+from src.domain.models.context.v_name import Name
+
 
 class ISpeakerRepository(ABC):
     """Repository interface for Speaker aggregate."""
@@ -19,7 +21,9 @@ class ISpeakerRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_country_id_and_name(self, country_id: UUID, name: Name) -> Optional[Speaker]:
+    def get_by_country_id_and_name(
+        self, country_id: UUID, name: Name
+    ) -> Optional[Speaker]:
         """Get speaker by country ID and name."""
         pass
 

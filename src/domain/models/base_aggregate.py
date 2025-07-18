@@ -1,8 +1,10 @@
 from src.domain.models.base_entity import Entity
 from src.domain.models.common.v_common import UUID
 
+
 class AggregateRoot(Entity):
     """Base class for aggregate roots."""
+
     def __init__(self, id: UUID):
         super().__init__(id)
         self._version = 0
@@ -15,4 +17,6 @@ class AggregateRoot(Entity):
         self._version += 1
 
     def __repr__(self) -> str:
-        return f"<{self.__class__.__name__} id={self.id}, version={self.version}>"
+        return (
+            f"<{self.__class__.__name__} id={self.id}, version={self.version}>"
+        )

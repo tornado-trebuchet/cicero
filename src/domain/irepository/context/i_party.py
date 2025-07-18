@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List
-from src.domain.models.context.e_party import Party
+from typing import List, Optional
+
 from src.domain.models.common.v_common import UUID
+from src.domain.models.context.e_party import Party
 from src.domain.models.context.v_party_name import PartyName
+
 
 class IPartyRepository(ABC):
     """Repository interface for Party aggregate."""

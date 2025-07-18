@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
-from src.domain.models.common.v_enums import LanguageEnum
+
 from domain.models.text.e_text_clean import CleanText
 from domain.models.text.e_text_tokenized import TokenizedText
+from src.domain.models.common.v_enums import LanguageEnum
+
 
 class Tokenizer(ABC):
     """
@@ -29,7 +31,7 @@ class Tokenizer(ABC):
         This method should be implemented by subclasses.
         """
         raise NotImplementedError("Subclasses must implement this method.")
-    
+
     @abstractmethod
     def stem(self, tokens: list[str]) -> list[str]:
         """
@@ -37,7 +39,7 @@ class Tokenizer(ABC):
         This method should be implemented by subclasses.
         """
         raise NotImplementedError("Subclasses must implement this method.")
-    
+
     @abstractmethod
     def lemmatize(self, tokens: list[str]) -> list[str]:
         """
@@ -53,6 +55,6 @@ class Tokenizer(ABC):
         Returns the class if found, else None.
         """
         for subclass in cls.__subclasses__():
-            if getattr(subclass, 'language_code', None) == language_code:
+            if getattr(subclass, "language_code", None) == language_code:
                 return subclass
         return None

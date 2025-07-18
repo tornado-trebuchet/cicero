@@ -1,5 +1,7 @@
 from abc import ABC
+
 from src.domain.models.common.v_common import UUID
+
 
 class Entity(ABC):
     __slots__ = ("_id",)

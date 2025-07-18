@@ -1,9 +1,16 @@
-from typing import Any
 from dataclasses import dataclass
-from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum, LanguageEnum, ProtocolTypeEnum
-from src.domain.models.common.v_common import UUID
+from typing import Any
 
-# THIS CAN BE REDUCED TO THE PROTOCOL ID 
+from src.domain.models.common.v_common import UUID
+from src.domain.models.common.v_enums import (
+    CountryEnum,
+    InstitutionTypeEnum,
+    LanguageEnum,
+    ProtocolTypeEnum,
+)
+
+
+# THIS CAN BE REDUCED TO THE PROTOCOL ID
 @dataclass
 class ExtractionSpec:
     protocol: UUID

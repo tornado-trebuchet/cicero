@@ -1,15 +1,19 @@
+from typing import List, Optional
+
 from src.domain.irepository.common.i_corpora import ICorporaRepository
 from src.domain.models.common.a_corpora import Corpora
 from src.domain.models.common.v_common import UUID
-from src.infrastructure.orm.common.orm_corpora import CorporaORM
 from src.infrastructure.mappers.common.m_corpora import CorporaMapper
+from src.infrastructure.orm.common.orm_corpora import CorporaORM
 from src.infrastructure.orm.orm_session import session_scope
-from typing import Optional, List
+
 
 class CorporaRepository(ICorporaRepository):
     def get_by_id(self, id: UUID) -> Optional[Corpora]:
         with session_scope() as session:
-            orm_corpora = session.query(CorporaORM).filter_by(id=id.value).one_or_none()
+            orm_corpora = (
+                session.query(CorporaORM).filter_by(id=id.value).one_or_none()
+            )
             if orm_corpora:
                 return CorporaMapper.to_domain(orm_corpora)
             return None
@@ -26,7 +30,11 @@ class CorporaRepository(ICorporaRepository):
 
     def update(self, corpora: Corpora) -> None:
         with session_scope() as session:
-            exists = session.query(CorporaORM).filter_by(id=corpora.id.value).one_or_none()
+            exists = (
+                session.query(CorporaORM)
+                .filter_by(id=corpora.id.value)
+                .one_or_none()
+            )
             if not exists:
                 raise ValueError(f"Corpora with id {corpora.id} not found.")
             orm_corpora = CorporaMapper.to_orm(corpora)
@@ -34,6 +42,8 @@ class CorporaRepository(ICorporaRepository):
 
     def delete(self, id: UUID) -> None:
         with session_scope() as session:
-            orm_corpora = session.query(CorporaORM).filter_by(id=id.value).one_or_none()
+            orm_corpora = (
+                session.query(CorporaORM).filter_by(id=id.value).one_or_none()
+            )
             if orm_corpora:
                 session.delete(orm_corpora)

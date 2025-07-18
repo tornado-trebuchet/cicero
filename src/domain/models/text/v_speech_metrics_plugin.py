@@ -1,5 +1,7 @@
 from typing import Any, Optional
+
 from src.domain.models.base_vo import ValueObject
+
 
 class MetricsPlugin(ValueObject):
     """
@@ -9,11 +11,12 @@ class MetricsPlugin(ValueObject):
         - sentiment: dict[str, float]
         - dynamic_codes: List[Any]
     """
+
     def __init__(
-        self, 
-        dominant_topics: Optional[list[dict[str, float]]] = None, 
-        sentiment: Optional[dict[str, float]] = None, 
-        dynamic_codes: Optional[list[Any]] = None
+        self,
+        dominant_topics: Optional[list[dict[str, float]]] = None,
+        sentiment: Optional[dict[str, float]] = None,
+        dynamic_codes: Optional[list[Any]] = None,
     ):
         self._dominant_topics = dominant_topics
         self._sentiment = sentiment

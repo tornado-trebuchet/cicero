@@ -1,10 +1,11 @@
-from src.domain.models.text.a_protocol import Protocol
 from src.domain.models.common.v_common import UUID, DateTime, HttpUrl
 from src.domain.models.common.v_enums import ProtocolTypeEnum
-from src.domain.models.text.v_protocol_text import ProtocolText
-from src.domain.models.text.v_protocol_agenda import Agenda
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
+from src.domain.models.text.a_protocol import Protocol
+from src.domain.models.text.v_protocol_agenda import Agenda
+from src.domain.models.text.v_protocol_text import ProtocolText
 from src.infrastructure.orm.text.orm_protocol import ProtocolORM
+
 
 class ProtocolMapper:
     @staticmethod
@@ -16,8 +17,16 @@ class ProtocolMapper:
             protocol_type=domain_entity.protocol_type.value,
             protocol_text=domain_entity.protocol_text.protocol_text,
             file_source=domain_entity.file_source.value,
-            agenda=domain_entity.agenda.items if domain_entity.agenda is not None else None,
-            metadata_data=domain_entity.metadata.get_properties() if domain_entity.metadata is not None else None,
+            agenda=(
+                domain_entity.agenda.items
+                if domain_entity.agenda is not None
+                else None
+            ),
+            metadata_data=(
+                domain_entity.metadata.get_properties()
+                if domain_entity.metadata is not None
+                else None
+            ),
         )
         return orm
 
@@ -31,6 +40,14 @@ class ProtocolMapper:
             protocol_text=ProtocolText(orm_entity.protocol_text),
             file_source=HttpUrl(orm_entity.file_source),
             agenda=Agenda(orm_entity.agenda) if orm_entity.agenda else None,
-            protocol_speeches=[UUID(s.id) for s in getattr(orm_entity, 'speeches')] if hasattr(orm_entity, 'speeches') else None,
-            metadata=MetadataPlugin(orm_entity.metadata_data) if orm_entity.metadata_data else None,
+            protocol_speeches=(
+                [UUID(s.id) for s in getattr(orm_entity, "speeches")]
+                if hasattr(orm_entity, "speeches")
+                else None
+            ),
+            metadata=(
+                MetadataPlugin(orm_entity.metadata_data)
+                if orm_entity.metadata_data
+                else None
+            ),
         )

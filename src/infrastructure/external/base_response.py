@@ -1,9 +1,11 @@
 from dataclasses import dataclass
-from typing import Any, Optional, Dict
+from typing import Any, Dict, Optional
+
 
 @dataclass
 class ResponseProtocol:
     """Internal Parsed response with all required fields."""
+
     date: str
     title: str
     link: str

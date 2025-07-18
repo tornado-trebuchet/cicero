@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from src.domain.models.text.e_text_split import TextSentences
+
 from src.domain.models.common.v_common import UUID
+from src.domain.models.text.e_text_split import TextSentences
+
 
 class ITextSentencesRepository(ABC):
     """Repository contract for TextSentences entity handling."""

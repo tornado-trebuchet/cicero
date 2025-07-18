@@ -1,7 +1,8 @@
+from src.domain.models.common.v_common import UUID, DateTime
 from src.domain.models.context.e_period import Period
 from src.domain.models.context.v_label import Label
-from src.domain.models.common.v_common import UUID, DateTime
 from src.infrastructure.orm.context.orm_period import PeriodORM
+
 
 class PeriodMapper:
     @staticmethod
@@ -13,7 +14,7 @@ class PeriodMapper:
             label=domain_entity.label.value,
             start_date=domain_entity.start_date.value,
             end_date=domain_entity.end_date.value,
-            description=domain_entity.description
+            description=domain_entity.description,
         )
         return orm
 
@@ -26,5 +27,5 @@ class PeriodMapper:
             label=Label(orm_entity.label),
             start_date=DateTime(orm_entity.start_date),
             end_date=DateTime(orm_entity.end_date),
-            description=orm_entity.description
+            description=orm_entity.description,
         )

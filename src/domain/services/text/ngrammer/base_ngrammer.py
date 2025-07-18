@@ -1,11 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import Optional, Type
+
 from src.domain.models.common.a_corpora import Corpora
+
 
 class Ngrammer(ABC):
     """
     Base class for n-gram generators.
     """
+
     @abstractmethod
     def generate_ngrams_external(cls, corpora: Corpora, n: int) -> Corpora:
         """
@@ -23,9 +26,10 @@ class Ngrammer(ABC):
         raise NotImplementedError("Subclasses must implement this method.")
 
     @classmethod
-    def find_by_specifications(cls, language_code: str) -> Optional[Type["Ngrammer"]]:
+    def find_by_specifications(
+        cls, language_code: str
+    ) -> Optional[Type["Ngrammer"]]:
         for subclass in cls.__subclasses__():
-            if getattr(subclass, 'language_code', None) == language_code:
+            if getattr(subclass, "language_code", None) == language_code:
                 return subclass
         return None
-

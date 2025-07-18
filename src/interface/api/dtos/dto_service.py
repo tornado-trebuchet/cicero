@@ -1,7 +1,15 @@
+from typing import Any, Dict, Optional, Union
 from uuid import UUID
+
 from pydantic import BaseModel
-from typing import Optional, Dict, Union, Any
-from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum, LanguageEnum, ProtocolTypeEnum
+
+from src.domain.models.common.v_enums import (
+    CountryEnum,
+    InstitutionTypeEnum,
+    LanguageEnum,
+    ProtocolTypeEnum,
+)
+
 
 class ProtocolSpecDTO(BaseModel):
     server_base: Optional[str] = None
@@ -15,5 +23,5 @@ class ExtractionSpecDTO(BaseModel):
     country: CountryEnum
     institution: InstitutionTypeEnum
     language: LanguageEnum
-    protocol_type:  ProtocolTypeEnum
+    protocol_type: ProtocolTypeEnum
     pattern_spec: Optional[Any] = None

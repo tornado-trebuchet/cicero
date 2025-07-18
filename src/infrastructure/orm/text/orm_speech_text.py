@@ -1,11 +1,16 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING, Optional, Any
-from sqlalchemy import ForeignKey, Index
-from sqlalchemy.dialects.postgresql import UUID as PG_UUID, ENUM as PG_ENUM, JSONB
-from sqlalchemy.orm import relationship, Mapped, mapped_column
-from src.infrastructure.orm.orm_base import Base
-from src.domain.models.common.v_enums import LanguageEnum
+
 import uuid
+from typing import TYPE_CHECKING, Any, Optional
+
+from sqlalchemy import ForeignKey, Index
+from sqlalchemy.dialects.postgresql import ENUM as PG_ENUM
+from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import UUID as PG_UUID
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from src.domain.models.common.v_enums import LanguageEnum
+from src.infrastructure.orm.orm_base import Base
 
 if TYPE_CHECKING:
     from src.infrastructure.orm.text.orm_speech import SpeechORM
@@ -14,21 +19,35 @@ if TYPE_CHECKING:
     from src.infrastructure.orm.text.orm_text_raw import RawTextORM
     from src.infrastructure.orm.text.orm_text_split import SplitTextORM
     from src.infrastructure.orm.text.orm_text_tokenized import TokenizedTextORM
-    from src.infrastructure.orm.text.orm_text_translated import TranslatedTextORM
+    from src.infrastructure.orm.text.orm_text_translated import (
+        TranslatedTextORM,
+    )
+
 
 class SpeechTextORM(Base):
     __tablename__ = "speech_texts"
-    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
-    speech_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), ForeignKey("speeches.id"), nullable=False, unique=True)
-    language_code: Mapped[LanguageEnum] = mapped_column(PG_ENUM(LanguageEnum, name="language_enum"), nullable=True)
-    metrics: Mapped[Optional[dict[str, Any]]] = mapped_column(JSONB, nullable=True)
+    id: Mapped[uuid.UUID] = mapped_column(
+        PG_UUID(as_uuid=True), primary_key=True
+    )
+    speech_id: Mapped[uuid.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        ForeignKey("speeches.id"),
+        nullable=False,
+        unique=True,
+    )
+    language_code: Mapped[LanguageEnum] = mapped_column(
+        PG_ENUM(LanguageEnum, name="language_enum"), nullable=True
+    )
+    metrics: Mapped[Optional[dict[str, Any]]] = mapped_column(
+        JSONB, nullable=True
+    )
 
     # Relationships
     speech: Mapped["SpeechORM"] = relationship(
-        "SpeechORM", 
+        "SpeechORM",
         back_populates="speech_text",
         passive_deletes=True,
-        foreign_keys="SpeechTextORM.speech_id"
+        foreign_keys="SpeechTextORM.speech_id",
     )
     clean_text: Mapped[Optional["CleanTextORM"]] = relationship(
         "CleanTextORM",
@@ -36,7 +55,7 @@ class SpeechTextORM(Base):
         uselist=False,
         cascade="all, delete-orphan",
         passive_deletes=True,
-        foreign_keys="CleanTextORM.speech_text_id"
+        foreign_keys="CleanTextORM.speech_text_id",
     )
     ngram_tokens: Mapped[Optional["TextNgramsORM"]] = relationship(
         "TextNgramsORM",
@@ -44,7 +63,7 @@ class SpeechTextORM(Base):
         uselist=False,
         cascade="all, delete-orphan",
         passive_deletes=True,
-        foreign_keys="TextNgramsORM.speech_text_id"
+        foreign_keys="TextNgramsORM.speech_text_id",
     )
     raw_text: Mapped["RawTextORM"] = relationship(
         "RawTextORM",
@@ -52,7 +71,7 @@ class SpeechTextORM(Base):
         uselist=False,
         cascade="all, delete-orphan",
         passive_deletes=True,
-        foreign_keys="RawTextORM.speech_text_id"
+        foreign_keys="RawTextORM.speech_text_id",
     )
     sentences: Mapped[Optional["SplitTextORM"]] = relationship(
         "SplitTextORM",
@@ -60,7 +79,7 @@ class SpeechTextORM(Base):
         uselist=False,
         cascade="all, delete-orphan",
         passive_deletes=True,
-        foreign_keys="SplitTextORM.speech_text_id"
+        foreign_keys="SplitTextORM.speech_text_id",
     )
     tokens: Mapped[Optional["TokenizedTextORM"]] = relationship(
         "TokenizedTextORM",
@@ -68,7 +87,7 @@ class SpeechTextORM(Base):
         uselist=False,
         cascade="all, delete-orphan",
         passive_deletes=True,
-        foreign_keys="TokenizedTextORM.speech_text_id"
+        foreign_keys="TokenizedTextORM.speech_text_id",
     )
     translated_text: Mapped[Optional["TranslatedTextORM"]] = relationship(
         "TranslatedTextORM",
@@ -76,9 +95,6 @@ class SpeechTextORM(Base):
         uselist=False,
         cascade="all, delete-orphan",
         passive_deletes=True,
-        foreign_keys="TranslatedTextORM.speech_text_id"
+        foreign_keys="TranslatedTextORM.speech_text_id",
     )
-    __table_args__ = (
-        Index('idx_text_speech', "speech_id"),
-    )
-
+    __table_args__ = (Index("idx_text_speech", "speech_id"),)

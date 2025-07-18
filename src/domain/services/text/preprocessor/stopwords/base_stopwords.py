@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+
 from src.domain.models.common.v_enums import LanguageEnum
+
 
 class Stopwords(ABC):
     """
@@ -8,11 +10,11 @@ class Stopwords(ABC):
 
     def __init__(self, language: LanguageEnum):
         self.language = language
-    
+
     @classmethod
     def find_by_specifications(cls, language_code: LanguageEnum):
         for subclass in cls.__subclasses__():
-            if getattr(subclass, 'language_code', None) == language_code:
+            if getattr(subclass, "language_code", None) == language_code:
                 return subclass
         return None
 
@@ -32,7 +34,7 @@ class Stopwords(ABC):
     def special_stopwords(self) -> set[str]:
         """Empirically derived from processed data"""
         pass
-    
+
     @property
     @abstractmethod
     def general_stopwords(self) -> set[str]:

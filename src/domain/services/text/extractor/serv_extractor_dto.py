@@ -1,18 +1,22 @@
 from dataclasses import dataclass
-from typing import Optional, Any
+from typing import Any, Optional
+
 
 @dataclass
 class PartyDTO:
     name: str
+
 
 @dataclass
 class SpeakerDTO:
     name: str
     party: Optional[PartyDTO] = None
 
+
 @dataclass
 class RawTextDTO:
     text: str
+
 
 @dataclass
 class SpeechDTO:

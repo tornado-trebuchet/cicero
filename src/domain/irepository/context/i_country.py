@@ -1,17 +1,19 @@
 from abc import ABC, abstractmethod
-from typing import Optional, List
-from src.domain.models.context.a_country import Country
+from typing import List, Optional
+
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import CountryEnum
+from src.domain.models.context.a_country import Country
+
 
 class ICountryRepository(ABC):
     """Top level aggregate"""
-    
+
     @abstractmethod
     def get_by_id(self, id: UUID) -> Optional[Country]:
         """Get country by ID."""
         pass
-    
+
     @abstractmethod
     def get_by_country_enum(self, country: CountryEnum) -> Optional[Country]:
         """Get country by country enum value."""

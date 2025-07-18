@@ -1,5 +1,6 @@
-from src.domain.services.utils.stopwords.base_stopwords import Stopwords
 from src.domain.models.common.v_enums import LanguageEnum
+from src.domain.services.utils.stopwords.base_stopwords import Stopwords
+
 
 class FrenchStopwords(Stopwords):
     @property
@@ -17,7 +18,48 @@ class FrenchStopwords(Stopwords):
     @property
     def general_stopwords(self) -> set[str]:
         return {
-            "le", "la", "les", "un", "une", "et", "ou", "mais", "dans", "en", "du", "des", "ce", "cette", "il", "elle", "on", "nous", "vous", "ils", "elles", "ne", "pas", "que", "qui", "pour", "par", "avec", "sur", "se", "au", "aux", "son", "sa", "ses", "leur", "leurs", "y", "a", "de", "d'", "l'"
+            "le",
+            "la",
+            "les",
+            "un",
+            "une",
+            "et",
+            "ou",
+            "mais",
+            "dans",
+            "en",
+            "du",
+            "des",
+            "ce",
+            "cette",
+            "il",
+            "elle",
+            "on",
+            "nous",
+            "vous",
+            "ils",
+            "elles",
+            "ne",
+            "pas",
+            "que",
+            "qui",
+            "pour",
+            "par",
+            "avec",
+            "sur",
+            "se",
+            "au",
+            "aux",
+            "son",
+            "sa",
+            "ses",
+            "leur",
+            "leurs",
+            "y",
+            "a",
+            "de",
+            "d'",
+            "l'",
         }
 
     @property

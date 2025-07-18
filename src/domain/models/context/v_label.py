@@ -1,9 +1,10 @@
 from src.domain.models.base_vo import ValueObject
 
-# TODO: Add format and length validation 
+
+# TODO: Add format and length validation
 class Label(ValueObject):
     """Represents a naming text"""
-    
+
     def __init__(self, label: str):
         self._label = label
 

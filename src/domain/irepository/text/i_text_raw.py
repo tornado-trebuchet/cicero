@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from src.domain.models.text.e_text_raw import RawText
+
 from src.domain.models.common.v_common import UUID
+from src.domain.models.text.e_text_raw import RawText
+
 
 class IRawTextRepository(ABC):
     """Repository contract for RawText entity handling."""

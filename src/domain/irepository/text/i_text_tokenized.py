@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from src.domain.models.text.e_text_tokenized import TokenizedText
+
 from src.domain.models.common.v_common import UUID
+from src.domain.models.text.e_text_tokenized import TokenizedText
+
 
 class ITokenizedTextRepository(ABC):
     """Repository contract for TokenizedText entity handling."""

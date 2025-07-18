@@ -1,5 +1,7 @@
-from src.domain.models.base_vo import ValueObject
 from typing import Optional
+
+from src.domain.models.base_vo import ValueObject
+
 
 class TextMetrics(ValueObject):
     def __init__(self):
@@ -48,4 +50,3 @@ class TextMetrics(ValueObject):
     @sentence_count.setter
     def sentence_count(self, value: Optional[int]) -> None:
         self._sentence_count = value
-
