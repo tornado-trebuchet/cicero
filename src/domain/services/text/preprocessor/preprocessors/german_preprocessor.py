@@ -1,4 +1,4 @@
-from domain.models.text.e_text_raw import RawText
+from src.domain.models.text.e_text_raw import RawText
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.services.text.preprocessor.serv_preprocessor_dto import (
     CleanTextDTO,

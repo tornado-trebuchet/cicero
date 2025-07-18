@@ -4,9 +4,9 @@ from src.domain.models.common.v_common import UUID
 
 class RawText(Entity):
 
-    def __init__(self, id: UUID, speech_id: UUID, text: str):
+    def __init__(self, id: UUID, speech_text_id: UUID, text: str):
         self._text = text
-        self._speech_id = speech_id
+        self._speech_text_id = speech_text_id
         super().__init__(id)
 
     @property
@@ -18,8 +18,8 @@ class RawText(Entity):
         self._text = value
 
     @property
-    def speech_id(self) -> UUID:
-        return self._speech_id
+    def speech_text_id(self) -> UUID:
+        return self._speech_text_id
 
     def num_characters(self) -> int:
         return len(self._text)
@@ -28,4 +28,4 @@ class RawText(Entity):
         return self._text
 
     def __repr__(self) -> str:
-        return f"<RawText id={self.id} speech_id={self.speech_id} text='{self.text[:30]}...'>"
+        return f"<RawText id={self.id} speech_id={self.speech_text_id} text='{self.text[:30]}...'>"

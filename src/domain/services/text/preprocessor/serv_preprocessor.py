@@ -9,11 +9,11 @@ from src.domain.services.text.preprocessor.serv_preprocessor_dto import (
 )
 
 
-#
 class PreprocessRawText(TextService):
     def __init__(self, raw_text: RawText, language_code: LanguageEnum):
         self.raw_text = raw_text
         self.language_code = language_code
+        self.clean_text: CleanTextDTO | None = None
 
     @staticmethod
     def pick_preprocessor(language_code: LanguageEnum):

@@ -144,7 +144,7 @@ class ExtractorService:
             # Create RawText entity linked to SpeechText
             raw_text_entity = RawText(
                 id=raw_text_id,
-                speech_id=speech_text_id,  # Links to SpeechText
+                speech_text_id=speech_text_id,  # Links to SpeechText
                 text=speech_dto.raw_text.text,
             )
 

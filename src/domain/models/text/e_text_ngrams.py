@@ -20,11 +20,11 @@ class NGramizedText(Entity):
         self._tokens = value
 
     @property
-    def speech_id(self) -> UUID:
+    def speech_text_id(self) -> UUID:
         return self._speech_id
 
     def __repr__(self):
-        return f"NGramTokens(id={self.id}, speech_id={self.speech_id}, tokens={self.tokens})"
+        return f"NGramTokens(id={self.id}, speech_id={self.speech_text_id}, tokens={self.tokens})"
 
     def __len__(self):
         return len(self.tokens)
