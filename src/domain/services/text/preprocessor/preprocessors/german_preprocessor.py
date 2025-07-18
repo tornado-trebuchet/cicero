@@ -1,16 +1,16 @@
 from .base_preprocessor import Preprocessor
 from domain.models.text.e_text_raw import RawText
-from domain.models.text.e_text_clean import CleanText
 from src.domain.models.common.v_enums import LanguageEnum
+from src.domain.services.text.preprocessor.serv_preprocessor_dto import CleanTextDTO
 
 class GermanPreprocessor(Preprocessor):
     
     language_code = LanguageEnum.DE
 
-    def process(self, raw_text: RawText) -> CleanText:
+    def clean(self, raw_text: RawText) -> CleanTextDTO:
         text = raw_text.text
         text = text.strip()
         text = ' '.join(text.split())  
         text = text.lower()
-        clean_text = CleanText(text=text)
+        clean_text = CleanTextDTO(text=text)
         return clean_text

@@ -1,25 +1,19 @@
 from src.domain.models.text.e_text_raw import RawText
-from src.domain.models.text.e_text_clean import CleanText
 from src.domain.services.text.base_text_service import TextService
-from src.domain.services.text.preprocessor.base_preprocessor import Preprocessor
 from src.domain.models.common.v_enums import LanguageEnum
+from src.domain.services.text.preprocessor.preprocessors.base_preprocessor import Preprocessor
+from src.domain.services.text.preprocessor.serv_preprocessor_dto import CleanTextDTO
 
+# 
 class PreprocessRawText(TextService):
     def __init__(self, raw_text: RawText, language_code: LanguageEnum):
         self.raw_text = raw_text
         self.language_code = language_code
-        self.clean_text = CleanText
 
     @staticmethod
     def pick_preprocessor(language_code: LanguageEnum):
         return Preprocessor.find_by_specifications(language_code=language_code)
 
-    def process(self) -> CleanText:
-        preprocessor_cls = None
-        if self.language_code:
-            preprocessor_cls = self.pick_preprocessor(self.language_code)
-        if preprocessor_cls:
-            self.clean_text = preprocessor_cls().process(self.raw_text)
-        else:
-            raise ValueError("No suitable preprocessor found for the given language code.")
+    def process(self, preprocessor_cls: type[Preprocessor]) -> CleanTextDTO:
+        self.clean_text = preprocessor_cls().clean(self.raw_text)
         return self.clean_text

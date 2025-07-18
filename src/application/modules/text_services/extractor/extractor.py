@@ -30,7 +30,7 @@ class ExtractorService:
         self.raw_text_repo = RawTextRepository()
         self.speech_text_repo = SpeechTextRepository()
         self.joint_q_repo = JointQRepository()
-
+    
     def extract_speeches(self, spec: ExtractionSpec) -> List[Speech]:
         protocol = self.protocol_repo.get_by_id(spec.protocol)
         if not protocol:
@@ -40,7 +40,7 @@ class ExtractorService:
         if existing_speeches:
             raise ValueError(f"Protocol {spec.protocol} already has speeches. Extraction aborted.")
         
-        extractor = ExtractSpeakersFromProtocol(protocol, spec)
+        extractor = ExtractSpeakersFromProtocol(protocol, spec) # FIXME: Refactor to maintain dependency inversion
         pattern_cls = extractor.pick_pattern()
         if not pattern_cls:
             raise ValueError("No matching regex pattern found for provided spec.")

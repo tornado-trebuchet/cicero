@@ -5,8 +5,12 @@ from src.domain.services.text.extractor.regex.base_regex import RegexPattern
 from src.domain.services.text.extractor.serv_extractor_dto import SpeechDTO, SpeakerDTO, RawTextDTO
 from src.application.modules.text_services.extractor.extractor_spec import ExtractionSpec
 
+#TODO: Since we do not need a universal regex anymore. 
+# And can easily swap them, then we should probably decouple this from regex implementation
+
+# also: (self, Protocol, Country, Institution, Language, PatternSpec)
 class ExtractSpeakersFromProtocol(TextService):
-    def __init__(self, protocol: Protocol, spec: ExtractionSpec):
+    def __init__(self, protocol: Protocol, spec: ExtractionSpec): # FIXME: SHOULD NOT DEPEND ON EXTERNALS 
         self.protocol = protocol
         self.country = spec.country
         self.institution = spec.institution
@@ -30,16 +34,16 @@ class ExtractSpeakersFromProtocol(TextService):
         matches = list(regex.finditer(text))
         speeches: List[SpeechDTO] = []
         for idx, match in enumerate(matches):
-            speaker_name = match.group(1)  # VALID
-            #speaker_party = match.group(3) # THAT'S THE PARTY, VALID
-            #speaker_role = match.group(4) # IN QUESTION BUT NO TOUCHY
+            speaker_name = match.group(1)
+            #speaker_party = match.group(3) # THAT'S THE PARTY?
+            #speaker_role = match.group(4) # IN QUESTION
             start = match.end()
             if idx + 1 < len(matches):
                 end = matches[idx + 1].start()
             else:
                 end = len(text)
             speech_text = text[start:end].strip()
-            # Add the first letter of the speech IA AM SORRY FOR THAT!
+            # Add the first letter of the speech I AM SORRY FOR THAT!
             first_letter = match.group(match.lastindex) if match.lastindex else ''
             if speech_text:
                 speech_text = first_letter + speech_text[1:] if speech_text[0] != first_letter else speech_text
