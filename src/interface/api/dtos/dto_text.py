@@ -39,3 +39,13 @@ class SpeechDTO(BaseModel):
     text: UUID
     metrics: Optional[dict[str, Any]] = None
     metadata: Optional[dict[str, Any]] = None
+
+class RawTextDTO(BaseModel):
+    id: UUID
+    speech_text_id: UUID
+    raw_text: str
+
+class CleanTextDTO(BaseModel):
+    id: UUID
+    speech_text_id: UUID
+    clean_text: str

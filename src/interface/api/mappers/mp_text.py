@@ -1,10 +1,14 @@
 from src.domain.models.text.a_protocol import Protocol
 from src.domain.models.text.a_speech import Speech
+from src.domain.models.text.e_text_raw import RawText
+from src.domain.models.text.e_text_clean import CleanText
 from src.domain.models.text.a_speech_text import SpeechText
 from src.interface.api.dtos.dto_text import (
     ProtocolDTO,
     SpeechDTO,
     SpeechTextDTO,
+    RawTextDTO,
+    CleanTextDTO
 )
 
 
@@ -105,4 +109,18 @@ def speech_to_dto(speech: Speech) -> SpeechDTO:
             else None
         ),
         metadata=speech.metadata.get_properties() if speech.metadata else None,
+    )
+
+def raw_text_to_dto(raw_text: RawText) -> RawTextDTO:
+    return RawTextDTO(
+        id=raw_text.id.value,
+        speech_text_id=raw_text.speech_text_id.value,
+        raw_text=raw_text.text
+    )
+
+def clean_text_to_dto(clean_text: CleanText) -> CleanTextDTO:
+    return CleanTextDTO(
+        id=clean_text.id.value,
+        speech_text_id=clean_text.speech_text_id.value,
+        clean_text=clean_text.text
     )

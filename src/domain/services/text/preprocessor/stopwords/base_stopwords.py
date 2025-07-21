@@ -54,7 +54,7 @@ class Stopwords(ABC):
 
     @property
     def all_stopwords(self) -> set[str]:
-        stopwords = set()
+        stopwords: set[str] = set()
         stopwords.update(self.general_stopwords)
         stopwords.update(self.special_stopwords)
         stopwords.update(self.field_artifacts)

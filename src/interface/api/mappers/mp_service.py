@@ -2,10 +2,12 @@ from src.application.modules.fetchers.fetcher_spec import FetcherSpec
 from src.application.modules.text_services.extractor.extractor_spec import (
     ExtractionSpec,
 )
+from src.application.modules.text_services.preprocessor.preprocessor_spec import PreprocessorSpec
 from src.domain.models.common.v_common import UUID
 from src.interface.api.dtos.dto_service import (
     ExtractionSpecDTO,
     ProtocolSpecDTO,
+    PreprocessorSpecDTO,
 )
 
 
@@ -36,3 +38,10 @@ def dto_to_extraction_spec(dto: ExtractionSpecDTO) -> ExtractionSpec:
         protocol_type=dto.protocol_type,
         pattern_spec=dto.pattern_spec,
     )
+
+def preprocessor_spec_to_dto(spec: PreprocessorSpec) -> PreprocessorSpecDTO:
+    return PreprocessorSpecDTO(speech=spec.speech.value)
+
+def dto_to_preprocessor_spec(dto: PreprocessorSpecDTO) -> PreprocessorSpec:
+    return PreprocessorSpec(speech=UUID(dto.speech))
+    

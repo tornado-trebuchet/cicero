@@ -42,7 +42,7 @@ class PreprocessTextService:
             text=clean_dto.text
         )
         self.clean_text_repo.add(clean_text)
-        # 5. Update SpeechText with new CleanText id
+        # 5. Update SpeechText with CleanText id
         speech_text.clean_text = clean_text.id
         self.speech_text_repo.update(speech_text)
         return clean_text

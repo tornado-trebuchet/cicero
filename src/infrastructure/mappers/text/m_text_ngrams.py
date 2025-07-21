@@ -8,7 +8,7 @@ class NGramizedTextMapper:
     def to_orm(domain_entity: NGramizedText) -> TextNgramsORM:
         orm = TextNgramsORM(
             id=domain_entity.id.value,
-            speech_text_id=domain_entity.speech_id.value,
+            speech_text_id=domain_entity.speech_text_id.value,
             ngram_tokens=domain_entity.tokens,
         )
         return orm

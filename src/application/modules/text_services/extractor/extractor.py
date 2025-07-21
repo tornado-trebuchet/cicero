@@ -64,7 +64,7 @@ class ExtractorService:
 
         extractor = ExtractSpeakersFromProtocol(
             protocol, spec
-        )  # FIXME: Refactor to maintain dependency inversion
+        )
         pattern_cls = extractor.pick_pattern()
         if not pattern_cls:
             raise ValueError(
@@ -155,7 +155,7 @@ class ExtractorService:
                 raw_text=raw_text_entity,
             )
 
-            # Update bidirectional relationships
+            # Update relationships
             if speaker_entity.speeches is None:
                 speaker_entity.speeches = []
             speaker_entity.speeches.append(speech_id)

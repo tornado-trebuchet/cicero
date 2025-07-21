@@ -26,7 +26,11 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
 
 volumes:
   cicero_pgdata:

@@ -8,7 +8,7 @@ class TextSentencesMapper:
     def to_orm(domain_entity: TextSentences) -> SplitTextORM:
         orm = SplitTextORM(
             id=domain_entity.id.value,
-            speech_text_id=domain_entity.speech_id.value,
+            speech_text_id=domain_entity.speech_text_id.value,
             sentences=domain_entity.sentences,
         )
         return orm
@@ -17,6 +17,6 @@ class TextSentencesMapper:
     def to_domain(orm_entity: SplitTextORM) -> TextSentences:
         return TextSentences(
             id=UUID(orm_entity.id),
-            speech_id=UUID(orm_entity.speech_text_id),
+            speech_text_id=UUID(orm_entity.speech_text_id),
             sentences=orm_entity.sentences,
         )

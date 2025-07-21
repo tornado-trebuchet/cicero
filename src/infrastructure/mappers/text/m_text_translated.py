@@ -8,7 +8,7 @@ class TranslatedTextMapper:
     def to_orm(domain_entity: TranslatedText) -> TranslatedTextORM:
         orm = TranslatedTextORM(
             id=domain_entity.id.value,
-            speech_text_id=domain_entity.speech_id.value,
+            speech_text_id=domain_entity.speech_text_id.value,
             translated_text=domain_entity.translation,
         )
         return orm
@@ -17,6 +17,6 @@ class TranslatedTextMapper:
     def to_domain(orm_entity: TranslatedTextORM) -> TranslatedText:
         return TranslatedText(
             id=UUID(orm_entity.id),
-            speech_id=UUID(orm_entity.speech_text_id),
+            speech_text_id=UUID(orm_entity.speech_text_id),
             translated_text=orm_entity.translated_text,
         )
