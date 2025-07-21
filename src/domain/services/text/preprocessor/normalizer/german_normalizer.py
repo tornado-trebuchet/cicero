@@ -1,6 +1,5 @@
 from typing import List, Literal
 from split_words import Splitter # type: ignore
-from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.services.text.preprocessor.stopwords.german_stopwords import GermanStopwords
 import unicodedata
 
@@ -66,6 +65,6 @@ class GermanNormalizer:
 
     @staticmethod
     def remove_artifacts(text: str) -> str:
-        pattern = GermanStopwords(language=LanguageEnum.DE).compile_field_artifact_pattern()
+        pattern = GermanStopwords().compile_field_artifact_pattern()
         return pattern.sub("", text)
 

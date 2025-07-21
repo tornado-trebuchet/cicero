@@ -2,11 +2,9 @@ from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.services.text.preprocessor.stopwords.base_stopwords import Stopwords
 import regex # type: ignore
 
-
 class GermanStopwords(Stopwords):
-    @property
-    def language_code(self) -> LanguageEnum:
-        return LanguageEnum.DE
+
+    language_code = LanguageEnum.DE
 
     @property
     def field_artifacts(self) -> set[str]:

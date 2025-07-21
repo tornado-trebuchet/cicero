@@ -7,7 +7,6 @@ from src.domain.models.text.e_text_clean import CleanText
 from src.domain.models.common.v_common import UUID
 from src.domain.services.text.preprocessor.serv_preprocessor import PreprocessRawText
 
-# Here
 class PreprocessTextService:
     def __init__(self, spec: PreprocessorSpec):
         self.spec = spec

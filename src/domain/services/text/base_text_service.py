@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Any
 # from src.config import Config
+# TODO: Pass config as class
 
 class TextService(ABC):
 

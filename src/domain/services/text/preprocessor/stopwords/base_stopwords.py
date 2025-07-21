@@ -4,12 +4,8 @@ from src.domain.models.common.v_enums import LanguageEnum
 
 
 class Stopwords(ABC):
-    """
-    Base class for stopwords.
-    """
 
-    def __init__(self, language: LanguageEnum):
-        self.language = language
+    language_code: LanguageEnum
 
     @classmethod
     def find_by_specifications(cls, language_code: LanguageEnum):
@@ -17,11 +13,6 @@ class Stopwords(ABC):
             if getattr(subclass, "language_code", None) == language_code:
                 return subclass
         return None
-
-    @property
-    @abstractmethod
-    def language_code(self) -> LanguageEnum:
-        pass
 
     @property
     @abstractmethod

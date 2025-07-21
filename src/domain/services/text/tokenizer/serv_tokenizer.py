@@ -1,11 +1,11 @@
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.models.text.e_text_clean import CleanText
-from src.domain.models.text.e_text_tokenized import TokenizedText
+from src.domain.services.text.tokenizer.serv_tokenizer_dto import TokenizedTextDTO
 from src.domain.services.text.base_text_service import TextService
 from src.domain.services.text.preprocessor.stopwords.base_stopwords import (
     Stopwords,
 )
-from src.domain.services.text.tokenizer.base_tokenizer import Tokenizer
+from src.domain.services.text.tokenizer.tokenizers.base_tokenizer import Tokenizer
 
 
 class TokenizeCleanText(TextService):
@@ -13,37 +13,20 @@ class TokenizeCleanText(TextService):
         super().__init__(config=None)
         self.clean_text = clean_text
         self.language_code = language_code
-        self.tokenizer = self.pick_tokenizer(self.language_code)()
-        self.stopwords = self.pick_stopwords(
-            self.language_code
-        ).get_stopwords()
 
-    def pick_tokenizer(self, language_code: LanguageEnum) -> type:
-        """From utils"""
-        tokenizer_cls = Tokenizer.find_by_specifications(language_code)
-        if tokenizer_cls is not None:
-            return tokenizer_cls
-        else:
-            raise ValueError(
-                f"No tokenizer found for language code: {language_code}"
-            )
+    @staticmethod
+    def pick_tokenizer(language_code: LanguageEnum):
+        return Tokenizer.find_by_specifications(language_code=language_code)
 
-    def pick_stopwords(self, language_code: LanguageEnum):
-        """From utils"""
-        stopwords_cls = Stopwords.find_by_specifications(language_code)
-        if stopwords_cls is not None:
-            return stopwords_cls(language_code)
-        else:
-            raise ValueError(
-                f"No stopwords found for language code: {language_code}"
-            )
+    @staticmethod
+    def pick_stopwords(language_code: LanguageEnum):
+        return Stopwords.find_by_specifications(language_code=language_code)
 
-    # FIXME: Generate ID (in domain probably) and pass there it's owner's speech id
-    def process(self, clean_text: CleanText) -> TokenizedText:
-        tokens = self.tokenizer.tokenize_external_lib(clean_text)
+    def process(self, tokenizer_cls: type[Tokenizer], stopwords_list: set[str]) -> TokenizedTextDTO:
+        tokens = tokenizer_cls().tokenize(self.clean_text)
         filtered_tokens = [
             token
             for token in tokens.tokens
-            if token.lower() not in self.stopwords
+            if token.lower() not in stopwords_list
         ]
-        return TokenizedText(tokens=filtered_tokens)
+        return TokenizedTextDTO(tokens=filtered_tokens)

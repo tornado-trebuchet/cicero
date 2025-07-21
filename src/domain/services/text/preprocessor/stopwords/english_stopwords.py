@@ -1,11 +1,10 @@
 from src.domain.models.common.v_enums import LanguageEnum
-from src.domain.services.utils.stopwords.base_stopwords import Stopwords
+from src.domain.services.text.preprocessor.stopwords.base_stopwords import Stopwords
 
 
 class EnglishStopwords(Stopwords):
-    @property
-    def language_code(self) -> LanguageEnum:
-        return LanguageEnum.EN
+
+    language_code = LanguageEnum.EN
 
     @property
     def field_artifacts(self) -> set[str]:
