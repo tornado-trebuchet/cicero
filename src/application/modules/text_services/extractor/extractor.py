@@ -58,18 +58,12 @@ class ExtractorService:
 
         existing_speeches = self.speech_repo.get_by_protocol_id(spec.protocol)
         if existing_speeches:
-            raise ValueError(
-                f"Protocol {spec.protocol} already has speeches. Extraction aborted."
-            )
+            raise ValueError(f"Protocol {spec.protocol} already has speeches. Extraction aborted.")
 
-        extractor = ExtractSpeakersFromProtocol(
-            protocol, spec
-        )
+        extractor = ExtractSpeakersFromProtocol(protocol, spec)
         pattern_cls = extractor.pick_pattern()
         if not pattern_cls:
-            raise ValueError(
-                "No matching regex pattern found for provided spec."
-            )
+            raise ValueError("No matching regex pattern found for provided spec.")
 
         # Workhorse if you've lost it
         speeches_dto = extractor.process(protocol, pattern_cls)
@@ -80,19 +74,13 @@ class ExtractorService:
             speaker_name = speech_dto.speaker.name
 
             # Get country_id from protocol's institution
-            country = self.joint_q_repo.get_country_by_institution_id(
-                protocol.institution_id
-            )
+            country = self.joint_q_repo.get_country_by_institution_id(protocol.institution_id)
             if not country:
-                raise ValueError(
-                    f"Country not found for protocol institution {protocol.institution_id}"
-                )
+                raise ValueError(f"Country not found for protocol institution {protocol.institution_id}")
             country_id = country.id
 
             # Check for existing speaker or create new one
-            speaker_entity = self.speaker_repo.get_by_country_id_and_name(
-                country_id, Name(speaker_name)
-            )
+            speaker_entity = self.speaker_repo.get_by_country_id_and_name(country_id, Name(speaker_name))
             if not speaker_entity:
                 speaker_id = UUID.new()
                 speaker_entity = Speaker(
@@ -129,16 +117,8 @@ class ExtractorService:
                 speaker_id=speaker_entity.id,
                 protocol_order=protocol_order,
                 text=speech_text_id,
-                metadata=(
-                    MetadataPlugin(speech_dto.metadata)
-                    if speech_dto.metadata
-                    else None
-                ),
-                metrics=(
-                    MetricsPlugin(**speech_dto.metrics)
-                    if speech_dto.metrics
-                    else None
-                ),
+                metadata=(MetadataPlugin(speech_dto.metadata) if speech_dto.metadata else None),
+                metrics=(MetricsPlugin(**speech_dto.metrics) if speech_dto.metrics else None),
             )
 
             # Create RawText entity linked to SpeechText

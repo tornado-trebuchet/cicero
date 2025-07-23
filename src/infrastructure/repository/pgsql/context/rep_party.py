@@ -12,20 +12,14 @@ from src.infrastructure.orm.orm_session import session_scope
 class PartyRepository(IPartyRepository):
     def get_by_id(self, id: UUID) -> Optional[Party]:
         with session_scope() as session:
-            orm_party = (
-                session.query(PartyORM).filter_by(id=id.value).one_or_none()
-            )
+            orm_party = session.query(PartyORM).filter_by(id=id.value).one_or_none()
             if orm_party:
                 return PartyMapper.to_domain(orm_party)
             return None
 
     def get_by_name(self, party_name: PartyName) -> Optional[Party]:
         with session_scope() as session:
-            orm_party = (
-                session.query(PartyORM)
-                .filter_by(party_name=str(party_name))
-                .one_or_none()
-            )
+            orm_party = session.query(PartyORM).filter_by(party_name=str(party_name)).one_or_none()
             if orm_party:
                 return PartyMapper.to_domain(orm_party)
             return None
@@ -42,11 +36,7 @@ class PartyRepository(IPartyRepository):
 
     def update(self, party: Party) -> None:
         with session_scope() as session:
-            exists = (
-                session.query(PartyORM)
-                .filter_by(id=party.id.value)
-                .one_or_none()
-            )
+            exists = session.query(PartyORM).filter_by(id=party.id.value).one_or_none()
             if not exists:
                 raise ValueError(f"Party with id {party.id} not found.")
             orm_party = PartyMapper.to_orm(party)
@@ -54,28 +44,20 @@ class PartyRepository(IPartyRepository):
 
     def delete(self, id: UUID) -> None:
         with session_scope() as session:
-            orm_party = (
-                session.query(PartyORM).filter_by(id=id.value).one_or_none()
-            )
+            orm_party = session.query(PartyORM).filter_by(id=id.value).one_or_none()
             if orm_party:
                 session.delete(orm_party)
 
     def get_by_country_id(self, country_id: UUID) -> List[Party]:
         with session_scope() as session:
-            orm_parties = (
-                session.query(PartyORM)
-                .filter_by(country_id=country_id.value)
-                .all()
-            )
+            orm_parties = session.query(PartyORM).filter_by(country_id=country_id.value).all()
             return [PartyMapper.to_domain(orm) for orm in orm_parties]
 
     def exists(self, country_id: UUID, party_name: PartyName) -> bool:
         with session_scope() as session:
             orm_party = (
                 session.query(PartyORM)
-                .filter_by(
-                    country_id=country_id.value, party_name=str(party_name)
-                )
+                .filter_by(country_id=country_id.value, party_name=str(party_name))
                 .one_or_none()
             )
             return orm_party is not None

@@ -9,9 +9,7 @@ from src.infrastructure.orm.text.orm_speech_text import SpeechTextORM
 class SpeechTextMapper:
     @staticmethod
     def to_orm(domain_entity: SpeechText) -> SpeechTextORM:
-        metrics_data = SpeechTextMapper._metrics_to_orm(
-            domain_entity.text_metrics
-        )
+        metrics_data = SpeechTextMapper._metrics_to_orm(domain_entity.text_metrics)
         orm = SpeechTextORM(
             id=domain_entity.id.value,
             speech_id=domain_entity.speech_id.value,
@@ -28,25 +26,11 @@ class SpeechTextMapper:
             speech_id=UUID(orm_entity.speech_id),
             language_code=orm_entity.language_code,
             raw_text=UUID(orm_entity.raw_text.id),
-            clean_text=(
-                UUID(orm_entity.clean_text.id)
-                if orm_entity.clean_text
-                else None
-            ),
-            translated_text=(
-                UUID(orm_entity.translated_text.id)
-                if orm_entity.translated_text
-                else None
-            ),
-            sentences=(
-                UUID(orm_entity.sentences.id) if orm_entity.sentences else None
-            ),
+            clean_text=(UUID(orm_entity.clean_text.id) if orm_entity.clean_text else None),
+            translated_text=(UUID(orm_entity.translated_text.id) if orm_entity.translated_text else None),
+            sentences=(UUID(orm_entity.sentences.id) if orm_entity.sentences else None),
             tokens=UUID(orm_entity.tokens.id) if orm_entity.tokens else None,
-            ngram_tokens=(
-                UUID(orm_entity.ngram_tokens.id)
-                if orm_entity.ngram_tokens
-                else None
-            ),
+            ngram_tokens=(UUID(orm_entity.ngram_tokens.id) if orm_entity.ngram_tokens else None),
             text_metrics=metrics,
         )
 

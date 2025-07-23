@@ -6,7 +6,6 @@ class FrenchStopwords(Stopwords):
 
     language_code = LanguageEnum.FR
 
-
     @property
     def field_artifacts(self) -> set[str]:
         return {"rire", "applaudissements", "objection"}

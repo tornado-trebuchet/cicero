@@ -21,9 +21,7 @@ class ISpeakerRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_country_id_and_name(
-        self, country_id: UUID, name: Name
-    ) -> Optional[Speaker]:
+    def get_by_country_id_and_name(self, country_id: UUID, name: Name) -> Optional[Speaker]:
         """Get speaker by country ID and name."""
         pass
 

@@ -28,24 +28,18 @@ develop_router = APIRouter()
 
 @develop_router.post("/develop/seed", response_model=SeedDefaultsResponseDTO)
 def seed_defaults(
-    seed_defaults_use_case: SeedDefaultsUseCase = Depends(
-        get_seed_defaults_use_case
-    ),
+    seed_defaults_use_case: SeedDefaultsUseCase = Depends(get_seed_defaults_use_case),
 ) -> SeedDefaultsResponseDTO:
     try:
         seed_defaults_use_case.execute()
         return SeedDefaultsResponseDTO(detail="Seeding completed")
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Seeding failed: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Seeding failed: {str(e)}")
 
 
 @develop_router.post("/develop/seed_fetch_extract", response_model=dict)
 def seed_fetch_extract(
-    seed_defaults_use_case: SeedDefaultsUseCase = Depends(
-        get_seed_defaults_use_case
-    ),
+    seed_defaults_use_case: SeedDefaultsUseCase = Depends(get_seed_defaults_use_case),
 ):
     """
     Seeds the database, fetches a protocol with default parameters, and extracts speeches from it.
@@ -57,9 +51,7 @@ def seed_fetch_extract(
         seed_result = "Seeding completed"
 
         # 2. Fetch protocol (hardcoded default params for Bundestag)
-        protocol_spec = ProtocolSpecDTO(
-            server_base=None, endpoint_spec=None, full_link=None, params=None
-        )
+        protocol_spec = ProtocolSpecDTO(server_base=None, endpoint_spec=None, full_link=None, params=None)
         fetcher = get_bundestag_fetcher(dto_to_protocol_spec(protocol_spec))
         protocol = fetcher.fetch_single()
         protocol_dto = protocol_to_dto(protocol)
@@ -74,9 +66,7 @@ def seed_fetch_extract(
             pattern_spec=None,
         )
         extractor_service = ExtractorService()
-        speeches = extractor_service.extract_speeches(
-            dto_to_extraction_spec(extraction_spec)
-        )
+        speeches = extractor_service.extract_speeches(dto_to_extraction_spec(extraction_spec))
         speeches_dto = [speech_to_dto(s) for s in speeches]
 
         return {
@@ -85,6 +75,4 @@ def seed_fetch_extract(
             "speeches": [s.model_dump() for s in speeches_dto],
         }
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Pipeline failed: {str(e)}"
-        )
+        raise HTTPException(status_code=500, detail=f"Pipeline failed: {str(e)}")

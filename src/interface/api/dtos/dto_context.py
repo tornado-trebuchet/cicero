@@ -10,6 +10,7 @@ from src.domain.models.common.v_enums import (
     OwnerTypeEnum,
 )
 
+
 # TODO I strongly sense that pydantic can help makeing it more configurable (filterable ). Read about it later
 class CountryDTO(BaseModel):
     id: UUID

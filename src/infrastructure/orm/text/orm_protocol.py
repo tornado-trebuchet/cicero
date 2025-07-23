@@ -21,26 +21,18 @@ if TYPE_CHECKING:
 class ProtocolORM(Base):
     __tablename__ = "protocols"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     institution_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("institutions.id"), nullable=False
     )
-    agenda: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True
-    )
+    agenda: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
     file_source: Mapped[str] = mapped_column(String, nullable=False)
     protocol_type: Mapped[ProtocolTypeEnum] = mapped_column(
         PG_ENUM(ProtocolTypeEnum, name="protocol_type_enum"), nullable=False
     )
-    date: Mapped[datetime] = mapped_column(
-        DateTime(timezone=True), nullable=False
-    )
+    date: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     protocol_text: Mapped[str] = mapped_column(String, nullable=False)
-    metadata_data: Mapped[Dict[str, Any]] = mapped_column(
-        JSONB, nullable=False
-    )
+    metadata_data: Mapped[Dict[str, Any]] = mapped_column(JSONB, nullable=False)
 
     # Relationships
     institution: Mapped["InstitutionORM"] = relationship(

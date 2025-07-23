@@ -1,7 +1,8 @@
 from typing import List, Literal
-from split_words import Splitter # type: ignore
+from split_words import Splitter  # type: ignore
 from src.domain.services.text.preprocessor.stopwords.german_stopwords import GermanStopwords
 import unicodedata
+
 
 class GermanNormalizer:
     _splitter = Splitter()
@@ -40,12 +41,14 @@ class GermanNormalizer:
                 else:
                     normalized_words.extend(parts)
             except Exception as e:
-                print(f"Error splitting '{word}': {e}") # TODO: add proper logging
+                print(f"Error splitting '{word}': {e}")  # TODO: add proper logging
                 normalized_words.append(word)
-        return ' '.join(normalized_words)
-    
+        return " ".join(normalized_words)
+
     @staticmethod
-    def normalize_unicode(text: str, form: Literal["NFC", "NFD", "NFKC", "NFKD"] = "NFKD", strip_diacritics: bool = False) -> str:
+    def normalize_unicode(
+        text: str, form: Literal["NFC", "NFD", "NFKC", "NFKD"] = "NFKD", strip_diacritics: bool = False
+    ) -> str:
         """
         Normalize unicode characters in the text. Optionally strip diacritics.
         Args:
@@ -57,14 +60,10 @@ class GermanNormalizer:
         """
         normalized = unicodedata.normalize(form, text)
         if strip_diacritics:
-            normalized = "".join(
-                c for c in normalized if not unicodedata.combining(c)
-            )
+            normalized = "".join(c for c in normalized if not unicodedata.combining(c))
         return normalized
-    
 
     @staticmethod
     def remove_artifacts(text: str) -> str:
         pattern = GermanStopwords().compile_field_artifact_pattern()
         return pattern.sub("", text)
-

@@ -38,12 +38,8 @@ class SpeakerExtractionConfig:
 @dataclass
 class CountingConfig:
     # Word counting methods
-    count_method: str = (
-        "whitespace"  # Options: "whitespace", "tokenized", "linguistic"
-    )
-    exclude_stopwords: bool = (
-        False  # Will be used when stopwords are implemented
-    )
+    count_method: str = "whitespace"  # Options: "whitespace", "tokenized", "linguistic"
+    exclude_stopwords: bool = False  # Will be used when stopwords are implemented
 
     # Character counting
     include_whitespace: bool = False

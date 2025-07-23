@@ -24,4 +24,6 @@ class TextSentences(Entity):
         return len(self._sentences)
 
     def __repr__(self) -> str:
-        return f"<TextSentences id={self.id} speech_id={self.speech_text_id} sentences={len(self._sentences)} >"
+        return (
+            f"<TextSentences id={self.id} speech_id={self.speech_text_id} sentences={len(self._sentences)} >"
+        )

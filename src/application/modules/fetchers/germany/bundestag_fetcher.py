@@ -23,14 +23,10 @@ class BundestagFetcher(BaseFetcher):
     ) -> None:
         super().__init__(api, repository, spec)
         self._joint_q_repo = JointQRepository()
-        self._institution = (
-            self._joint_q_repo.get_institution_by_country_and_institution_enum(
-                CountryEnum.GERMANY, InstitutionTypeEnum.PARLIAMENT
-            )
+        self._institution = self._joint_q_repo.get_institution_by_country_and_institution_enum(
+            CountryEnum.GERMANY, InstitutionTypeEnum.PARLIAMENT
         )
-        self._institution_id = (
-            self._institution.id if self._institution else None
-        )
+        self._institution_id = self._institution.id if self._institution else None
 
     def fetch_single(self) -> Protocol:
         """Fetch a protocol from the Bundestag API and store it in the repository."""

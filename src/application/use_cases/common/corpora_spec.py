@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from src.domain.models.common.v_common import UUID
 
+
 @dataclass
 class CorporaSpec:
     countries: Optional[List[UUID]] = None

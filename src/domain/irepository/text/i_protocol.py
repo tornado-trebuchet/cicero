@@ -24,9 +24,7 @@ class IProtocolRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_institution_and_period(
-        self, institution_id: UUID, period_id: UUID
-    ) -> List[Protocol]:
+    def get_by_institution_and_period(self, institution_id: UUID, period_id: UUID) -> List[Protocol]:
         """Get protocols for a specific institution and period."""
         pass
 
@@ -36,9 +34,7 @@ class IProtocolRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_date_range(
-        self, start_date: DateTime, end_date: DateTime
-    ) -> List[Protocol]:
+    def get_by_date_range(self, start_date: DateTime, end_date: DateTime) -> List[Protocol]:
         """Get protocols within a date range."""
         pass
 

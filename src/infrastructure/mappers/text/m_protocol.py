@@ -17,15 +17,9 @@ class ProtocolMapper:
             protocol_type=domain_entity.protocol_type.value,
             protocol_text=domain_entity.protocol_text.protocol_text,
             file_source=domain_entity.file_source.value,
-            agenda=(
-                domain_entity.agenda.items
-                if domain_entity.agenda is not None
-                else None
-            ),
+            agenda=(domain_entity.agenda.items if domain_entity.agenda is not None else None),
             metadata_data=(
-                domain_entity.metadata.get_properties()
-                if domain_entity.metadata is not None
-                else None
+                domain_entity.metadata.get_properties() if domain_entity.metadata is not None else None
             ),
         )
         return orm
@@ -45,9 +39,5 @@ class ProtocolMapper:
                 if hasattr(orm_entity, "speeches")
                 else None
             ),
-            metadata=(
-                MetadataPlugin(orm_entity.metadata_data)
-                if orm_entity.metadata_data
-                else None
-            ),
+            metadata=(MetadataPlugin(orm_entity.metadata_data) if orm_entity.metadata_data else None),
         )

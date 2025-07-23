@@ -47,10 +47,7 @@ class RegexPattern(ABC):
         for subclass in cls.__subclasses__():
             if (
                 (getattr(subclass, "country_code", None) == country_code)
-                and (
-                    getattr(subclass, "institution_code", None)
-                    == institution_code
-                )
+                and (getattr(subclass, "institution_code", None) == institution_code)
                 and (getattr(subclass, "language_code", None) == language_code)
                 and (getattr(subclass, "protocol_type", None) == protocol_type)
             ):

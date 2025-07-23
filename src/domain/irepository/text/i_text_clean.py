@@ -19,7 +19,7 @@ class ICleanTextRepository(ABC):
         pass
 
     @abstractmethod
-    def get__by_speech_ids(self, speech_ids: List[UUID]) -> List[str]:
+    def get_by_speech_ids(self, speech_ids: List[UUID]) -> List[str]:
         """Get clean texts for a list of speech IDs."""
         pass
 

@@ -19,9 +19,7 @@ class Country(AggregateRoot):
     ):
         super().__init__(id)
         self._country = country
-        self._periodisation = (
-            periodisation if periodisation is not None else []
-        )
+        self._periodisation = periodisation if periodisation is not None else []
         self._institutions = institutions if institutions is not None else []
         self._parties = parties if parties is not None else []
         self._speakers = speakers if speakers is not None else []

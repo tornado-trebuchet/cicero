@@ -20,9 +20,7 @@ if TYPE_CHECKING:
 class CountryORM(Base):
     __tablename__ = "countries"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     country: Mapped[CountryEnum] = mapped_column(
         PG_ENUM(CountryEnum, name="country_enum"), nullable=False, unique=True
     )

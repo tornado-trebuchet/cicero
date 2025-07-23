@@ -27,9 +27,7 @@ class CleanText(Entity):
     def num_words(self) -> int:
         return len(self._text.split())
 
-    def num_characters(
-        self, include_whitespace: bool = True, include_punctuation: bool = True
-    ) -> int:
+    def num_characters(self, include_whitespace: bool = True, include_punctuation: bool = True) -> int:
         if not include_whitespace:
             text = "".join(self._text.split())
         else:

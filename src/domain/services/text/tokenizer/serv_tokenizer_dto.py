@@ -1,6 +1,7 @@
 from typing import List
 from dataclasses import dataclass
 
+
 @dataclass
-class TokenizedTextDTO: 
+class TokenizedTextDTO:
     tokens: List[str]

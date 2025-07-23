@@ -16,9 +16,7 @@ class IInstitutionRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_type(
-        self, institution_type: InstitutionTypeEnum
-    ) -> List[Institution]:
+    def get_by_type(self, institution_type: InstitutionTypeEnum) -> List[Institution]:
         """Get institutions by type (e.g., Parliament, Federal Assembly)."""
         pass
 
@@ -35,9 +33,7 @@ class IInstitutionRepository(ABC):
         pass
 
     @abstractmethod
-    def exists(
-        self, country_id: UUID, institution_type: InstitutionTypeEnum
-    ) -> bool:
+    def exists(self, country_id: UUID, institution_type: InstitutionTypeEnum) -> bool:
         """Check if an institution exists by country ID and type."""
         pass
 

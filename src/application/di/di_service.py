@@ -19,10 +19,12 @@ def get_bundestag_fetcher(spec: FetcherSpec):
     repository = ProtocolRepository()
     return BundestagFetcher(api, repository, spec)
 
+
 # def get_extractor(spec: ExtracorSpec):
 #     config = APIConfig()
 #     repository = ProtocolRepository()
 #     return ExtractorService(config, repository, spec)
+
 
 def get_preprocessor(spec: PreprocessorSpec):
     return PreprocessTextService(spec)

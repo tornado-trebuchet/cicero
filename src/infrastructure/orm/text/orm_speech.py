@@ -21,9 +21,7 @@ if TYPE_CHECKING:
 class SpeechORM(Base):
     __tablename__ = "speeches"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     protocol_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("protocols.id"), nullable=False
     )
@@ -31,9 +29,7 @@ class SpeechORM(Base):
     speaker_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("speakers.id"), nullable=False
     )
-    meta_data: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True
-    )
+    meta_data: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
 
     # Relationships
     protocol: Mapped["ProtocolORM"] = relationship(

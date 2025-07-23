@@ -15,17 +15,13 @@ from src.infrastructure.orm.context.orm_speaker import SpeakerORM
 class SpeechRepository(ISpeechRepository):
     def get_by_id(self, id: UUID) -> Optional[Speech]:
         with session_scope() as session:
-            orm_speech = (
-                session.query(SpeechORM).filter_by(id=id.value).one_or_none()
-            )
+            orm_speech = session.query(SpeechORM).filter_by(id=id.value).one_or_none()
             return SpeechMapper.to_domain(orm_speech) if orm_speech else None
 
     def get_by_id_list(self, id_list: List[UUID]) -> List[Speech]:
         with session_scope() as session:
             orm_speeches = (
-                session.query(SpeechORM)
-                .filter(SpeechORM.id.in_([id.value for id in id_list]))
-                .all()
+                session.query(SpeechORM).filter(SpeechORM.id.in_([id.value for id in id_list])).all()
             )
             return [SpeechMapper.to_domain(orm) for orm in orm_speeches]
 
@@ -73,11 +69,7 @@ class SpeechRepository(ISpeechRepository):
 
     def get_by_protocol_id(self, protocol_id: UUID) -> List[Speech]:
         with session_scope() as session:
-            orm_speeches = (
-                session.query(SpeechORM)
-                .filter_by(protocol_id=protocol_id.value)
-                .all()
-            )
+            orm_speeches = session.query(SpeechORM).filter_by(protocol_id=protocol_id.value).all()
             return [SpeechMapper.to_domain(orm) for orm in orm_speeches]
 
     def get_by_protocol_id_list(self, protocol_id_list: List[UUID]) -> List[Speech]:
@@ -92,10 +84,7 @@ class SpeechRepository(ISpeechRepository):
     def get_by_party_id(self, party_id: UUID) -> List[Speech]:
         with session_scope() as session:
             orm_speeches = (
-                session.query(SpeechORM)
-                .join(SpeechORM.speaker)
-                .filter_by(party_id=party_id.value)
-                .all()
+                session.query(SpeechORM).join(SpeechORM.speaker).filter_by(party_id=party_id.value).all()
             )
             return [SpeechMapper.to_domain(orm) for orm in orm_speeches]
 
@@ -111,11 +100,7 @@ class SpeechRepository(ISpeechRepository):
 
     def get_by_speaker_id(self, speaker_id: UUID) -> List[Speech]:
         with session_scope() as session:
-            orm_speeches = (
-                session.query(SpeechORM)
-                .filter_by(speaker_id=speaker_id.value)
-                .all()
-            )
+            orm_speeches = session.query(SpeechORM).filter_by(speaker_id=speaker_id.value).all()
             return [SpeechMapper.to_domain(orm) for orm in orm_speeches]
 
     def get_by_speaker_id_list(self, speaker_id: List[UUID]) -> List[Speech]:
@@ -128,9 +113,7 @@ class SpeechRepository(ISpeechRepository):
             return [SpeechMapper.to_domain(orm) for orm in orm_speeches]
 
     # Complex query
-    def get_by_date_range(
-        self, start_date: DateTime, end_date: DateTime
-    ) -> List[Speech]:
+    def get_by_date_range(self, start_date: DateTime, end_date: DateTime) -> List[Speech]:
 
         with session_scope() as session:
             orm_speeches = (
@@ -172,11 +155,7 @@ class SpeechRepository(ISpeechRepository):
 
     def update(self, speech: Speech) -> None:
         with session_scope() as session:
-            exists = (
-                session.query(SpeechORM)
-                .filter_by(id=speech.id.value)
-                .one_or_none()
-            )
+            exists = session.query(SpeechORM).filter_by(id=speech.id.value).one_or_none()
             if not exists:
                 raise ValueError(f"Speech with id {speech.id} not found.")
             orm_speech = SpeechMapper.to_orm(speech)
@@ -184,8 +163,6 @@ class SpeechRepository(ISpeechRepository):
 
     def delete(self, id: UUID) -> None:
         with session_scope() as session:
-            orm_speech = (
-                session.query(SpeechORM).filter_by(id=id.value).one_or_none()
-            )
+            orm_speech = session.query(SpeechORM).filter_by(id=id.value).one_or_none()
             if orm_speech:
                 session.delete(orm_speech)

@@ -18,18 +18,19 @@ from src.domain.irepository.text.i_text_clean import ICleanTextRepository
 from src.domain.irepository.text.i_text_tokenized import ITokenizedTextRepository
 from src.domain.irepository.text.i_text_ngrams import INGramizedTextRepository
 
-# TODO: Somewhat redundant, since repositories will still have by IDs method 
-class CorporaManger: 
+
+# TODO: Somewhat redundant, since repositories will still have by IDs method
+class CorporaManger:
 
     def __init__(
-        self, 
-        corpora_repo: ICorporaRepository, 
+        self,
+        corpora_repo: ICorporaRepository,
         joint_q_repo: IJointQRepository,
         period_repo: IPeriodRepository,
         raw_text_repo: IRawTextRepository,
         clean_text_repo: ICleanTextRepository,
         tokenized_text_repo: ITokenizedTextRepository,
-        ngramized_text_repo: INGramizedTextRepository
+        ngramized_text_repo: INGramizedTextRepository,
     ):
         self.corpora_repo = corpora_repo
         self.joint_q_repo = joint_q_repo
@@ -46,19 +47,19 @@ class CorporaManger:
                 period_obj = self.period_repo.get_by_id(period_id)
                 if period_obj is not None:
                     periods.append(period_obj)
-            
+
         speeches: List[Speech] = self.joint_q_repo.get_speeches_with_filter(
             countries=corpora_spec.countries,
             institutions=corpora_spec.institutions,
             protocols=corpora_spec.protocols,
             party_ids=corpora_spec.parties,
             speaker_ids=corpora_spec.speakers,
-            periods=periods
+            periods=periods,
         )
-        
+
         # Extract UUIDs from speeches
         speech_uuids = {speech.id for speech in speeches}
-        # TODO: Create label 
+        # TODO: Create label
 
         return Corpora(
             id=UUID.new(),
@@ -69,8 +70,8 @@ class CorporaManger:
             protocols=corpora_spec.protocols,
             parties=corpora_spec.parties,
             speakers=corpora_spec.speakers,
-            periods=corpora_spec.periods
-    )
+            periods=corpora_spec.periods,
+        )
 
     def get_raw_texts_from_corpora(self, corpora: Corpora) -> List[RawText]:
         return [

@@ -17,24 +17,16 @@ if TYPE_CHECKING:
 class SpeechMetricsORM(Base):
     __tablename__ = "speech_metrics"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     speech_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True),
         ForeignKey("speeches.id", ondelete="CASCADE"),
         nullable=False,
         unique=True,
     )
-    dominant_topics: Mapped[Optional[List[Dict[str, Any]]]] = mapped_column(
-        JSONB, nullable=True
-    )
-    sentiment: Mapped[Optional[Dict[str, Any]]] = mapped_column(
-        JSONB, nullable=True
-    )
-    dynamic_codes: Mapped[Optional[List[Any]]] = mapped_column(
-        JSONB, nullable=True
-    )
+    dominant_topics: Mapped[Optional[List[Dict[str, Any]]]] = mapped_column(JSONB, nullable=True)
+    sentiment: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
+    dynamic_codes: Mapped[Optional[List[Any]]] = mapped_column(JSONB, nullable=True)
 
     # Relationships
     speech: Mapped["SpeechORM"] = relationship(

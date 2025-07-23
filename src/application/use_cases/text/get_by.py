@@ -37,9 +37,7 @@ class GetProtocolsByInstitutionAndPeriodUseCase:
         self.repo = repo
 
     def execute(self, institution_id: UUID, period_id: UUID):
-        return self.repo.get_by_institution_and_period(
-            institution_id, period_id
-        )
+        return self.repo.get_by_institution_and_period(institution_id, period_id)
 
 
 class GetProtocolsByDateRangeUseCase:
@@ -86,7 +84,5 @@ class GetSpeechesByDateRangeUseCase:
     def __init__(self, repo: ISpeechRepository):
         self.repo = repo
 
-    def execute(
-        self, start_date: DateTime, end_date: DateTime
-    ) -> List[Speech]:
+    def execute(self, start_date: DateTime, end_date: DateTime) -> List[Speech]:
         return self.repo.get_by_date_range(start_date, end_date)

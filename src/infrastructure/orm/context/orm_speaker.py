@@ -21,9 +21,7 @@ if TYPE_CHECKING:
 class SpeakerORM(Base):
     __tablename__ = "speakers"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     country_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("countries.id"), nullable=False
     )

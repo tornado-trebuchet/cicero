@@ -59,9 +59,7 @@ class DateTime(ValueObject):
             except ValueError:
                 raise ValueError(f"Invalid ISO datetime string: {value}")
         else:
-            raise ValueError(
-                "DateTime must be a datetime, date, or ISO string."
-            )
+            raise ValueError("DateTime must be a datetime, date, or ISO string.")
 
     @property
     def value(self) -> _datetime:

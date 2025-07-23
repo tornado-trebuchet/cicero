@@ -15,11 +15,7 @@ from src.infrastructure.orm.text.orm_text_tokenized import TokenizedTextORM
 class TokenizedTextRepository(ITokenizedTextRepository):
     def get_by_id(self, id: UUID) -> Optional[TokenizedText]:
         with session_scope() as session:
-            orm_tokenized = (
-                session.query(TokenizedTextORM)
-                .filter_by(id=id.value)
-                .one_or_none()
-            )
+            orm_tokenized = session.query(TokenizedTextORM).filter_by(id=id.value).one_or_none()
             if orm_tokenized:
                 return TokenizedTextMapper.to_domain(orm_tokenized)
             return None
@@ -27,9 +23,7 @@ class TokenizedTextRepository(ITokenizedTextRepository):
     def get_by_speech_id(self, speech_id: UUID) -> Optional[TokenizedText]:
         with session_scope() as session:
             orm_tokenized = (
-                session.query(TokenizedTextORM)
-                .filter_by(speech_text_id=speech_id.value)
-                .one_or_none()
+                session.query(TokenizedTextORM).filter_by(speech_text_id=speech_id.value).one_or_none()
             )
             if orm_tokenized:
                 return TokenizedTextMapper.to_domain(orm_tokenized)
@@ -42,24 +36,14 @@ class TokenizedTextRepository(ITokenizedTextRepository):
 
     def update(self, tokenized_text: TokenizedText) -> None:
         with session_scope() as session:
-            exists = (
-                session.query(TokenizedTextORM)
-                .filter_by(id=tokenized_text.id.value)
-                .one_or_none()
-            )
+            exists = session.query(TokenizedTextORM).filter_by(id=tokenized_text.id.value).one_or_none()
             if not exists:
-                raise ValueError(
-                    f"TokenizedText with id {tokenized_text.id} not found."
-                )
+                raise ValueError(f"TokenizedText with id {tokenized_text.id} not found.")
             orm_tokenized = TokenizedTextMapper.to_orm(tokenized_text)
             session.merge(orm_tokenized)
 
     def delete(self, id: UUID) -> None:
         with session_scope() as session:
-            orm_tokenized = (
-                session.query(TokenizedTextORM)
-                .filter_by(id=id.value)
-                .one_or_none()
-            )
+            orm_tokenized = session.query(TokenizedTextORM).filter_by(id=id.value).one_or_none()
             if orm_tokenized:
                 session.delete(orm_tokenized)

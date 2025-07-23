@@ -35,8 +35,6 @@ class API(ABC):
         ...
 
     @abstractmethod
-    def parse(
-        self, response: ResponseProtocol, institution_id: UUID
-    ) -> Protocol:
+    def parse(self, response: ResponseProtocol, institution_id: UUID) -> Protocol:
         """Parse the API response and convert it to a Protocol domain object."""
         ...

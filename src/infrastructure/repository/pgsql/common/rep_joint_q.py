@@ -28,11 +28,7 @@ class JointQRepository(IJointQRepository):
     ) -> Optional[Institution]:
         with session_scope() as session:
             # Find the country id by enum
-            country_orm = (
-                session.query(CountryORM)
-                .filter_by(country=country)
-                .one_or_none()
-            )
+            country_orm = session.query(CountryORM).filter_by(country=country).one_or_none()
             if not country_orm:
                 return None
             # Find the institution by country_id and institution_type
@@ -48,24 +44,14 @@ class JointQRepository(IJointQRepository):
                 return InstitutionMapper.to_domain(orm_institution)
             return None
 
-    def get_country_by_institution_id(
-        self, institution_id: UUID
-    ) -> Optional[Country]:
+    def get_country_by_institution_id(self, institution_id: UUID) -> Optional[Country]:
         with session_scope() as session:
             # Find the institution by id
-            orm_institution = (
-                session.query(InstitutionORM)
-                .filter_by(id=institution_id.value)
-                .one_or_none()
-            )
+            orm_institution = session.query(InstitutionORM).filter_by(id=institution_id.value).one_or_none()
             if not orm_institution:
                 return None
             # Get the country associated with the institution
-            orm_country = (
-                session.query(CountryORM)
-                .filter_by(id=orm_institution.country_id)
-                .one_or_none()
-            )
+            orm_country = session.query(CountryORM).filter_by(id=orm_institution.country_id).one_or_none()
             if orm_country:
                 return CountryMapper.to_domain(orm_country)
             return None
@@ -101,12 +87,12 @@ class JointQRepository(IJointQRepository):
         with session_scope() as session:
             # Start with a basic query for speeches
             query = session.query(SpeechORM)
-            
+
             # Keep track of joins to avoid duplicate joins
             joined_protocol = False
             joined_institution = False
             joined_speaker = False
-            
+
             # Apply country filter if provided
             if countries and len(countries) > 0:
                 country_values = [country.value for country in countries]
@@ -114,59 +100,56 @@ class JointQRepository(IJointQRepository):
                 if not joined_protocol:
                     query = query.join(SpeechORM.protocol)
                     joined_protocol = True
-                
+
                 if not joined_institution:
                     query = query.join(ProtocolORM.institution)
                     joined_institution = True
-                    
+
                 query = query.filter(InstitutionORM.country_id.in_(country_values))
-            
+
             # Apply institution filter if provided
             if institutions and len(institutions) > 0:
                 institution_values = [institution.value for institution in institutions]
                 if not joined_protocol:
                     query = query.join(SpeechORM.protocol)
                     joined_protocol = True
-                
+
                 query = query.filter(ProtocolORM.institution_id.in_(institution_values))
-            
+
             # Apply protocol filter if provided
             if protocols and len(protocols) > 0:
                 protocol_values = [protocol.value for protocol in protocols]
                 query = query.filter(SpeechORM.protocol_id.in_(protocol_values))
-            
+
             # Apply party filter if provided
             if party_ids and len(party_ids) > 0:
                 party_values = [party_id.value for party_id in party_ids]
                 if not joined_speaker:
                     query = query.join(SpeechORM.speaker)
                     joined_speaker = True
-                
+
                 query = query.filter(SpeakerORM.party_id.in_(party_values))
-            
+
             # Apply speaker filter if provided
             if speaker_ids and len(speaker_ids) > 0:
                 speaker_values = [speaker_id.value for speaker_id in speaker_ids]
                 query = query.filter(SpeechORM.speaker_id.in_(speaker_values))
-            
+
             # Apply periods filter if provided
             if periods and len(periods) > 0:
                 if not joined_protocol:
                     query = query.join(SpeechORM.protocol)
                     joined_protocol = True
-                
+
                 # Handle each period separately
                 for period in periods:
                     # For each period, filter by its date range
                     start_date = period.start_date.value
                     end_date = period.end_date.value
-                    query = query.filter(
-                        ProtocolORM.date >= start_date,
-                        ProtocolORM.date <= end_date
-                    )
-            
+                    query = query.filter(ProtocolORM.date >= start_date, ProtocolORM.date <= end_date)
+
             # Execute the query
             orm_speeches = query.all()
-            
+
             # Map the results to domain objects
             return [SpeechMapper.to_domain(orm_speech) for orm_speech in orm_speeches]

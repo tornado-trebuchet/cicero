@@ -13,18 +13,14 @@ from src.infrastructure.orm.orm_session import session_scope
 class SpeakerRepository(ISpeakerRepository):
     def get_by_id(self, id: UUID) -> Optional[Speaker]:
         with session_scope() as session:
-            orm_speaker = (
-                session.query(SpeakerORM).filter_by(id=id.value).one_or_none()
-            )
+            orm_speaker = session.query(SpeakerORM).filter_by(id=id.value).one_or_none()
             if orm_speaker:
                 return SpeakerMapper.to_domain(orm_speaker)
             return None
 
     def get_by_name(self, name: Name) -> List[Speaker]:
         with session_scope() as session:
-            orm_speakers = (
-                session.query(SpeakerORM).filter_by(name=str(name)).all()
-            )
+            orm_speakers = session.query(SpeakerORM).filter_by(name=str(name)).all()
             return [SpeakerMapper.to_domain(orm) for orm in orm_speakers]
 
     def list(self) -> List[Speaker]:
@@ -39,11 +35,7 @@ class SpeakerRepository(ISpeakerRepository):
 
     def update(self, speaker: Speaker) -> None:
         with session_scope() as session:
-            exists = (
-                session.query(SpeakerORM)
-                .filter_by(id=speaker.id.value)
-                .one_or_none()
-            )
+            exists = session.query(SpeakerORM).filter_by(id=speaker.id.value).one_or_none()
             if not exists:
                 raise ValueError(f"Speaker with id {speaker.id} not found.")
             orm_speaker = SpeakerMapper.to_orm(speaker)
@@ -51,15 +43,11 @@ class SpeakerRepository(ISpeakerRepository):
 
     def delete(self, id: UUID) -> None:
         with session_scope() as session:
-            orm_speaker = (
-                session.query(SpeakerORM).filter_by(id=id.value).one_or_none()
-            )
+            orm_speaker = session.query(SpeakerORM).filter_by(id=id.value).one_or_none()
             if orm_speaker:
                 session.delete(orm_speaker)
 
-    def get_by_country_id_and_name(
-        self, country_id: UUID, name: Name
-    ) -> Optional[Speaker]:
+    def get_by_country_id_and_name(self, country_id: UUID, name: Name) -> Optional[Speaker]:
         with session_scope() as session:
             orm_speaker = (
                 session.query(SpeakerORM)
@@ -73,8 +61,6 @@ class SpeakerRepository(ISpeakerRepository):
     def exists(self, country: CountryEnum, name: Name) -> bool:
         with session_scope() as session:
             orm_speaker = (
-                session.query(SpeakerORM)
-                .filter_by(country=country.value, name=name.value)
-                .one_or_none()
+                session.query(SpeakerORM).filter_by(country=country.value, name=name.value).one_or_none()
             )
             return orm_speaker is not None

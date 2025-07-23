@@ -21,6 +21,9 @@ typer = "^0.16.0"
 split-words = "^0.1.0"
 regex = "^2024.4.28"
 
+[tool.black]
+line-length = 110
+
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.4.1"
 

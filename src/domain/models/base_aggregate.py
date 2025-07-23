@@ -17,6 +17,4 @@ class AggregateRoot(Entity):
         self._version += 1
 
     def __repr__(self) -> str:
-        return (
-            f"<{self.__class__.__name__} id={self.id}, version={self.version}>"
-        )
+        return f"<{self.__class__.__name__} id={self.id}, version={self.version}>"

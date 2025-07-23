@@ -17,9 +17,7 @@ if TYPE_CHECKING:
 class SplitTextORM(Base):
     __tablename__ = "split_texts"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     speech_text_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True),
         ForeignKey("speech_texts.id"),

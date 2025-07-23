@@ -12,20 +12,14 @@ from src.infrastructure.orm.orm_session import session_scope
 class CountryRepository(ICountryRepository):
     def get_by_id(self, id: UUID) -> Optional[Country]:
         with session_scope() as session:
-            orm_country = (
-                session.query(CountryORM).filter_by(id=id.value).one_or_none()
-            )
+            orm_country = session.query(CountryORM).filter_by(id=id.value).one_or_none()
             if orm_country:
                 return CountryMapper.to_domain(orm_country)
             return None
 
     def get_by_country_enum(self, country: CountryEnum) -> Optional[Country]:
         with session_scope() as session:
-            orm_country = (
-                session.query(CountryORM)
-                .filter_by(country=country)
-                .one_or_none()
-            )
+            orm_country = session.query(CountryORM).filter_by(country=country).one_or_none()
             if orm_country:
                 return CountryMapper.to_domain(orm_country)
             return None
@@ -42,11 +36,7 @@ class CountryRepository(ICountryRepository):
 
     def update(self, country: Country) -> None:
         with session_scope() as session:
-            exists = (
-                session.query(CountryORM)
-                .filter_by(id=country.id.value)
-                .one_or_none()
-            )
+            exists = session.query(CountryORM).filter_by(id=country.id.value).one_or_none()
             if not exists:
                 raise ValueError(f"Country with id {country.id} not found.")
             orm_country = CountryMapper.to_orm(country)
@@ -54,17 +44,11 @@ class CountryRepository(ICountryRepository):
 
     def delete(self, id: UUID) -> None:
         with session_scope() as session:
-            orm_country = (
-                session.query(CountryORM).filter_by(id=id.value).one_or_none()
-            )
+            orm_country = session.query(CountryORM).filter_by(id=id.value).one_or_none()
             if orm_country:
                 session.delete(orm_country)
 
     def exists(self, country: CountryEnum) -> bool:
         with session_scope() as session:
-            orm_country = (
-                session.query(CountryORM)
-                .filter_by(country=country)
-                .one_or_none()
-            )
+            orm_country = session.query(CountryORM).filter_by(country=country).one_or_none()
             return orm_country is not None

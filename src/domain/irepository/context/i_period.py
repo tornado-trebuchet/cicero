@@ -21,9 +21,7 @@ class IPeriodRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_owner(
-        self, owner_id: UUID, owner_type: OwnerTypeEnum
-    ) -> List[Period]:
+    def get_by_owner(self, owner_id: UUID, owner_type: OwnerTypeEnum) -> List[Period]:
         """Get periods by specific owner type and id."""
         pass
 

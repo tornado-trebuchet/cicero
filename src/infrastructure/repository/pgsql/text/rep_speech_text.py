@@ -11,11 +11,7 @@ from src.infrastructure.orm.text.orm_speech_text import SpeechTextORM
 class SpeechTextRepository(ISpeechTextRepository):
     def get_by_id(self, id: UUID) -> Optional[SpeechText]:
         with session_scope() as session:
-            orm_speech_text = (
-                session.query(SpeechTextORM)
-                .filter_by(id=id.value)
-                .one_or_none()
-            )
+            orm_speech_text = session.query(SpeechTextORM).filter_by(id=id.value).one_or_none()
             if orm_speech_text:
                 return SpeechTextMapper.to_domain(orm_speech_text)
             return None
@@ -27,24 +23,14 @@ class SpeechTextRepository(ISpeechTextRepository):
 
     def update(self, speech_text: SpeechText) -> None:
         with session_scope() as session:
-            exists = (
-                session.query(SpeechTextORM)
-                .filter_by(id=speech_text.id.value)
-                .one_or_none()
-            )
+            exists = session.query(SpeechTextORM).filter_by(id=speech_text.id.value).one_or_none()
             if not exists:
-                raise ValueError(
-                    f"SpeechText with id {speech_text.id} not found."
-                )
+                raise ValueError(f"SpeechText with id {speech_text.id} not found.")
             orm_speech_text = SpeechTextMapper.to_orm(speech_text)
             session.merge(orm_speech_text)
 
     def delete(self, id: UUID) -> None:
         with session_scope() as session:
-            orm_speech_text = (
-                session.query(SpeechTextORM)
-                .filter_by(id=id.value)
-                .one_or_none()
-            )
+            orm_speech_text = session.query(SpeechTextORM).filter_by(id=id.value).one_or_none()
             if orm_speech_text:
                 session.delete(orm_speech_text)

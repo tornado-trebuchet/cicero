@@ -11,11 +11,7 @@ from src.infrastructure.orm.text.orm_speech_metrics import SpeechMetricsORM
 class SpeechMetricsRepository(ISpeechMetricsRepository):
     def get_by_speech_id(self, speech_id: UUID) -> Optional[MetricsPlugin]:
         with session_scope() as session:
-            orm_metrics = (
-                session.query(SpeechMetricsORM)
-                .filter_by(speech_id=speech_id.value)
-                .one_or_none()
-            )
+            orm_metrics = session.query(SpeechMetricsORM).filter_by(speech_id=speech_id.value).one_or_none()
             if orm_metrics:
                 return SpeechMetricsMapper.to_domain(orm_metrics)
             return None
@@ -27,16 +23,10 @@ class SpeechMetricsRepository(ISpeechMetricsRepository):
 
     def update(self, speech_id: UUID, metrics: MetricsPlugin) -> None:
         with session_scope() as session:
-            existing = (
-                session.query(SpeechMetricsORM)
-                .filter_by(speech_id=speech_id.value)
-                .one_or_none()
-            )
+            existing = session.query(SpeechMetricsORM).filter_by(speech_id=speech_id.value).one_or_none()
             if not existing:
-                raise ValueError(
-                    f"SpeechMetrics for speech {speech_id} not found."
-                )
-            
+                raise ValueError(f"SpeechMetrics for speech {speech_id} not found.")
+
             # Update existing record
             existing.dominant_topics = metrics.dominant_topics
             existing.sentiment = metrics.sentiment
@@ -44,10 +34,6 @@ class SpeechMetricsRepository(ISpeechMetricsRepository):
 
     def delete(self, speech_id: UUID) -> None:
         with session_scope() as session:
-            orm_metrics = (
-                session.query(SpeechMetricsORM)
-                .filter_by(speech_id=speech_id.value)
-                .one_or_none()
-            )
+            orm_metrics = session.query(SpeechMetricsORM).filter_by(speech_id=speech_id.value).one_or_none()
             if orm_metrics:
                 session.delete(orm_metrics)

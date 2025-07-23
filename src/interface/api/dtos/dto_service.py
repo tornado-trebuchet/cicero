@@ -26,5 +26,6 @@ class ExtractionSpecDTO(BaseModel):
     protocol_type: ProtocolTypeEnum
     pattern_spec: Optional[Any] = None
 
+
 class PreprocessorSpecDTO(BaseModel):
     speech: UUID

@@ -106,6 +106,4 @@ class SpeechText(AggregateRoot):
         self._text_metrics = value
 
     def __repr__(self) -> str:
-        return (
-            f"<TextVO lang={self._language_code} words={self._text_metrics}>"
-        )
+        return f"<TextVO lang={self._language_code} words={self._text_metrics}>"

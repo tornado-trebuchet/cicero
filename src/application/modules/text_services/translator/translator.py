@@ -7,6 +7,7 @@ from src.infrastructure.repository.pgsql.text.rep_text_translated import Transla
 from src.application.modules.text_services.translator.translator_spec import TranslatorSpec
 from src.domain.services.text.translator.serv_translator_dto import TranslatedTextDTO
 
+
 class PreprocessTextService:
     def __init__(self, spec: TranslatorSpec):
         self.spec = spec
@@ -28,15 +29,13 @@ class PreprocessTextService:
         clean_text = self.clean_text_repo.get_by_id(speech_text.raw_text)
         if clean_text is None:
             raise ValueError(f"No CleanText found for id: {speech_text.raw_text}")
-        # 4. Get Translator 
+        # 4. Get Translator
         translator_cls = TranslateCleanText()
         # 5. Translate
         service = TranslateCleanText(clean_text)
         translation_dto: TranslatedTextDTO = service.process()
         translated_text = TranslatedText(
-            id=UUID.new(),
-            speech_text_id=speech_text.id,
-            translated_text=translation_dto.translation
+            id=UUID.new(), speech_text_id=speech_text.id, translated_text=translation_dto.translation
         )
         self.translated_text_repo.add(translated_text)
         # 5. Update SpeechText with CleanText id

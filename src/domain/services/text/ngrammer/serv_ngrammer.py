@@ -16,9 +16,7 @@ class NGramTokenizeCleanText(TextService):
         if ngrammer_cls is not None:
             return ngrammer_cls
         else:
-            raise ValueError(
-                f"No ngrammer found for language code: {language_code}"
-            )
+            raise ValueError(f"No ngrammer found for language code: {language_code}")
 
     def process(self, n: int) -> Corpora:
         corpora = self.ngrammer.generate_ngrams_external(self.corpora, n)

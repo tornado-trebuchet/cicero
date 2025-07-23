@@ -49,18 +49,14 @@ def list_countries(
 
 
 @context_router.get("/countries/{country_id}", response_model=CountryDTO)
-def get_country_by_id(
-    country_id: str, use_case: Any = Depends(get_country_by_id_use_case)
-) -> CountryDTO:
+def get_country_by_id(country_id: str, use_case: Any = Depends(get_country_by_id_use_case)) -> CountryDTO:
     country = use_case.execute(country_id)
     if not country:
         raise HTTPException(status_code=404, detail="Country not found")
     return country_to_dto(country)
 
 
-@context_router.get(
-    "/countries/by_enum/{country_enum}", response_model=CountryDTO
-)
+@context_router.get("/countries/by_enum/{country_enum}", response_model=CountryDTO)
 def get_country_by_enum(
     country_enum: CountryEnum,
     use_case: Any = Depends(get_country_by_enum_use_case),
@@ -79,9 +75,7 @@ def list_institutions(
     return [institution_to_dto(inst) for inst in institutions]
 
 
-@context_router.get(
-    "/institutions/{institution_id}", response_model=InstitutionDTO
-)
+@context_router.get("/institutions/{institution_id}", response_model=InstitutionDTO)
 def get_institution_by_id(
     institution_id: str,
     use_case: Any = Depends(get_institution_by_id_use_case),
@@ -113,9 +107,7 @@ def list_parties(
 
 
 @context_router.get("/parties/{party_id}", response_model=PartyDTO)
-def get_party_by_id(
-    party_id: str, use_case: Any = Depends(get_party_by_id_use_case)
-) -> PartyDTO:
+def get_party_by_id(party_id: str, use_case: Any = Depends(get_party_by_id_use_case)) -> PartyDTO:
     party = use_case.execute(party_id)
     if not party:
         raise HTTPException(status_code=404, detail="Party not found")
@@ -123,9 +115,7 @@ def get_party_by_id(
 
 
 @context_router.get("/parties/by_name/{party_name}", response_model=PartyDTO)
-def get_party_by_name(
-    party_name: str, use_case: Any = Depends(get_party_by_name_use_case)
-) -> PartyDTO:
+def get_party_by_name(party_name: str, use_case: Any = Depends(get_party_by_name_use_case)) -> PartyDTO:
     party = use_case.execute(party_name)
     if not party:
         raise HTTPException(status_code=404, detail="Party not found")
@@ -141,18 +131,14 @@ def list_periods(
 
 
 @context_router.get("/periods/{period_id}", response_model=PeriodDTO)
-def get_period_by_id(
-    period_id: str, use_case: Any = Depends(get_period_by_id_use_case)
-) -> PeriodDTO:
+def get_period_by_id(period_id: str, use_case: Any = Depends(get_period_by_id_use_case)) -> PeriodDTO:
     period = use_case.execute(period_id)
     if not period:
         raise HTTPException(status_code=404, detail="Period not found")
     return period_to_dto(period)
 
 
-@context_router.get(
-    "/periods/by_owner_id/{owner_id}", response_model=List[PeriodDTO]
-)
+@context_router.get("/periods/by_owner_id/{owner_id}", response_model=List[PeriodDTO])
 def get_periods_by_owner_id(
     owner_id: str, use_case: Any = Depends(get_periods_by_owner_id_use_case)
 ) -> List[PeriodDTO]:
@@ -160,9 +146,7 @@ def get_periods_by_owner_id(
     return [period_to_dto(p) for p in periods]
 
 
-@context_router.get(
-    "/periods/by_owner/{owner_id}/{owner_type}", response_model=List[PeriodDTO]
-)
+@context_router.get("/periods/by_owner/{owner_id}/{owner_type}", response_model=List[PeriodDTO])
 def get_periods_by_owner(
     owner_id: str,
     owner_type: str,
@@ -173,9 +157,7 @@ def get_periods_by_owner(
 
 
 @context_router.get("/periods/by_label/{label}", response_model=PeriodDTO)
-def get_period_by_label(
-    label: str, use_case: Any = Depends(get_period_by_label_use_case)
-) -> PeriodDTO:
+def get_period_by_label(label: str, use_case: Any = Depends(get_period_by_label_use_case)) -> PeriodDTO:
     period = use_case.execute(label)
     if not period:
         raise HTTPException(status_code=404, detail="Period not found")
@@ -183,18 +165,14 @@ def get_period_by_label(
 
 
 @context_router.get("/speakers/{speaker_id}", response_model=SpeakerDTO)
-def get_speaker_by_id(
-    speaker_id: str, use_case: Any = Depends(get_speaker_by_id_use_case)
-) -> SpeakerDTO:
+def get_speaker_by_id(speaker_id: str, use_case: Any = Depends(get_speaker_by_id_use_case)) -> SpeakerDTO:
     speaker = use_case.execute(speaker_id)
     if not speaker:
         raise HTTPException(status_code=404, detail="Speaker not found")
     return speaker_to_dto(speaker)
 
 
-@context_router.get(
-    "/speakers/by_name/{name}", response_model=List[SpeakerDTO]
-)
+@context_router.get("/speakers/by_name/{name}", response_model=List[SpeakerDTO])
 def get_speakers_by_name(
     name: str, use_case: Any = Depends(get_speakers_by_name_use_case)
 ) -> List[SpeakerDTO]:

@@ -24,9 +24,5 @@ class TokenizeCleanText(TextService):
 
     def process(self, tokenizer_cls: type[Tokenizer], stopwords_list: set[str]) -> TokenizedTextDTO:
         tokens = tokenizer_cls().tokenize(self.clean_text)
-        filtered_tokens = [
-            token
-            for token in tokens.tokens
-            if token.lower() not in stopwords_list
-        ]
+        filtered_tokens = [token for token in tokens.tokens if token.lower() not in stopwords_list]
         return TokenizedTextDTO(tokens=filtered_tokens)

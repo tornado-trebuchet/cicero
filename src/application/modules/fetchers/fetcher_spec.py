@@ -45,9 +45,7 @@ class FetcherSpec:
         return self._params
 
     @params.setter
-    def params(
-        self, value: Optional[Dict[str, Union[str, list[str]]]]
-    ) -> None:
+    def params(self, value: Optional[Dict[str, Union[str, list[str]]]]) -> None:
         self._params = value if value else {}
 
     def get_spec_dict(self) -> dict[str, Optional[Any]]:

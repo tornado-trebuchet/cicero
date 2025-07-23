@@ -58,9 +58,7 @@ class ISpeechRepository(ABC):
         pass
 
     @abstractmethod
-    def get_by_date_range(
-        self, start_date: DateTime, end_date: DateTime
-    ) -> List[Speech]:
+    def get_by_date_range(self, start_date: DateTime, end_date: DateTime) -> List[Speech]:
         pass
 
     @abstractmethod

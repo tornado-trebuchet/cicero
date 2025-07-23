@@ -30,29 +30,20 @@ corpora_speeches = Table(
     ),
 )
 
-# TODO: Probably will be a good idea to put mappers here as classmethods? 
+
+# TODO: Probably will be a good idea to put mappers here as classmethods?
 class CorporaORM(Base):
     __tablename__ = "corpora"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     label: Mapped[str] = mapped_column(String, nullable=False)
-    countries: Mapped[Optional[List[uuid.UUID]]] = mapped_column(
-        ARRAY(PG_UUID(as_uuid=True)), nullable=True
-    )
+    countries: Mapped[Optional[List[uuid.UUID]]] = mapped_column(ARRAY(PG_UUID(as_uuid=True)), nullable=True)
     institutions: Mapped[Optional[List[uuid.UUID]]] = mapped_column(
         ARRAY(PG_UUID(as_uuid=True)), nullable=True
     )
-    periods: Mapped[Optional[List[uuid.UUID]]] = mapped_column(
-        ARRAY(PG_UUID(as_uuid=True)), nullable=True
-    )
-    parties: Mapped[Optional[List[uuid.UUID]]] = mapped_column(
-        ARRAY(PG_UUID(as_uuid=True)), nullable=True
-    )
-    speakers: Mapped[Optional[List[uuid.UUID]]] = mapped_column(
-        ARRAY(PG_UUID(as_uuid=True)), nullable=True
-    )
+    periods: Mapped[Optional[List[uuid.UUID]]] = mapped_column(ARRAY(PG_UUID(as_uuid=True)), nullable=True)
+    parties: Mapped[Optional[List[uuid.UUID]]] = mapped_column(ARRAY(PG_UUID(as_uuid=True)), nullable=True)
+    speakers: Mapped[Optional[List[uuid.UUID]]] = mapped_column(ARRAY(PG_UUID(as_uuid=True)), nullable=True)
 
     # Relationships
     speeches: Mapped[List["SpeechORM"]] = relationship(

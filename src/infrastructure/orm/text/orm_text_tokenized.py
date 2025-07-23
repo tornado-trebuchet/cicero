@@ -17,9 +17,7 @@ if TYPE_CHECKING:
 class TokenizedTextORM(Base):
     __tablename__ = "tokenized_texts"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     speech_text_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True),
         ForeignKey("speech_texts.id"),
@@ -36,6 +34,4 @@ class TokenizedTextORM(Base):
         uselist=False,
     )
 
-    __table_args__ = (
-        Index("idx_tokenized_text_speech_text", "speech_text_id"),
-    )
+    __table_args__ = (Index("idx_tokenized_text_speech_text", "speech_text_id"),)

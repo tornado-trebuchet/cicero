@@ -1,20 +1,22 @@
 from dataclasses import dataclass
-from typing import Any, List, Tuple, Union, Dict, Optional 
+from typing import Any, List, Tuple, Union, Dict, Optional
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-from bertopic import BERTopic # type: ignore
-from umap import UMAP # type: ignore
-from hdbscan import HDBSCAN # type: ignore
+from bertopic import BERTopic  # type: ignore
+from umap import UMAP  # type: ignore
+from hdbscan import HDBSCAN  # type: ignore
 from sentence_transformers import SentenceTransformer
 import torch
 
+
 # --------------------- Config Dataclasses ---------------------
-# TODO: Move to the config module 
+# TODO: Move to the config module
 @dataclass
 class SentenceTransformerConfig:
     embedding_model: str = "paraphrase-xlm-r-multilingual-v1"
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
+
 
 @dataclass
 class BERTConfig:
@@ -26,6 +28,7 @@ class BERTConfig:
     calculate_probabilities: bool = True
     verbose: bool = False
 
+
 @dataclass
 class UMAPConfig:
     n_neighbors: int = 15
@@ -35,6 +38,7 @@ class UMAPConfig:
     n_components: int = 15
     low_memory: bool = True
     n_jobs: int = -1
+
 
 @dataclass
 class HDBSCANConfig:
@@ -71,10 +75,7 @@ class TopicModeler:
         self.hdbscan_config: HDBSCANConfig = hdbscan_config
 
         # Sentence embedding model
-        self.embedding_model = SentenceTransformer(
-            st_config.embedding_model,
-            device=st_config.device
-        )
+        self.embedding_model = SentenceTransformer(st_config.embedding_model, device=st_config.device)
 
         # UMAP for dimensionality reduction
         self.umap_model = UMAP(
@@ -84,7 +85,7 @@ class TopicModeler:
             min_dist=umap_config.min_dist,
             random_state=umap_config.random_state,
             low_memory=umap_config.low_memory,
-            n_jobs=umap_config.n_jobs
+            n_jobs=umap_config.n_jobs,
         )
 
         # HDBSCAN for clustering
@@ -94,7 +95,7 @@ class TopicModeler:
             cluster_selection_method=hdbscan_config.cluster_selection_method,
             cluster_selection_epsilon=hdbscan_config.cluster_selection_epsilon,
             allow_single_cluster=hdbscan_config.allow_single_cluster,
-            core_dist_n_jobs=hdbscan_config.core_dist_n_jobs
+            core_dist_n_jobs=hdbscan_config.core_dist_n_jobs,
         )
 
         # BERTopic combines embedding, UMAP, and HDBSCAN
@@ -111,10 +112,7 @@ class TopicModeler:
             **kwargs
         )
 
-    def fit(
-        self,
-        documents: List[str]
-    ) -> Tuple[List[int], npt.NDArray[np.float_]]:
+    def fit(self, documents: List[str]) -> Tuple[List[int], npt.NDArray[np.float_]]:
         """
         Fit the BERTopic model on input documents.
 
@@ -128,10 +126,7 @@ class TopicModeler:
         topics, probs = self.model.fit_transform(documents)  # type: ignore
         return topics, probs  # type: ignore
 
-    def transform(
-        self,
-        new_documents: List[str]
-    ) -> Tuple[List[int], npt.NDArray[np.float_]]:
+    def transform(self, new_documents: List[str]) -> Tuple[List[int], npt.NDArray[np.float_]]:
         """
         Infer topics for new, unseen documents.
 
@@ -142,14 +137,11 @@ class TopicModeler:
             topics: List of integer topic IDs per new document.
             probs:   Array of probabilities shape (n_new, n_topics).
         """
-        topics, probs = self.model.transform(new_documents) # type: ignore
-        return topics, probs # type: ignore
+        topics, probs = self.model.transform(new_documents)  # type: ignore
+        return topics, probs  # type: ignore
 
     def annotate(
-        self,
-        id_to_text: Dict[Any, str],
-        top_n: int = 1,
-        include_probs: bool = False
+        self, id_to_text: Dict[Any, str], top_n: int = 1, include_probs: bool = False
     ) -> Dict[Any, Union[int, List[Tuple[int, float]]]]:
         """
         Assign topics back to document IDs, optionally returning top‑n topics with probabilities.
@@ -176,10 +168,7 @@ class TopicModeler:
         return result
 
     def get_dynamic_topics(
-        self,
-        documents: List[str],
-        topics: List[int],
-        time_labels: List[Union[str, pd.Timestamp]]
+        self, documents: List[str], topics: List[int], time_labels: List[Union[str, pd.Timestamp]]
     ) -> pd.DataFrame:
         """
         Generate a DataFrame tracking topic prevalence over time.
@@ -192,7 +181,7 @@ class TopicModeler:
         Returns:
             DataFrame with columns ['Topic', 'Timestamp', 'Frequency', ...].
         """
-        return self.model.topics_over_time(documents, topics, time_labels) # type: ignore
+        return self.model.topics_over_time(documents, topics, time_labels)  # type: ignore
 
     def get_topic_info(self) -> pd.DataFrame:
         """
@@ -202,12 +191,12 @@ class TopicModeler:
             DataFrame with columns ['Topic', 'Name', 'Count', ...].
         """
         return self.model.get_topic_info()
-    
+
     def save(self, filepath: str) -> None:
         """
         Persist the fitted BERTopic model to disk.
         """
-        self.model.save(filepath) # type: ignore
+        self.model.save(filepath)  # type: ignore
 
     @classmethod
     def load(
@@ -228,5 +217,5 @@ class TopicModeler:
             umap_config or UMAPConfig(),
             hdbscan_config or HDBSCANConfig(),
         )
-        instance.model = BERTopic.load(filepath) # type: ignore
+        instance.model = BERTopic.load(filepath)  # type: ignore
         return instance

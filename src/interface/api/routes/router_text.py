@@ -31,18 +31,14 @@ text_router = APIRouter()
 
 
 @text_router.get("/protocols/{protocol_id}", response_model=ProtocolDTO)
-def get_protocol_by_id(
-    protocol_id: str, use_case: Any = Depends(get_protocol_by_id_use_case)
-) -> ProtocolDTO:
+def get_protocol_by_id(protocol_id: str, use_case: Any = Depends(get_protocol_by_id_use_case)) -> ProtocolDTO:
     protocol = use_case.execute(UUID(protocol_id))
     if not protocol:
         raise HTTPException(status_code=404, detail="Protocol not found")
     return protocol_to_dto(protocol)
 
 
-@text_router.get(
-    "/protocols/by_country/{country_id}", response_model=List[ProtocolDTO]
-)
+@text_router.get("/protocols/by_country/{country_id}", response_model=List[ProtocolDTO])
 def get_protocols_by_country_id(
     country_id: str,
     use_case: Any = Depends(get_protocols_by_country_id_use_case),
@@ -97,9 +93,7 @@ def list_protocols(
     return [protocol_to_dto(p) for p in protocols]
 
 
-@text_router.get(
-    "/speech_texts/{speech_text_id}", response_model=SpeechTextDTO
-)
+@text_router.get("/speech_texts/{speech_text_id}", response_model=SpeechTextDTO)
 def get_speech_text_by_id(
     speech_text_id: str,
     use_case: Any = Depends(get_speech_text_by_id_use_case),
@@ -111,18 +105,14 @@ def get_speech_text_by_id(
 
 
 @text_router.get("/speeches/{speech_id}", response_model=SpeechDTO)
-def get_speech_by_id(
-    speech_id: str, use_case: Any = Depends(get_speech_by_id_use_case)
-) -> SpeechDTO:
+def get_speech_by_id(speech_id: str, use_case: Any = Depends(get_speech_by_id_use_case)) -> SpeechDTO:
     speech = use_case.execute(UUID(speech_id))
     if not speech:
         raise HTTPException(status_code=404, detail="Speech not found")
     return speech_to_dto(speech)
 
 
-@text_router.get(
-    "/speeches/by_protocol/{protocol_id}", response_model=List[SpeechDTO]
-)
+@text_router.get("/speeches/by_protocol/{protocol_id}", response_model=List[SpeechDTO])
 def get_speeches_by_protocol_id(
     protocol_id: str,
     use_case: Any = Depends(get_speeches_by_protocol_id_use_case),
@@ -131,9 +121,7 @@ def get_speeches_by_protocol_id(
     return [speech_to_dto(s) for s in speeches]
 
 
-@text_router.get(
-    "/speeches/by_speaker/{speaker_id}", response_model=List[SpeechDTO]
-)
+@text_router.get("/speeches/by_speaker/{speaker_id}", response_model=List[SpeechDTO])
 def get_speeches_by_speaker_id(
     speaker_id: str,
     use_case: Any = Depends(get_speeches_by_speaker_id_use_case),

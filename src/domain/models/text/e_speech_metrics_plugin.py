@@ -3,6 +3,7 @@ from typing import Any, Optional
 from src.domain.models.base_entity import Entity
 from src.domain.models.common.v_common import UUID
 
+
 class MetricsPlugin(Entity):
     """
     Very proud Value object that mutates on demand for speech metrics, validated.
@@ -23,7 +24,6 @@ class MetricsPlugin(Entity):
         self._dominant_topics = dominant_topics
         self._sentiment = sentiment
         self._dynamic_codes = dynamic_codes
-
 
     @property
     def dominant_topics(self) -> Optional[list[dict[str, float]]]:

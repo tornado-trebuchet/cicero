@@ -20,9 +20,7 @@ if TYPE_CHECKING:
 class InstitutionORM(Base):
     __tablename__ = "institutions"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     country_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("countries.id"), nullable=False
     )
@@ -34,9 +32,7 @@ class InstitutionORM(Base):
     meta_data: Mapped[Dict[str, Any]] = mapped_column(JSONB, nullable=False)
 
     # Relationships
-    country: Mapped["CountryORM"] = relationship(
-        "CountryORM", back_populates="institutions"
-    )
+    country: Mapped["CountryORM"] = relationship("CountryORM", back_populates="institutions")
     protocols: Mapped[List["ProtocolORM"]] = relationship(
         "ProtocolORM",
         back_populates="institution",

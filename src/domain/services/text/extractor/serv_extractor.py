@@ -18,9 +18,7 @@ from src.domain.services.text.extractor.serv_extractor_dto import (
 
 # also: (self, Protocol, Country, Institution, Language, PatternSpec)
 class ExtractSpeakersFromProtocol(TextService):
-    def __init__(
-        self, protocol: Protocol, spec: ExtractionSpec
-    ):  # FIXME: SHOULD NOT DEPEND ON EXTERNALS
+    def __init__(self, protocol: Protocol, spec: ExtractionSpec):  # FIXME: SHOULD NOT DEPEND ON EXTERNALS
         self.protocol = protocol
         self.country = spec.country
         self.institution = spec.institution
@@ -36,9 +34,7 @@ class ExtractSpeakersFromProtocol(TextService):
         )
         return pattern_cls
 
-    def process(
-        self, protocol: Protocol, pattern_cls: type[RegexPattern]
-    ) -> List[SpeechDTO]:
+    def process(self, protocol: Protocol, pattern_cls: type[RegexPattern]) -> List[SpeechDTO]:
         text = protocol.protocol_text.protocol_text
         pattern_instance = pattern_cls()
         regex = pattern_instance.compile_pattern()
@@ -55,14 +51,10 @@ class ExtractSpeakersFromProtocol(TextService):
                 end = len(text)
             speech_text = text[start:end].strip()
             # Add the first letter of the speech I AM SORRY FOR THAT!
-            first_letter = (
-                match.group(match.lastindex) if match.lastindex else ""
-            )
+            first_letter = match.group(match.lastindex) if match.lastindex else ""
             if speech_text:
                 speech_text = (
-                    first_letter + speech_text[1:]
-                    if speech_text[0] != first_letter
-                    else speech_text
+                    first_letter + speech_text[1:] if speech_text[0] != first_letter else speech_text
                 )
             else:
                 speech_text = first_letter

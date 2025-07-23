@@ -8,9 +8,9 @@ from src.domain.services.text.preprocessor.serv_preprocessor_dto import (
 
 
 class Preprocessor(ABC):
-    
+
     language_code: LanguageEnum
-    
+
     @classmethod
     def find_by_specifications(cls, language_code: LanguageEnum):
         for subclass in cls.__subclasses__():

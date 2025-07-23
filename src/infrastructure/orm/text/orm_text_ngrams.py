@@ -17,18 +17,14 @@ if TYPE_CHECKING:
 class TextNgramsORM(Base):
     __tablename__ = "text_ngrams"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     speech_text_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True),
         ForeignKey("speech_texts.id"),
         nullable=False,
         unique=True,
     )
-    ngram_tokens: Mapped[List[str]] = mapped_column(
-        ARRAY(String), nullable=False
-    )
+    ngram_tokens: Mapped[List[str]] = mapped_column(ARRAY(String), nullable=False)
 
     # Relationships
     speech_text: Mapped["SpeechTextORM"] = relationship(

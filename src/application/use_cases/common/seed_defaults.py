@@ -33,8 +33,7 @@ class SeedDefaultsUseCase:
                 existing = [
                     inst
                     for inst in all_institutions
-                    if inst.country_id == country.id
-                    and inst.type == institution_type
+                    if inst.country_id == country.id and inst.type == institution_type
                 ]
                 if existing:
                     continue
@@ -42,9 +41,7 @@ class SeedDefaultsUseCase:
                     id=UUID.new(),
                     country_id=country.id,
                     type=institution_type,
-                    label=Label(
-                        f"{institution_type.value} of {country_enum.value}"
-                    ),
+                    label=Label(f"{institution_type.value} of {country_enum.value}"),
                 )
                 self.institution_repo.add(institution)
 

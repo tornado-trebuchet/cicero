@@ -16,12 +16,8 @@ from src.infrastructure.orm.orm_base import Base
 class PeriodORM(Base):
     __tablename__ = "periods"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
-    owner_id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), nullable=False
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
+    owner_id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), nullable=False)
     owner_type: Mapped[OwnerTypeEnum] = mapped_column(
         PG_ENUM(OwnerTypeEnum, name="owner_type_enum"), nullable=False
     )

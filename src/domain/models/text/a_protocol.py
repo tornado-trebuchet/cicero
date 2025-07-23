@@ -33,9 +33,7 @@ class Protocol(AggregateRoot):
         self._agenda = agenda
         self._date = date
         self._label = label
-        self._protocol_speeches = (
-            protocol_speeches if protocol_speeches is not None else []
-        )
+        self._protocol_speeches = protocol_speeches if protocol_speeches is not None else []
         self._metadata = metadata
 
     @property

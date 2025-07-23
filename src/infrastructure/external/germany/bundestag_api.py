@@ -34,21 +34,13 @@ class BundestagAPI(API):
 
     # Not a secret, public API key
     def build_request(self, spec: dict[str, Optional[Any]]) -> HttpUrl:
-        self._full_link = (
-            spec.get("full_link") if spec.get("full_link") else None
-        )
+        self._full_link = spec.get("full_link") if spec.get("full_link") else None
         if self._full_link is not None:
             return HttpUrl(self._full_link)
-        self._server_base = (
-            spec.get("server_base") or self._default_server_base
-        )
-        self._endpoint_spec = (
-            spec.get("endpoint_spec") or self._default_endpoint_spec
-        )
+        self._server_base = spec.get("server_base") or self._default_server_base
+        self._endpoint_spec = spec.get("endpoint_spec") or self._default_endpoint_spec
         params: Dict[str, Union[str, list[str]]] = dict(self._default_params)
-        user_params: Dict[str, Union[str, list[str]]] = (
-            spec.get("params") or {}
-        )
+        user_params: Dict[str, Union[str, list[str]]] = spec.get("params") or {}
         params.update(user_params)
         url = f"{self._server_base}/{self._endpoint_spec}"
         if params:
@@ -88,9 +80,7 @@ class BundestagAPI(API):
             if value is None
         ]
         if missing:
-            raise ValueError(
-                f"Missing required fields in response: {', '.join(missing)}"
-            )
+            raise ValueError(f"Missing required fields in response: {', '.join(missing)}")
         return ResponseProtocol(
             date=str(date),
             title=str(title),
@@ -99,9 +89,7 @@ class BundestagAPI(API):
             text=str(text),
         )
 
-    def parse(
-        self, response: ResponseProtocol, institution_id: UUID
-    ) -> Protocol:
+    def parse(self, response: ResponseProtocol, institution_id: UUID) -> Protocol:
         protocol_id = UUID.new()  # TODO: rredirect to domain responsibility
         protocol_type = ProtocolTypeEnum.PLENARY
         date = DateTime(response.date)

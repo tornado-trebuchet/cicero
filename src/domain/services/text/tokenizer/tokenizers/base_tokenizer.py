@@ -4,10 +4,12 @@ from src.domain.models.text.e_text_clean import CleanText
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.services.text.tokenizer.serv_tokenizer_dto import TokenizedTextDTO
 
+
 class Tokenizer(ABC):
     """
     Base class for tokenizers.
     """
+
     language_code: LanguageEnum
 
     @classmethod

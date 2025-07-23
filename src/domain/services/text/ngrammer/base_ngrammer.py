@@ -26,9 +26,7 @@ class Ngrammer(ABC):
         raise NotImplementedError("Subclasses must implement this method.")
 
     @classmethod
-    def find_by_specifications(
-        cls, language_code: str
-    ) -> Optional[Type["Ngrammer"]]:
+    def find_by_specifications(cls, language_code: str) -> Optional[Type["Ngrammer"]]:
         for subclass in cls.__subclasses__():
             if getattr(subclass, "language_code", None) == language_code:
                 return subclass

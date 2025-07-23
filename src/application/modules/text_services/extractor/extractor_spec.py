@@ -10,7 +10,7 @@ from src.domain.models.common.v_enums import (
 )
 
 
-#TODO: THIS CAN BE REDUCED TO THE PROTOCOL ID
+# TODO: THIS CAN BE REDUCED TO THE PROTOCOL ID
 @dataclass
 class ExtractionSpec:
     protocol: UUID

@@ -10,6 +10,7 @@ from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.text.e_text_raw import RawText
 from src.domain.models.context.e_period import Period
 
+
 class IJointQRepository(ABC):
     """Interface for Joint Query Repository."""
 
@@ -21,9 +22,7 @@ class IJointQRepository(ABC):
         pass
 
     @abstractmethod
-    def get_country_by_institution_id(
-        self, institution_id: UUID
-    ) -> Optional[Country]:
+    def get_country_by_institution_id(self, institution_id: UUID) -> Optional[Country]:
         """Get country by institution ID."""
         pass
 

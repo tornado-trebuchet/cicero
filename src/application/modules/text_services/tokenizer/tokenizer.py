@@ -7,6 +7,7 @@ from src.infrastructure.repository.pgsql.text.rep_speech_text import SpeechTextR
 from src.infrastructure.repository.pgsql.text.rep_text_tokenized import TokenizedTextRepository
 from src.application.modules.text_services.tokenizer.tokenizer_spec import TokenizerSpec
 
+
 class PreprocessTextService:
     def __init__(self, spec: TokenizerSpec):
         self.spec = spec
@@ -28,7 +29,7 @@ class PreprocessTextService:
         clean_text = self.clean_text_repo.get_by_id(speech_text.raw_text)
         if clean_text is None:
             raise ValueError(f"No CleanText found for id: {speech_text.raw_text}")
-        # 4. Get Tokenizer and Stopwords 
+        # 4. Get Tokenizer and Stopwords
         language_code = speech_text.language_code
         tokenizer_cls = TokenizeCleanText.pick_tokenizer(language_code)
         if tokenizer_cls is None:
@@ -39,11 +40,7 @@ class PreprocessTextService:
         # 5. Tokenize
         service = TokenizeCleanText(clean_text, language_code)
         tokens_dto = service.process(tokenizer_cls, stopwords_cls().get_stopwords())
-        tokenized_text = TokenizedText(
-            id=UUID.new(),
-            speech_text_id=speech_text.id,
-            tokens=tokens_dto.tokens
-        )
+        tokenized_text = TokenizedText(id=UUID.new(), speech_text_id=speech_text.id, tokens=tokens_dto.tokens)
         self.tokenized_text_repo.add(tokenized_text)
         # 5. Update SpeechText with CleanText id
         speech_text.tokenized_text = tokenized_text.id

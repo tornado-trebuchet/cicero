@@ -17,21 +17,13 @@ class GermanNgrammer(Ngrammer):
                 speech.text.split_sentences()
 
             # Type guard: sentences should now be available
-            if (
-                speech.text.sentences is not None
-                and speech.text.sentences.sentences is not None
-            ):
+            if speech.text.sentences is not None and speech.text.sentences.sentences is not None:
                 sentences = speech.text.sentences.sentences
                 ngrams = []
                 for sentence in sentences:
                     words = sentence.split()
                     sentence_ngrams = (
-                        [
-                            " ".join(words[i : i + n])
-                            for i in range(len(words) - n + 1)
-                        ]
-                        if n > 0
-                        else []
+                        [" ".join(words[i : i + n]) for i in range(len(words) - n + 1)] if n > 0 else []
                     )
                     ngrams.extend(sentence_ngrams)
 
@@ -49,15 +41,10 @@ class GermanNgrammer(Ngrammer):
             if speech.text.sentences is None:
                 speech.text.split_sentences()
             # FIXME: need to test with actual gensim
-            if (
-                speech.text.sentences is not None
-                and speech.text.sentences.sentences is not None
-            ):
+            if speech.text.sentences is not None and speech.text.sentences.sentences is not None:
                 sentences = speech.text.sentences.sentences
                 # Split sentences into word lists for gensim
-                sentence_word_lists = [
-                    sentence.split() for sentence in sentences
-                ]
+                sentence_word_lists = [sentence.split() for sentence in sentences]
                 all_sentences.extend(sentence_word_lists)
                 speech_sentence_counts.append(len(sentence_word_lists))
 
@@ -65,9 +52,7 @@ class GermanNgrammer(Ngrammer):
         if n == 2:
             phrases = Phrases(all_sentences, min_count=1, threshold=1)
             phraser = Phraser(phrases)
-            ngrammed_sentences = [
-                list(phraser[sent]) for sent in all_sentences
-            ]
+            ngrammed_sentences = [list(phraser[sent]) for sent in all_sentences]
         elif n == 3:
             # First pass: bigrams
             phrases = Phrases(all_sentences, min_count=1, threshold=1)
@@ -76,13 +61,9 @@ class GermanNgrammer(Ngrammer):
             # Second pass: trigrams
             trigram_phrases = Phrases(bigrammed, min_count=1, threshold=1)
             trigram_phraser = Phraser(trigram_phrases)
-            ngrammed_sentences = [
-                list(trigram_phraser[sent]) for sent in bigrammed
-            ]
+            ngrammed_sentences = [list(trigram_phraser[sent]) for sent in bigrammed]
         else:
-            raise ValueError(
-                f"N-gram size {n} is not supported. Only 2-grams and 3-grams are supported."
-            )
+            raise ValueError(f"N-gram size {n} is not supported. Only 2-grams and 3-grams are supported.")
 
         # Reconstruct the corpora structure in-place
         sentence_idx = 0

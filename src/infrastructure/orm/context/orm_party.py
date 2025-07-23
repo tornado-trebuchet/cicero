@@ -17,9 +17,7 @@ if TYPE_CHECKING:
 class PartyORM(Base):
     __tablename__ = "parties"
 
-    id: Mapped[uuid.UUID] = mapped_column(
-        PG_UUID(as_uuid=True), primary_key=True
-    )
+    id: Mapped[uuid.UUID] = mapped_column(PG_UUID(as_uuid=True), primary_key=True)
     country_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("countries.id"), nullable=False
     )
@@ -28,9 +26,7 @@ class PartyORM(Base):
     party_program: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
     # Relationships
-    country: Mapped["CountryORM"] = relationship(
-        "CountryORM", back_populates="parties", passive_deletes=True
-    )
+    country: Mapped["CountryORM"] = relationship("CountryORM", back_populates="parties", passive_deletes=True)
     members: Mapped[List["SpeakerORM"]] = relationship(
         "SpeakerORM",
         back_populates="party_ref",

@@ -7,6 +7,7 @@ from src.domain.models.text.e_text_clean import CleanText
 from src.domain.models.common.v_common import UUID
 from src.domain.services.text.preprocessor.serv_preprocessor import PreprocessRawText
 
+
 class PreprocessTextService:
     def __init__(self, spec: PreprocessorSpec):
         self.spec = spec
@@ -35,11 +36,7 @@ class PreprocessTextService:
             raise ValueError(f"No preprocessor found for language: {language_code}")
         service = PreprocessRawText(raw_text, language_code)
         clean_dto = service.process(preprocessor_cls)
-        clean_text = CleanText(
-            id=UUID.new(),
-            speech_text_id=speech_text.id,
-            text=clean_dto.text
-        )
+        clean_text = CleanText(id=UUID.new(), speech_text_id=speech_text.id, text=clean_dto.text)
         self.clean_text_repo.add(clean_text)
         # 5. Update SpeechText with CleanText id
         speech_text.clean_text = clean_text.id

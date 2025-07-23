@@ -39,9 +39,10 @@ def dto_to_extraction_spec(dto: ExtractionSpecDTO) -> ExtractionSpec:
         pattern_spec=dto.pattern_spec,
     )
 
+
 def preprocessor_spec_to_dto(spec: PreprocessorSpec) -> PreprocessorSpecDTO:
     return PreprocessorSpecDTO(speech=spec.speech.value)
 
+
 def dto_to_preprocessor_spec(dto: PreprocessorSpecDTO) -> PreprocessorSpec:
     return PreprocessorSpec(speech=UUID(dto.speech))
-    
