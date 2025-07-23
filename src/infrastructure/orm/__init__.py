@@ -8,6 +8,7 @@ from .orm_base import Base
 from .text.orm_protocol import ProtocolORM
 from .text.orm_speech import SpeechORM
 from .text.orm_speech_text import SpeechTextORM
+from .text.orm_speech_metrics import SpeechMetricsORM
 from .text.orm_text_clean import CleanTextORM
 from .text.orm_text_ngrams import TextNgramsORM
 from .text.orm_text_raw import RawTextORM
@@ -25,6 +26,7 @@ __all__ = [
     "ProtocolORM",
     "SpeechTextORM",
     "SpeechORM",
+    "SpeechMetricsORM",
     "CleanTextORM",
     "TextNgramsORM",
     "RawTextORM",

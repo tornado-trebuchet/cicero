@@ -13,15 +13,17 @@ class Corpora(AggregateRoot):
         texts: Set[UUID],
         countries: Optional[List[UUID]] = None,
         institutions: Optional[List[UUID]] = None,
-        periods: Optional[List[UUID]] = None,
+        protocols: Optional[List[UUID]] = None,
         parties: Optional[List[UUID]] = None,
         speakers: Optional[List[UUID]] = None,
+        periods: Optional[List[UUID]] = None,
     ):
         super().__init__(id)
         self._label = label
         self._texts = texts
         self._countries = countries
         self._institutions = institutions
+        self._protocols = protocols
         self._periods = periods
         self._parties = parties
         self._speakers = speakers

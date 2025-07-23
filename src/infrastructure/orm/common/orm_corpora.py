@@ -30,7 +30,7 @@ corpora_speeches = Table(
     ),
 )
 
-
+# TODO: Probably will be a good idea to put mappers here as classmethods? 
 class CorporaORM(Base):
     __tablename__ = "corpora"
 

@@ -1,9 +1,9 @@
 from typing import Any, Optional
 
-from src.domain.models.base_vo import ValueObject
+from src.domain.models.base_entity import Entity
+from src.domain.models.common.v_common import UUID
 
-
-class MetricsPlugin(ValueObject):
+class MetricsPlugin(Entity):
     """
     Very proud Value object that mutates on demand for speech metrics, validated.
     Fields:
@@ -14,13 +14,16 @@ class MetricsPlugin(ValueObject):
 
     def __init__(
         self,
+        id: UUID,
         dominant_topics: Optional[list[dict[str, float]]] = None,
         sentiment: Optional[dict[str, float]] = None,
         dynamic_codes: Optional[list[Any]] = None,
     ):
+        super().__init__(id)
         self._dominant_topics = dominant_topics
         self._sentiment = sentiment
         self._dynamic_codes = dynamic_codes
+
 
     @property
     def dominant_topics(self) -> Optional[list[dict[str, float]]]:

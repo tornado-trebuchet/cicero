@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from src.domain.irepository.text.i_text_clean import ICleanTextRepository
 from src.domain.models.common.v_common import UUID
@@ -6,7 +6,8 @@ from src.domain.models.text.e_text_clean import CleanText
 from src.infrastructure.mappers.text.m_text_clean import CleanTextMapper
 from src.infrastructure.orm.orm_session import session_scope
 from src.infrastructure.orm.text.orm_text_clean import CleanTextORM
-
+from src.infrastructure.orm.text.orm_speech import SpeechORM
+from src.infrastructure.orm.text.orm_speech_text import SpeechTextORM
 
 class CleanTextRepository(ICleanTextRepository):
     def get_by_id(self, id: UUID) -> Optional[CleanText]:
@@ -38,6 +39,21 @@ class CleanTextRepository(ICleanTextRepository):
             if orm_clean:
                 return CleanTextMapper.to_domain(orm_clean)
             return None
+
+    def get_by_speech_ids(self, speech_ids: List[UUID]) -> List[str]:
+        with session_scope() as session:
+            speech_id_values = [sid.value for sid in speech_ids]
+            
+            clean_texts = (
+                session.query(CleanTextORM.clean_text)
+                .join(SpeechTextORM, CleanTextORM.speech_text_id == SpeechTextORM.id)
+                .join(SpeechORM, SpeechTextORM.speech_id == SpeechORM.id)
+                .filter(SpeechORM.id.in_(speech_id_values))
+                .all()
+            )
+            
+            return [text[0] for text in clean_texts if text[0]]
+
 
     def add(self, clean_text: CleanText) -> None:
         with session_scope() as session:

@@ -1,10 +1,11 @@
-from typing import Optional
+from typing import Optional, List
 
 from src.domain.irepository.common.i_joint_q import IJointQRepository
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum
 from src.domain.models.context.a_country import Country
 from src.domain.models.context.e_institution import Institution
+from src.domain.models.context.e_period import Period
 from src.domain.models.text.a_speech import Speech
 from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.text.e_text_raw import RawText
@@ -15,7 +16,10 @@ from src.infrastructure.mappers.text.m_speech_text import SpeechTextMapper
 from src.infrastructure.mappers.text.m_text_raw import RawTextMapper
 from src.infrastructure.orm.context.orm_country import CountryORM
 from src.infrastructure.orm.context.orm_institution import InstitutionORM
+from src.infrastructure.orm.context.orm_speaker import SpeakerORM
 from src.infrastructure.orm.orm_session import session_scope
+from src.infrastructure.orm.text.orm_speech import SpeechORM
+from src.infrastructure.orm.text.orm_protocol import ProtocolORM
 
 
 class JointQRepository(IJointQRepository):
@@ -79,3 +83,90 @@ class JointQRepository(IJointQRepository):
 
             orm_raw_text = RawTextMapper.to_orm(raw_text)
             session.add(orm_raw_text)
+
+    def get_speeches_with_filter(
+        self,
+        countries: Optional[List[UUID]] = None,
+        institutions: Optional[List[UUID]] = None,
+        protocols: Optional[List[UUID]] = None,
+        party_ids: Optional[List[UUID]] = None,
+        speaker_ids: Optional[List[UUID]] = None,
+        periods: Optional[List[Period]] = None,
+    ) -> list[Speech]:
+        """
+        Get speeches with optional filters.
+        All provided filters are combined with AND operations.
+        If a filter is None, it is not applied.
+        """
+        with session_scope() as session:
+            # Start with a basic query for speeches
+            query = session.query(SpeechORM)
+            
+            # Keep track of joins to avoid duplicate joins
+            joined_protocol = False
+            joined_institution = False
+            joined_speaker = False
+            
+            # Apply country filter if provided
+            if countries and len(countries) > 0:
+                country_values = [country.value for country in countries]
+                # We need to join through protocol to institution to country
+                if not joined_protocol:
+                    query = query.join(SpeechORM.protocol)
+                    joined_protocol = True
+                
+                if not joined_institution:
+                    query = query.join(ProtocolORM.institution)
+                    joined_institution = True
+                    
+                query = query.filter(InstitutionORM.country_id.in_(country_values))
+            
+            # Apply institution filter if provided
+            if institutions and len(institutions) > 0:
+                institution_values = [institution.value for institution in institutions]
+                if not joined_protocol:
+                    query = query.join(SpeechORM.protocol)
+                    joined_protocol = True
+                
+                query = query.filter(ProtocolORM.institution_id.in_(institution_values))
+            
+            # Apply protocol filter if provided
+            if protocols and len(protocols) > 0:
+                protocol_values = [protocol.value for protocol in protocols]
+                query = query.filter(SpeechORM.protocol_id.in_(protocol_values))
+            
+            # Apply party filter if provided
+            if party_ids and len(party_ids) > 0:
+                party_values = [party_id.value for party_id in party_ids]
+                if not joined_speaker:
+                    query = query.join(SpeechORM.speaker)
+                    joined_speaker = True
+                
+                query = query.filter(SpeakerORM.party_id.in_(party_values))
+            
+            # Apply speaker filter if provided
+            if speaker_ids and len(speaker_ids) > 0:
+                speaker_values = [speaker_id.value for speaker_id in speaker_ids]
+                query = query.filter(SpeechORM.speaker_id.in_(speaker_values))
+            
+            # Apply periods filter if provided
+            if periods and len(periods) > 0:
+                if not joined_protocol:
+                    query = query.join(SpeechORM.protocol)
+                    joined_protocol = True
+                
+                # Handle each period separately
+                for period in periods:
+                    # For each period, filter by its date range
+                    start_date = period.start_date.value
+                    end_date = period.end_date.value
+                    query = query.filter(
+                        ProtocolORM.date >= start_date,
+                        ProtocolORM.date <= end_date
+                    )
+            
+            # Execute the query
+            orm_speeches = query.all()
+            
+            # Map the results to domain objects
+            return [SpeechMapper.to_domain(orm_speech) for orm_speech in orm_speeches]

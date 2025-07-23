@@ -10,7 +10,7 @@ from src.domain.models.context.v_name import Name
 from src.domain.models.text.a_speech import Speech
 from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.text.e_text_raw import RawText
-from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
+from src.domain.models.text.e_speech_metrics_plugin import MetricsPlugin
 from src.domain.services.text.extractor.serv_extractor import (
     ExtractSpeakersFromProtocol,
 )

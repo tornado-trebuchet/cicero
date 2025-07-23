@@ -3,7 +3,7 @@ from typing import Optional
 from src.domain.models.base_entity import Entity
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
-from src.domain.models.text.v_speech_metrics_plugin import MetricsPlugin
+from src.domain.models.text.e_speech_metrics_plugin import MetricsPlugin
 
 
 class Speech(Entity):

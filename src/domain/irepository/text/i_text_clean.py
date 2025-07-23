@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Optional
+from typing import Optional, List
 
 from src.domain.models.common.v_common import UUID
 from src.domain.models.text.e_text_clean import CleanText
@@ -16,6 +16,11 @@ class ICleanTextRepository(ABC):
     @abstractmethod
     def get_by_speech_id(self, speech_id: UUID) -> Optional[CleanText]:
         """Get CleanText by its associated speech_id."""
+        pass
+
+    @abstractmethod
+    def get__by_speech_ids(self, speech_ids: List[UUID]) -> List[str]:
+        """Get clean texts for a list of speech IDs."""
         pass
 
     @abstractmethod
