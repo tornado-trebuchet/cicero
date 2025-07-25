@@ -2,8 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Optional
 
 from src.config import APIConfig
-from src.domain.models.common.v_common import UUID, HttpUrl
-from src.domain.models.text.a_protocol import Protocol
+from src.domain.models.common.v_common import HttpUrl
 from src.infrastructure.external.base_response import ResponseProtocol
 
 
@@ -30,11 +29,11 @@ class API(ABC):
         ...
 
     @abstractmethod
-    def fetch(self, url: HttpUrl) -> ResponseProtocol:
+    def fetch(self, url: HttpUrl) -> dict[str, Any]:
         """Fetch data from the external API using the constructed URL."""
         ...
 
     @abstractmethod
-    def parse(self, response: ResponseProtocol, institution_id: UUID) -> Protocol:
+    def parse(self, response: dict[str, Any]) -> ResponseProtocol:
         """Parse the API response and convert it to a Protocol domain object."""
         ...

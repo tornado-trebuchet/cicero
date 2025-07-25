@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
 
 
 @dataclass
@@ -8,6 +7,5 @@ class ResponseProtocol:
 
     date: str
     title: str
-    link: str
-    agenda: Optional[Dict[str, Any]]
+    source: str
     text: str

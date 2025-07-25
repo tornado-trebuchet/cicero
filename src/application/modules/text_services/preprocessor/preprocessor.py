@@ -7,7 +7,7 @@ from src.domain.models.text.e_text_clean import CleanText
 from src.domain.models.common.v_common import UUID
 from src.domain.services.text.preprocessor.serv_preprocessor import PreprocessRawText
 
-
+# TODO: pass abstract classes for DI management
 class PreprocessTextService:
     def __init__(self, spec: PreprocessorSpec):
         self.spec = spec

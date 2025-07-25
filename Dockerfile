@@ -10,23 +10,30 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Install build deps & clean up in one layer
+# Install build deps & clean up
 RUN apt-get update \
  && apt-get install -y --no-install-recommends \
       build-essential \
       libpq-dev \
  && rm -rf /var/lib/apt/lists/*
 
-# Copy project metadata and lockfile
+# Create virtual environment
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Install Poetry
+RUN pip install --upgrade pip poetry
+
+# Configure Poetry to use existing venv
+RUN poetry config virtualenvs.create false
+
+# Copy project files
 COPY pyproject.toml poetry.lock ./
 
-# Install Poetry and project dependencies (exclude dev)
-RUN pip install --upgrade pip poetry \
- && poetry config virtualenvs.create false \
- && poetry install --without dev --no-interaction --no-ansi \
- && find / -name uvicorn || true
+# Install dependencies (excluding dev)
+RUN poetry install --without dev --no-interaction --no-ansi
 
-# Copy the rest of application code
+# Copy application code
 COPY . .
 
 ############
@@ -36,14 +43,19 @@ FROM python:3.12-slim AS runtime
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PATH="/root/.local/bin:$PATH"
+    PATH="/opt/venv/bin:$PATH"
 
 WORKDIR /app
 
-# Copy dependencies and application code from builder
-COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
-COPY --from=builder /usr/local/bin /usr/local/bin
+# Copy virtual environment and application
+COPY --from=builder /opt/venv /opt/venv
 COPY --from=builder /app /app
 
+# Runtime dependencies
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      libpq5 \
+ && rm -rf /var/lib/apt/lists/*
+
 # Default command
-CMD ["python3"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

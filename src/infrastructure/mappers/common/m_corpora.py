@@ -25,7 +25,7 @@ class CorporaMapper:
         return Corpora(
             id=UUID(orm_entity.id),
             label=Label(orm_entity.label),
-            texts=set(UUID(s.id) for s in getattr(orm_entity, "speeches")),
+            texts=set(UUID(speech.id) for speech in orm_entity.speeches),
             countries=([UUID(cid) for cid in orm_entity.countries] if orm_entity.countries else None),
             institutions=(
                 [UUID(iid) for iid in orm_entity.institutions] if orm_entity.institutions else None

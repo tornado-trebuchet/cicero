@@ -42,7 +42,8 @@ class ExtractSpeakersFromProtocol(TextService):
         speeches: List[SpeechDTO] = []
         for idx, match in enumerate(matches):
             speaker_name = match.group(1)
-            # speaker_party = match.group(3) # THAT'S THE PARTY?
+            speaker_land = match.group(2) if match.group(2) else None
+            speaker_party = match.group(3) if match.group(3) else None
             # speaker_role = match.group(4) # IN QUESTION
             start = match.end()
             if idx + 1 < len(matches):
@@ -54,11 +55,11 @@ class ExtractSpeakersFromProtocol(TextService):
             first_letter = match.group(match.lastindex) if match.lastindex else ""
             if speech_text:
                 speech_text = (
-                    first_letter + speech_text[1:] if speech_text[0] != first_letter else speech_text
+                    first_letter + speech_text[0:]
                 )
             else:
                 speech_text = first_letter
-            speaker_dto = SpeakerDTO(name=speaker_name)
+            speaker_dto = SpeakerDTO(name=speaker_name,land=speaker_land, party=speaker_party)
             raw_text_dto = RawTextDTO(text=speech_text)
             speech_dto = SpeechDTO(
                 speaker=speaker_dto,

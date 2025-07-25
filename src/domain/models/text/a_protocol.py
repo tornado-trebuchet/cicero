@@ -65,6 +65,14 @@ class Protocol(AggregateRoot):
         self._agenda = value
 
     @property
+    def label(self) -> Optional[Label]:
+        return self._label
+    
+    @label.setter
+    def label(self, value: Optional[Label]):
+        self._label = value
+
+    @property
     def date(self) -> DateTime:
         return self._date
 

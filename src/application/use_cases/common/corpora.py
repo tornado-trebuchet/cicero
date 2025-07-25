@@ -61,7 +61,7 @@ class CorporaManger:
         speech_uuids = {speech.id for speech in speeches}
         # TODO: Create label
 
-        return Corpora(
+        corpora = Corpora(
             id=UUID.new(),
             label=Label("TODO: Replace this thing"),
             texts=speech_uuids,
@@ -72,6 +72,8 @@ class CorporaManger:
             speakers=corpora_spec.speakers,
             periods=corpora_spec.periods,
         )
+        self.corpora_repo.add(corpora)
+        return corpora
 
     def get_raw_texts_from_corpora(self, corpora: Corpora) -> List[RawText]:
         return [
@@ -100,3 +102,9 @@ class CorporaManger:
             for speech_id in corpora.texts
             if (ngrammed_text := self.ngramized_text_repo.get_by_speech_id(speech_id)) is not None
         ]
+
+    def get_corpora_by_id(self, corpora_id: UUID) -> Corpora:
+        corpora = self.corpora_repo.get_by_id(corpora_id)
+        if corpora is None:
+            raise ValueError(f"Corpora with id {corpora_id} not found")
+        return corpora

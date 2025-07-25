@@ -3,7 +3,7 @@ from typing import Any
 
 from src.application.modules.fetchers.fetcher_spec import FetcherSpec
 from src.domain.models.text.a_protocol import Protocol
-
+from src.domain.models.common.v_common import UUID
 
 class BaseFetcher(ABC):
     """Abstract orchestrator for fetching and storing protocols from external APIs."""
@@ -18,5 +18,5 @@ class BaseFetcher(ABC):
         pass
 
     @abstractmethod
-    def fetch_list(self) -> list[Protocol]:
+    def fetch_list(self) -> list[UUID]:
         pass

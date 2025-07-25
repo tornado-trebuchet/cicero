@@ -30,7 +30,7 @@ class ICorporaRepository(ABC):
         pass
 
     @abstractmethod
-    def remove(self, id: UUID) -> None:
+    def delete(self, id: UUID) -> None:
         """Remove a Corpora aggregate by its unique ID."""
         pass
 

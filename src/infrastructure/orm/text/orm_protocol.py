@@ -25,6 +25,7 @@ class ProtocolORM(Base):
     institution_id: Mapped[uuid.UUID] = mapped_column(
         PG_UUID(as_uuid=True), ForeignKey("institutions.id"), nullable=False
     )
+    label: Mapped[Optional[str]] = mapped_column(String, nullable=True)
     agenda: Mapped[Optional[Dict[str, Any]]] = mapped_column(JSONB, nullable=True)
     file_source: Mapped[str] = mapped_column(String, nullable=False)
     protocol_type: Mapped[ProtocolTypeEnum] = mapped_column(

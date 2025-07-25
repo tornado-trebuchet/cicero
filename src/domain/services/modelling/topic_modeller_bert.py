@@ -23,31 +23,42 @@ class BERTConfig:
     language: str = "german"
     top_n_words: int = 15
     n_gram_range: Tuple[int, int] = (1, 2)
-    min_topic_size: int = 50
+    min_topic_size: int = 150
     low_memory: bool = True
-    calculate_probabilities: bool = True
-    verbose: bool = False
+    calculate_probabilities: bool = False
+    verbose: bool = True
 
+"""
+    vectorizer_model: Any = CountVectorizer(
+        stop_words="german", 
+        max_features=50_000,  # Limit vocabulary size
+        ngram_range=(1, 2)
+    )
+"""
 
 @dataclass
 class UMAPConfig:
-    n_neighbors: int = 15
-    min_dist: float = 0.1
+    n_neighbors: int = 150
+    min_dist: float = 0.05
     metric: str = "cosine"
     random_state: int = 1640
-    n_components: int = 15
+    n_components: int = 100
     low_memory: bool = True
     n_jobs: int = -1
+    verbose: bool = True
+
 
 
 @dataclass
 class HDBSCANConfig:
-    min_cluster_size: int = 60
+    min_cluster_size: int = 250
+    min_samples: int = 20
     metric: str = "euclidean"
-    cluster_selection_method: str = "eom"
-    cluster_selection_epsilon: float = 0.1
-    allow_single_cluster: bool = False
+    cluster_selection_method: str = "leaf"
+    cluster_selection_epsilon: float = 0.3
+    allow_single_cluster: bool = True
     core_dist_n_jobs: int = -1
+    verbose: bool = True
 
 
 # --------------------- TopicModeler Wrapper ---------------------
@@ -193,9 +204,6 @@ class TopicModeler:
         return self.model.get_topic_info()
 
     def save(self, filepath: str) -> None:
-        """
-        Persist the fitted BERTopic model to disk.
-        """
         self.model.save(filepath)  # type: ignore
 
     @classmethod

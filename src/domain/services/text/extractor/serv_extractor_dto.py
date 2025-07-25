@@ -1,16 +1,11 @@
 from dataclasses import dataclass
 from typing import Any, Optional
 
-
-@dataclass
-class PartyDTO:
-    name: str
-
-
 @dataclass
 class SpeakerDTO:
     name: str
-    party: Optional[PartyDTO] = None
+    land: Optional[str] = None
+    party: Optional[str] = None
 
 
 @dataclass

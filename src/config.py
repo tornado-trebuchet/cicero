@@ -1,7 +1,6 @@
 import os
 from dataclasses import dataclass
-from pathlib import Path
-from typing import Optional, Tuple
+from typing import Tuple
 
 from dotenv import load_dotenv
 
@@ -51,19 +50,12 @@ class CountingConfig:
 
 @dataclass
 class LoggingConfig:
-    # Logging levels
-    default_log_level: str = "INFO"
+    log_file_path: str = "logs/app.log"
+    max_log_file_size: int = 5 * 1024 * 1024  # 5 MB
+    log_file_backup_count: int = 3
     file_log_level: str = "DEBUG"
     console_log_level: str = "INFO"
-
-    # Progress reporting
-    enable_progress_bars: bool = True
-    progress_update_frequency: int = 100  # Update every N items
-
-    # Log file settings
-    log_file_path: Optional[Path] = None
-    max_log_file_size: int = 10 * 1024 * 1024  # 10MB
-    log_file_backup_count: int = 5
+    default_log_level: str = "DEBUG"
 
 
 @dataclass

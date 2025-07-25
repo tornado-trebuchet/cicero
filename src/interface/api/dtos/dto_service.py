@@ -14,6 +14,7 @@ from src.domain.models.common.v_enums import (
 class ProtocolSpecDTO(BaseModel):
     server_base: Optional[str] = None
     endpoint_spec: Optional[str] = None
+    endpoint_val: Optional[str] = None
     full_link: Optional[str] = None
     params: Optional[Dict[str, Union[str, list[str]]]] = None
 

@@ -70,6 +70,8 @@ class JointQRepository(IJointQRepository):
             orm_raw_text = RawTextMapper.to_orm(raw_text)
             session.add(orm_raw_text)
 
+
+# FIXME: THIS SHIT IS BROKEN
     def get_speeches_with_filter(
         self,
         countries: Optional[List[UUID]] = None,
@@ -148,8 +150,10 @@ class JointQRepository(IJointQRepository):
                     end_date = period.end_date.value
                     query = query.filter(ProtocolORM.date >= start_date, ProtocolORM.date <= end_date)
 
+
+            print(f"Executing query: {query}")
             # Execute the query
             orm_speeches = query.all()
-
+            print(f"Found {len(orm_speeches)} speeches")
             # Map the results to domain objects
             return [SpeechMapper.to_domain(orm_speech) for orm_speech in orm_speeches]
