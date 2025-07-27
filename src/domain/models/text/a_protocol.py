@@ -20,7 +20,7 @@ class Protocol(AggregateRoot):
         protocol_type: ProtocolTypeEnum,
         protocol_text: ProtocolText,
         file_source: HttpUrl,
-        label: Optional[Label] = None,  # TODO: add to ORM
+        label: Optional[Label] = None,
         agenda: Optional[Agenda] = None,
         protocol_speeches: Optional[list[UUID]] = None,
         metadata: Optional[MetadataPlugin] = None,

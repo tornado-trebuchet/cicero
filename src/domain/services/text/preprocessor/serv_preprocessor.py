@@ -1,12 +1,11 @@
 from src.domain.models.common.v_enums import LanguageEnum
 from src.domain.models.text.e_text_raw import RawText
 from src.domain.services.text.base_text_service import TextService
-from src.domain.services.text.preprocessor.preprocessors.base_preprocessor import (
-    Preprocessor,
-)
-from src.domain.services.text.preprocessor.serv_preprocessor_dto import (
-    CleanTextDTO,
-)
+from src.domain.services.text.preprocessor.preprocessors.base_preprocessor import Preprocessor
+from src.domain.services.text.preprocessor.serv_preprocessor_dto import CleanTextDTO
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class PreprocessRawText(TextService):
@@ -17,8 +16,11 @@ class PreprocessRawText(TextService):
 
     @staticmethod
     def pick_preprocessor(language_code: LanguageEnum):
+        logger.debug(f"Picking preprocessor for language_code={language_code}")
         return Preprocessor.find_by_specifications(language_code=language_code)
 
     def process(self, preprocessor_cls: type[Preprocessor]) -> CleanTextDTO:
+        logger.debug(f"Processing raw text with preprocessor_cls={preprocessor_cls}")
         self.clean_text = preprocessor_cls().clean(self.raw_text)
+        logger.debug(f"Cleaned text: {self.clean_text}")
         return self.clean_text

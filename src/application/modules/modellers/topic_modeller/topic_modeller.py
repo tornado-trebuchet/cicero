@@ -8,6 +8,8 @@ from src.domain.models.text.e_speech_metrics_plugin import MetricsPlugin
 from src.application.modules.modellers.topic_modeller.topic_spec import TopicModellerSpec
 from src.domain.services.modelling.topic_modeller_bert import TopicModeler
 
+import logging
+logger = logging.getLogger(__name__)
 
 class TopicModeller:
     def __init__(
@@ -36,6 +38,8 @@ class TopicModeller:
         if not texts:
             raise ValueError("No texts found for topic modeling.")
         topics, probs = self.topic_modeler.fit(texts)
+
+        logger.info(f"Fitted topic model with {len(topics)} topics.")
         return {
             "topics": topics,
             "probs": probs,
@@ -56,6 +60,7 @@ class TopicModeller:
             raise ValueError("No texts found for annotation.")
 
         # Get topic annotations with probabilities (top 3 topics per document)
+        logger.info("Annotating topics for corpora.")
         topic_annotations = self.topic_modeler.annotate(id_to_text, top_n=3, include_probs=True)
 
         # Process annotations and save to speech metrics

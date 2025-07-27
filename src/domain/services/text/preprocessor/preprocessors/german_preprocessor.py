@@ -1,9 +1,6 @@
 from src.domain.models.text.e_text_raw import RawText
 from src.domain.models.common.v_enums import LanguageEnum
-from src.domain.services.text.preprocessor.serv_preprocessor_dto import (
-    CleanTextDTO,
-)
-
+from src.domain.services.text.preprocessor.serv_preprocessor_dto import CleanTextDTO
 from src.domain.services.text.preprocessor.preprocessors.base_preprocessor import Preprocessor
 from src.domain.services.text.preprocessor.normalizer.german_normalizer import GermanNormalizer
 

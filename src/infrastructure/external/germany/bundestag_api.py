@@ -44,7 +44,7 @@ class BundestagAPI(API):
             url += f"/{self._endpoint_val}"
         if params:
             url += f"?{urlencode(params, doseq=True)}"
-        logger.info(f"Built Bundestag API request URL: {url}")
+        logger.debug(f"Built Bundestag API request URL: {url}")
         return HttpUrl(url)
 
     def fetch(self, url: HttpUrl) -> dict[str, Any]:
@@ -53,7 +53,7 @@ class BundestagAPI(API):
             "Accept": "application/json, text/plain, */*",
             "Accept-Language": "en-US,en;q=0.9"
         }
-        logger.info(f"Fetching data from Bundestag API: {url}")
+        logger.debug(f"Fetching data from Bundestag API: {url}")
         response = requests.get(str(url), headers=headers)
         response.raise_for_status()
         data = response.json()
@@ -109,7 +109,7 @@ class BundestagAPI(API):
             logger.error(f"Missing required fields in response: {', '.join(missing)}")
             raise ValueError(f"Missing required fields in response: {', '.join(missing)}")
         metadata: dict[str, Any] = {}
-        logger.info(f"Parsed protocol: {title} ({date})")
+        logger.debug(f"Parsed protocol: {title} ({date})")
         return GermanResponseProtocolDTO(
             date=str(date),
             title=str(title),
@@ -132,7 +132,7 @@ class BundestagAPI(API):
 
         ids: list[str] = []
         url = self._list_of_protocols_link
-        logger.info(f"Fetching protocol IDs from: {url}")
+        logger.debug(f"Fetching protocol IDs from: {url}")
         
         headers: dict[str, str] = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36",
@@ -177,5 +177,5 @@ class BundestagAPI(API):
             ))
             logger.debug(f"Next URL: {url}")
 
-        logger.info(f"Total protocol IDs fetched: {len(ids)}")
+        logger.debug(f"Total protocol IDs fetched: {len(ids)}")
         return ids

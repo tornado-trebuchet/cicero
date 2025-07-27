@@ -1,8 +1,5 @@
 from typing import List
-
-from src.application.modules.text_services.extractor.extractor_spec import (
-    ExtractionSpec,
-)
+from src.application.modules.text_services.extractor.extractor_spec import ExtractionSpec
 from src.domain.models.common.v_common import UUID
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 from src.domain.models.context.e_speaker import Speaker
@@ -11,34 +8,19 @@ from src.domain.models.text.a_speech import Speech
 from src.domain.models.text.a_speech_text import SpeechText
 from src.domain.models.text.e_text_raw import RawText
 from src.domain.models.text.e_speech_metrics_plugin import MetricsPlugin
-from src.domain.services.text.extractor.serv_extractor import (
-    ExtractSpeakersFromProtocol,
-)
-from src.infrastructure.repository.pgsql.common.rep_joint_q import (
-    JointQRepository,
-)
-from src.infrastructure.repository.pgsql.context.rep_country import (
-    CountryRepository,
-)
-from src.infrastructure.repository.pgsql.context.rep_speaker import (
-    SpeakerRepository,
-)
-from src.infrastructure.repository.pgsql.text.rep_protocol import (
-    ProtocolRepository,
-)
-from src.infrastructure.repository.pgsql.text.rep_speech import (
-    SpeechRepository,
-)
-from src.infrastructure.repository.pgsql.text.rep_speech_text import (
-    SpeechTextRepository,
-)
-from src.infrastructure.repository.pgsql.text.rep_text_raw import (
-    RawTextRepository,
-)
+from src.domain.services.text.extractor.serv_extractor import ExtractSpeakersFromProtocol
+from src.infrastructure.repository.pgsql.common.rep_joint_q import JointQRepository
+from src.infrastructure.repository.pgsql.context.rep_country import CountryRepository
+from src.infrastructure.repository.pgsql.context.rep_speaker import SpeakerRepository
+from src.infrastructure.repository.pgsql.text.rep_protocol import ProtocolRepository
+from src.infrastructure.repository.pgsql.text.rep_speech import SpeechRepository
+from src.infrastructure.repository.pgsql.text.rep_speech_text import SpeechTextRepository
+from src.infrastructure.repository.pgsql.text.rep_text_raw import RawTextRepository
 
-# TODO: inject repositories in DI, would be cool?
+import logging
+logger = logging.getLogger(__name__)
 
-
+# TODO: inject repositories in DI, depend on contracts 
 # FIXME:
 # 3) Parties are not extracted
 class ExtractorService:
@@ -65,7 +47,7 @@ class ExtractorService:
         if not pattern_cls:
             raise ValueError("No matching regex pattern found for provided spec.")
 
-        # Workhorse if you've lost it
+        logger.info(f"Extracting speeches from protocol {protocol.id}")   
         speeches_dto = extractor.process(protocol, pattern_cls)
         protocol_order = 1
 
@@ -146,5 +128,6 @@ class ExtractorService:
             self.protocol_repo.update(protocol)
             speeches.append(speech_entity)
             protocol_order += 1
-
+            
+        logger.info(f"Extracted {len(speeches)} speeches from protocol {protocol.id}")
         return speeches

@@ -14,6 +14,7 @@ from src.domain.models.text.v_protocol_agenda import Agenda
 from src.domain.models.context.v_label import Label
 from src.domain.models.common.v_metadata_plugin import MetadataPlugin
 
+# TODO: Log + Depend on repo contracts 
 class BundestagFetcher(BaseFetcher):
     """Fetcher for orchestrating Bundestag API protocol acquisition"""
 

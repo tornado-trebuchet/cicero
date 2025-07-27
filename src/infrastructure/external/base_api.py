@@ -5,7 +5,6 @@ from src.config import APIConfig
 from src.domain.models.common.v_common import HttpUrl
 from src.infrastructure.external.base_response import ResponseProtocol
 
-
 class API(ABC):
     """
     Base class for external APIs.
@@ -26,6 +25,7 @@ class API(ABC):
         spec: dict[str, Optional[Any]],
     ) -> HttpUrl:
         """Construct the request URL for the API call."""
+
         ...
 
     @abstractmethod
