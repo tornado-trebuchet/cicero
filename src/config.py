@@ -17,7 +17,6 @@ class TextProcessingConfig:
     preserve_line_breaks: bool = False
     default_encoding: str = "utf-8"
 
-
 @dataclass
 class TokenizationConfig:
     lowercase_tokens: bool = True

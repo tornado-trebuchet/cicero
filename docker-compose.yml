@@ -18,7 +18,7 @@ services:
   api:
     build: .
     container_name: cicero_api_dev
-    command: uvicorn src.interface.api.main:app --host 0.0.0.0 --port 8000 --reload
+    command: python -m uvicorn src.interface.api.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - ./src:/app/src
     env_file:
@@ -31,6 +31,8 @@ services:
     dns:
       - 8.8.8.8
       - 1.1.1.1
+    environment:
+      - PYTHONPATH=/app
 
 volumes:
   cicero_pgdata:

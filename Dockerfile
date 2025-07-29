@@ -31,7 +31,7 @@ RUN poetry config virtualenvs.create false
 COPY pyproject.toml poetry.lock ./
 
 # Install dependencies (excluding dev)
-RUN poetry install --without dev --no-interaction --no-ansi
+RUN poetry install --without dev --no-interaction --no-ansi -vvv
 
 # Copy application code
 COPY . .
@@ -58,4 +58,4 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 # Default command
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python"]
