@@ -4,6 +4,8 @@ A cli/web tool for parliamentary speech analysis, data storage and representatio
 
 Built with severe brain damage
 
+Docs are in docs used to generate docs which creates docs. Sphynx in makefile there.
+
 TODO list (another one): 
 
 1) Assemble the pipeline 
