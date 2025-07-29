@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import asdict
 from typing import Any, List, Tuple, Union, Dict, Optional
 import numpy as np
 import numpy.typing as npt
@@ -7,59 +7,13 @@ from bertopic import BERTopic  # type: ignore
 from umap import UMAP  # type: ignore
 from hdbscan import HDBSCAN  # type: ignore
 from sentence_transformers import SentenceTransformer
-import torch
 
-
-# --------------------- Config Dataclasses ---------------------
-# TODO: Move to the config module
-@dataclass
-class SentenceTransformerConfig:
-    embedding_model: str = "paraphrase-xlm-r-multilingual-v1"
-    device: str = "cuda" if torch.cuda.is_available() else "cpu"
-
-
-@dataclass
-class BERTConfig:
-    language: str = "german"
-    top_n_words: int = 15
-    n_gram_range: Tuple[int, int] = (1, 2)
-    min_topic_size: int = 150
-    low_memory: bool = True
-    calculate_probabilities: bool = False
-    verbose: bool = True
-
-"""
-    vectorizer_model: Any = CountVectorizer(
-        stop_words="german", 
-        max_features=50_000,  # Limit vocabulary size
-        ngram_range=(1, 2)
-    )
-"""
-
-@dataclass
-class UMAPConfig:
-    n_neighbors: int = 150
-    min_dist: float = 0.05
-    metric: str = "cosine"
-    random_state: int = 1640
-    n_components: int = 100
-    low_memory: bool = True
-    n_jobs: int = -1
-    verbose: bool = True
-
-
-
-@dataclass
-class HDBSCANConfig:
-    min_cluster_size: int = 250
-    min_samples: int = 20
-    metric: str = "euclidean"
-    cluster_selection_method: str = "leaf"
-    cluster_selection_epsilon: float = 0.3
-    allow_single_cluster: bool = True
-    core_dist_n_jobs: int = -1
-    verbose: bool = True
-
+from src.config import (
+    SentenceTransformerConfig,
+    BERTConfig,
+    UMAPConfig,
+    HDBSCANConfig,
+)
 
 # --------------------- TopicModeler Wrapper ---------------------
 class TopicModeler:
@@ -89,37 +43,20 @@ class TopicModeler:
         self.embedding_model = SentenceTransformer(st_config.embedding_model, device=st_config.device)
 
         # UMAP for dimensionality reduction
-        self.umap_model = UMAP(
-            n_neighbors=umap_config.n_neighbors,
-            n_components=umap_config.n_components,
-            metric=umap_config.metric,
-            min_dist=umap_config.min_dist,
-            random_state=umap_config.random_state,
-            low_memory=umap_config.low_memory,
-            n_jobs=umap_config.n_jobs,
-        )
+        umap_params = asdict(umap_config)
+        self.umap_model = UMAP(**umap_params)
 
         # HDBSCAN for clustering
-        self.hdbscan_model = HDBSCAN(
-            min_cluster_size=hdbscan_config.min_cluster_size,
-            metric=hdbscan_config.metric,
-            cluster_selection_method=hdbscan_config.cluster_selection_method,
-            cluster_selection_epsilon=hdbscan_config.cluster_selection_epsilon,
-            allow_single_cluster=hdbscan_config.allow_single_cluster,
-            core_dist_n_jobs=hdbscan_config.core_dist_n_jobs,
-        )
+        hdbscan_params = asdict(hdbscan_config)
+        self.hdbscan_model = HDBSCAN(**hdbscan_params)
 
         # BERTopic combines embedding, UMAP, and HDBSCAN
+        bert_params = asdict(bert_config)
         self.model = BERTopic(
             embedding_model=self.embedding_model,
             umap_model=self.umap_model,
             hdbscan_model=self.hdbscan_model,
-            language=bert_config.language,
-            top_n_words=bert_config.top_n_words,
-            n_gram_range=bert_config.n_gram_range,
-            low_memory=bert_config.low_memory,
-            calculate_probabilities=bert_config.calculate_probabilities,
-            verbose=bert_config.verbose,
+            **bert_params,
             **kwargs
         )
 
