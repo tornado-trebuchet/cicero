@@ -6,7 +6,6 @@ from src.infrastructure.orm.orm_engine import SessionLocal, engine
 
 @contextmanager
 def session_scope():
-    """Provide a transactional scope around a series of operations."""
     session = SessionLocal()
     try:
         yield session

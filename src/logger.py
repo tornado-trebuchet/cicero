@@ -1,22 +1,7 @@
+from typing import List
 import logging
 from logging.handlers import RotatingFileHandler
-from typing import List
 from src.config import LoggingConfig
-
-"""
-!Logger
-Logging setup for the application.
-
-    import logging
-    logger = logging.getLogger(__name__)
-
-    logger.info()
-    logger.error()
-    logger.debug()
-    logger.warning()
-
-"""
-
 
 def setup_logging(config: LoggingConfig):
     handlers: List[logging.Handler] = []
@@ -43,6 +28,7 @@ def setup_logging(config: LoggingConfig):
         level=getattr(logging, config.default_log_level.upper(), logging.INFO),
         handlers=handlers
     )
-    # Suppress DEBUG logs from numba and its submodules
+
+    # Suppress DEBUG logs
     logging.getLogger("numba").setLevel(logging.WARNING)
     logging.getLogger("numba.core.byteflow").setLevel(logging.WARNING)

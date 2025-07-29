@@ -6,7 +6,7 @@ from src.domain.models.text.a_protocol import Protocol
 from src.domain.models.common.v_common import UUID
 
 class BaseFetcher(ABC):
-    """Abstract orchestrator for fetching and storing protocols from external APIs."""
+    """Abstraction for fetching and storing protocols from external APIs."""
 
     def __init__(self, api: Any, repository: Any, spec: FetcherSpec) -> None:
         self._api = api

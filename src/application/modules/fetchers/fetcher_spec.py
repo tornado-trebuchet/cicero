@@ -10,7 +10,6 @@ class FetcherSpec:
     params: Optional[Dict[str, Union[str, list[str]]]] = None
 
     def get_spec_dict(self) -> dict[str, Optional[Any]]:
-        """Convert the Spec to a dictionary."""
         return {
             "server_base": self.server_base,
             "endpoint_spec": self.endpoint_spec,

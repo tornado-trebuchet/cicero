@@ -7,7 +7,7 @@ Built with severe brain damage
 TODO list (another one): 
 
 1) Assemble the pipeline 
-2) Make API queries to retrieve all the data in the period / Fight pagination
+2) Finish with endpoints                
 3) This means implementing a pipeline configuration 
 4) Process and write everything +
 4.1) This probably will require async 
@@ -20,3 +20,11 @@ TODO list (another one):
 10) Implement sentiment analysis 
 11) Fit for export to DNA 
 
+12) FIX DOCKER DEPLOY 
+13) Refactor endpoints to match bounded contexts 
+Major todos: 
+1) Add cursor for pagination of large outputs 
+2) Dashbord page 
+3) Look for better data model organization check how to connect pydantic to domain 
+4) Log rotation 
+5) 
