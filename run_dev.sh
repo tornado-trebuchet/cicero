@@ -4,4 +4,4 @@
 docker compose up -d postgres
 
 # Run FastAPI app with uvicorn
-uvicorn src.interface.api.main:app --host 0.0.0.0 --port 8000
+uvicorn backend.interface.api.main:app --host 0.0.0.0 --port 8000 --reload

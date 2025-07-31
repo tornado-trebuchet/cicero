@@ -28,5 +28,5 @@ Major todos:
 1) Add cursor for pagination of large outputs 
 2) Dashbord page 
 3) Look for better data model organization check how to connect pydantic to domain 
-4) Log rotation 
+4) Log rotation DONE
 5) 

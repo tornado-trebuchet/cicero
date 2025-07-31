@@ -18,9 +18,9 @@ services:
   api:
     build: .
     container_name: cicero_api_dev
-    command: python -m uvicorn src.interface.api.main:app --host 0.0.0.0 --port 8000 --reload
+    command: /opt/venv/bin/python -m uvicorn backend.interface.api.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
-      - ./src:/app/src
+      - ./backend:/app/backend
     env_file:
       - .env
     ports:
