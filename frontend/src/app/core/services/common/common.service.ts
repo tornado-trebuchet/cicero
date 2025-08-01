@@ -14,14 +14,7 @@ import {
 })
 export class CommonService extends BaseApiService {
   
-  // Development endpoints
-  seedDefaults(): Observable<SeedDefaultsResponse> {
-    return this.post<SeedDefaultsResponse>('/develop/seed', {});
-  }
 
-  seedFetchExtract(): Observable<any> {
-    return this.post('/develop/seed_fetch_extract', {});
-  }
 
   // Mock health check endpoint (replace with actual when backend adds it)
   getHealthCheck(): Observable<any> {
@@ -43,10 +36,6 @@ export class CommonService extends BaseApiService {
       );
   }
 
-  // Corpora management
-  assembleCorpora(spec: CorporaSpec): Observable<UUIDResponse> {
-    return this.post<UUIDResponse>('/common/corpora/assemble', spec);
-  }
 
   getCorporaById(id: string): Observable<Corpora> {
     return this.get<Corpora>(`/common/corpora/${id}`);

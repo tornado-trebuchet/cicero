@@ -17,7 +17,7 @@ services:
 
   api:
     build: .
-    container_name: cicero_api_dev
+    container_name: cicero_backend_dev
     command: /opt/venv/bin/python -m uvicorn backend.interface.api.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
       - ./backend:/app/backend
@@ -33,6 +33,15 @@ services:
       - 1.1.1.1
     environment:
       - PYTHONPATH=/app
+
+  frontend:
+    build: ./frontend
+    container_name: cicero_frontend_dev
+    ports:
+      - "127.0.0.1:4200:4200"
+    depends_on:
+      - api
+
 
 volumes:
   cicero_pgdata:

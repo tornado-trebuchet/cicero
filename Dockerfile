@@ -1,8 +1,7 @@
 # syntax=docker/dockerfile:1
 
-###########
-# BUILDER #
-###########
+# ------------------ Build ------------------
+
 FROM python:3.12-slim AS builder
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -36,9 +35,9 @@ RUN poetry install --without dev --no-interaction --no-ansi -vvv
 # Copy application code
 COPY . .
 
-############
-# RUNTIME  #
-############
+
+# ------------------ Runtime ------------------
+
 FROM python:3.12-slim AS runtime
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

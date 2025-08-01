@@ -4,7 +4,7 @@
 instructions.md
 *.rst 
 .logs/
-
+node_modules/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

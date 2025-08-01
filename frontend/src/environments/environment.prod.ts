@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://your-production-domain.com',
+  apiUrl: 'PLACEHOLDER',
   get apiBaseUrl() {
     return this.apiUrl;
   }
