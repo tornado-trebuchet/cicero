@@ -1,0 +1,7 @@
+# Batch protocol fetcher config
+server_base: "https://search.dip.bundestag.de"
+endpoint_spec: "/api/v1/plenarprotokoll"
+params:
+  limit: 10
+  format: "json"
+  wahlperiode: 20

@@ -1,0 +1,22 @@
+# Full pipeline: Fetch German protocols -> Extract speeches -> Preprocess -> Topic modeling
+pipeline_type: "FULL"
+parallel_preprocessing: true
+batch_size: 10
+save_intermediate_results: true
+output_corpora_label: "German Parliament Analysis"
+
+fetcher:
+  server_base: "https://search.dip.bundestag.de"
+  endpoint_spec: "/api/v1/plenarprotokoll"
+  params:
+    limit: 5
+    format: "json"
+
+extraction:
+  country: "GERMANY"
+  institution: "PARLIAMENT"
+  language: "DE"
+  protocol_type: "PLENARY"
+  
+topic_modeller:
+  # Will be filled with generated corpora_id during pipeline execution

@@ -34,3 +34,23 @@ class OwnerTypeEnum(str, Enum):
     INSTITUTION = "institution"
     PARTY = "party"
     SPEAKER = "speaker"
+
+
+
+# ------------ Runtime Configuration Enums -------
+
+class PipelineType(Enum):
+    """Different types of pipeline execution"""
+    FULL = "full"  # Fetch → Extract → Preprocess → Model
+    FETCH_EXTRACT = "fetch_extract"  # Fetch → Extract
+    PREPROCESS_MODEL = "preprocess_model"  # Preprocess → Model
+    EXTRACT_PREPROCESS = "extract_preprocess"  # Extract → Preprocess
+    CUSTOM = "custom"  # Custom step selection
+
+
+class PipelineStep(Enum):
+    """Individual pipeline steps"""
+    FETCH = "fetch"
+    EXTRACT = "extract"  
+    PREPROCESS = "preprocess"
+    MODEL = "model"

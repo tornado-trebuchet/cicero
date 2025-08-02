@@ -20,6 +20,11 @@ class ICorporaRepository(ABC):
         pass
 
     @abstractmethod
+    def list(self) -> List[Corpora]:
+        """List all Corpora aggregates."""
+        pass
+
+    @abstractmethod
     def list_by_country(self, country: CountryEnum) -> List[Corpora]:
         """List all Corpora aggregates for a given country."""
         pass

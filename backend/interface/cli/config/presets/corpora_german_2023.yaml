@@ -1,0 +1,8 @@
+# Corpora specification for German Parliament 2023
+countries:
+  - "COUNTRY-UUID-GERMANY"
+institutions:
+  - "INSTITUTION-UUID-BUNDESTAG"
+periods:
+  - "PERIOD-UUID-2023"
+label: "German Parliament 2023 Speeches"

@@ -1,0 +1,15 @@
+# Preprocess and Model: From existing speeches  
+pipeline_type: "PREPROCESS_MODEL"
+parallel_preprocessing: true
+batch_size: 10
+save_intermediate_results: true
+output_corpora_label: "Preprocessed Analysis"
+
+# Input: existing speech IDs (user must specify these)
+speech_ids:
+  - "EXAMPLE-SPEECH-UUID-1"
+  - "EXAMPLE-SPEECH-UUID-2"
+  - "EXAMPLE-SPEECH-UUID-3"
+
+topic_modeller:
+  # Will be filled with generated corpora_id during pipeline execution

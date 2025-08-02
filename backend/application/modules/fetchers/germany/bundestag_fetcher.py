@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from backend.application.modules.fetchers.base_fetcher import BaseFetcher
 from backend.application.modules.fetchers.fetcher_spec import FetcherSpec
 from backend.domain.models.text.a_protocol import Protocol
@@ -13,8 +14,11 @@ from backend.domain.models.text.v_protocol_text import ProtocolText
 from backend.domain.models.text.v_protocol_agenda import Agenda
 from backend.domain.models.context.v_label import Label
 from backend.domain.models.common.v_metadata_plugin import MetadataPlugin
+import logging
 
-# TODO: Log + Depend on repo contracts + and could simplify this to one single module with DI dependency 
+logger = logging.getLogger(__name__)
+
+# TODO: Depend on repo contracts + and could simplify this to one single module with DI dependency 
 class BundestagFetcher(BaseFetcher):
     """Fetcher for orchestrating Bundestag API protocol acquisition"""
 
@@ -25,10 +29,12 @@ class BundestagFetcher(BaseFetcher):
         spec: FetcherSpec,
     ) -> None:
         super().__init__(api, repository, spec)
+        self._limit = self._set_fetch_limit()
         self._joint_q_repo = JointQRepository()
         self._country_repo = CountryRepository()
         self._institution_repo = InstitutionRepository()
         self._country = CountryEnum.GERMANY
+        logger.info(f"BundestagFetcher initialized with fetch limit: {self._limit}")
 
     def fetch_single(self) -> Protocol:
         """Fetch a protocol from the Bundestag API"""
@@ -79,6 +85,11 @@ class BundestagFetcher(BaseFetcher):
                 
                 # Keep only ID in memory
                 protocol_ids.append(protocol.id)
+                logger.info(f"Fetched protocol {protocol.id} from Bundestag API")
+
+                # Check limit
+                if self._limit is not None and len(protocol_ids) >= self._limit:
+                    break
                 
             except Exception as e:
                 print(f"Failed to fetch protocol {protocol_id}: {e}")
@@ -137,3 +148,11 @@ class BundestagFetcher(BaseFetcher):
             return ProtocolTypeEnum.PLENARY
         else:
             raise ValueError(f"Unknown protocol type: {type_str}")
+        
+
+    def _set_fetch_limit(self) -> int | None:
+        params: Dict[str, Any] = self._spec.get_spec_dict().get("params") or {}
+        limit: Any = params.get("limit")
+        if limit is not None:
+            return int(limit)
+        return None

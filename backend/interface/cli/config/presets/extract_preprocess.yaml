@@ -1,0 +1,16 @@
+# Extract and Preprocess: From existing protocols
+pipeline_type: "EXTRACT_PREPROCESS"
+parallel_preprocessing: true
+batch_size: 5
+save_intermediate_results: true
+
+# Input: existing protocol IDs (user must specify these)
+protocol_ids:
+  - "EXAMPLE-PROTOCOL-UUID-1"
+  - "EXAMPLE-PROTOCOL-UUID-2"
+
+extraction:
+  country: "GERMANY"
+  institution: "PARLIAMENT"
+  language: "DE"
+  protocol_type: "PLENARY"

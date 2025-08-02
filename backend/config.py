@@ -1,10 +1,10 @@
 import os
 from dataclasses import dataclass
-from typing import Tuple
-
+from typing import Tuple, List, Optional
 import torch
 from dotenv import load_dotenv
 
+from backend.domain.models.common.v_enums import PipelineType, PipelineStep
 load_dotenv()
 
 # --------------------- Text Service Configurations ---------------------
@@ -126,3 +126,16 @@ class HDBSCANConfig:
     allow_single_cluster: bool = True
     core_dist_n_jobs: int = -1
     verbose: bool = True
+
+
+# --------------------- Pipeline Configurations ---------------------
+
+@dataclass
+class PipelineConfig:
+    """Configuration for pipeline execution"""
+    pipeline_type: PipelineType
+    steps: Optional[List[PipelineStep]] = None  # For custom pipelines
+    parallel_preprocessing: bool = False  # Process speeches in parallel
+    batch_size: Optional[int] = None  # Batch size for processing
+    continue_on_error: bool = False  # Continue if individual items fail
+    save_intermediate_results: bool = True  # Save results after each step
