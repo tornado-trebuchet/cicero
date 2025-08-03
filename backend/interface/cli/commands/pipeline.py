@@ -1,6 +1,3 @@
-"""
-Pipeline orchestration commands
-"""
 import typer
 from pathlib import Path
 from typing import Optional
@@ -8,7 +5,6 @@ import time
 
 from backend.interface.cli.config.cli_config import ConfigLoader
 from backend.interface.cli.config.converters import ConfigConverter
-from backend.application.pipeline.controller import Pipeline
 from backend.application.pipeline.spec import PipelineResult
 
 app = typer.Typer(help="Pipeline orchestration commands")
@@ -38,6 +34,7 @@ def run_pipeline(
         cicero pipeline run --config /path/to/config.yaml
         cicero pipeline run --preset fetch-extract --verbose
     """
+    from backend.application.pipeline.controller import Pipeline
     
     # Determine config file
     if config_file and preset:

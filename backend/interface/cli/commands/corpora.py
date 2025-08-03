@@ -5,6 +5,7 @@ from typing import Optional
 from backend.interface.cli.config.cli_config import ConfigLoader
 from backend.interface.cli.config.converters import ConfigConverter
 from backend.application.use_cases.common.corpora import CorporaManger
+from backend.application.use_cases.common.corpora_spec import CorporaSpec
 from backend.infrastructure.repository.pgsql.common.rep_corpora import CorporaRepository
 from backend.infrastructure.repository.pgsql.common.rep_joint_q import JointQRepository
 from backend.infrastructure.repository.pgsql.context.rep_period import PeriodRepository
@@ -123,7 +124,6 @@ def create_corpora(
             
         else:
             # Build from individual options
-            from backend.application.use_cases.common.corpora_spec import CorporaSpec
             
             country_uuids = None
             if countries:

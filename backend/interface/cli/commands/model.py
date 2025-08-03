@@ -1,12 +1,12 @@
 import typer
+import traceback
 
-from backend.application.modules.modellers.topic_modeller.topic_modeller import TopicModeller
 from backend.application.modules.modellers.topic_modeller.topic_spec import TopicModellerSpec
 from backend.infrastructure.repository.pgsql.common.rep_corpora import CorporaRepository
 from backend.infrastructure.repository.pgsql.text.rep_text_clean import CleanTextRepository
 from backend.infrastructure.repository.pgsql.text.rep_speech_metrics import SpeechMetricsRepository
-from backend.domain.services.modelling.topic_modeller_bert import TopicModeler
 from backend.domain.models.common.v_common import UUID
+
 
 app = typer.Typer(help="Modeling and analysis commands")
 
@@ -28,6 +28,8 @@ def topic_model(
         cicero model topic-model abc-123-def
         cicero model topic-model abc-123-def --no-annotate --verbose
     """
+    from backend.application.modules.modellers.topic_modeller.topic_modeller import TopicModeller
+    from backend.domain.services.modelling.topic_modeller_bert import TopicModeler
     
     try:
         typer.echo(f"🤖 Running topic modeling on corpora: {corpora_id}")
@@ -85,7 +87,6 @@ def topic_model(
     except Exception as e:
         typer.echo(f"❌ Failed to run topic modeling: {str(e)}", err=True)
         if verbose:
-            import traceback
             typer.echo(f"Stack trace:\n{traceback.format_exc()}", err=True)
         raise typer.Exit(1)
 

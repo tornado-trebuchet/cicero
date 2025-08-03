@@ -1,7 +1,6 @@
 import os
 from dataclasses import dataclass
 from typing import Tuple, List, Optional
-import torch
 from dotenv import load_dotenv
 
 from backend.domain.models.common.v_enums import PipelineType, PipelineStep
@@ -86,11 +85,6 @@ class DatabaseConfig:
 
 
 # --------------------- Topic Modeling Configurations ---------------------
-
-@dataclass
-class SentenceTransformerConfig:
-    embedding_model: str = "paraphrase-xlm-r-multilingual-v1"
-    device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 @dataclass

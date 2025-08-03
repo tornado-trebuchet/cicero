@@ -6,7 +6,7 @@ from backend.domain.models.common.a_corpora import Corpora
 from backend.domain.models.common.v_common import UUID
 from backend.domain.models.text.e_speech_metrics_plugin import MetricsPlugin
 from backend.application.modules.modellers.topic_modeller.topic_spec import TopicModellerSpec
-from backend.domain.services.modelling.topic_modeller_bert import TopicModeler
+from backend.domain.services.modelling.topic_modeller_bert import TopicModeler # FIXME: BRUH
 
 import logging
 logger = logging.getLogger(__name__)

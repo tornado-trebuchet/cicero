@@ -1,4 +1,4 @@
-from dataclasses import asdict
+from dataclasses import asdict, dataclass
 from typing import Any, List, Tuple, Union, Dict, Optional
 import numpy as np
 import numpy.typing as npt
@@ -9,13 +9,19 @@ from hdbscan import HDBSCAN  # type: ignore
 from sentence_transformers import SentenceTransformer
 
 from backend.config import (
-    SentenceTransformerConfig,
     BERTConfig,
     UMAPConfig,
     HDBSCANConfig,
 )
 
 # --------------------- TopicModeler Wrapper ---------------------
+
+@dataclass
+class SentenceTransformerConfig:
+    import torch # FIXME
+    embedding_model: str = "paraphrase-xlm-r-multilingual-v1"
+    device: str = "cuda" if torch.cuda.is_available() else "cpu"
+
 class TopicModeler:
     embedding_model: SentenceTransformer
     umap_model: UMAP

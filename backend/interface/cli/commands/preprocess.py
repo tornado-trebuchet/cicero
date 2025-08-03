@@ -4,7 +4,6 @@ Text preprocessing commands
 import typer
 from typing import List
 
-from backend.application.modules.text_services.preprocessor.preprocessor import PreprocessTextService
 from backend.application.modules.text_services.preprocessor.preprocessor_spec import PreprocessorSpec
 from backend.domain.models.common.v_common import UUID
 
@@ -28,6 +27,7 @@ def preprocess_speeches(
         cicero preprocess speeches "uuid1,uuid2,uuid3"
         cicero preprocess speeches "uuid1,uuid2" --batch-size 2 --verbose
     """
+    from backend.application.modules.text_services.preprocessor.preprocessor import PreprocessTextService
     
     try:
         # Parse speech IDs

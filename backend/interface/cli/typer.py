@@ -4,7 +4,6 @@ from backend.interface.cli.commands import pipeline, corpora, data, fetch, extra
 
 app = typer.Typer(help="Cicero CLI")
 
-# Add sub-commands
 app.add_typer(pipeline.app, name="pipeline", help="Pipeline orchestration commands")
 app.add_typer(corpora.app, name="corpora", help="Corpora management commands")
 app.add_typer(data.app, name="data", help="Data management commands")
