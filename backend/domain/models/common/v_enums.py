@@ -42,10 +42,11 @@ class OwnerTypeEnum(str, Enum):
 class PipelineType(Enum):
     """Different types of pipeline execution"""
     FULL = "full"  # Fetch → Extract → Preprocess → Model
-    FETCH_EXTRACT = "fetch_extract"  # Fetch → Extract
-    PREPROCESS_MODEL = "preprocess_model"  # Preprocess → Model
-    EXTRACT_PREPROCESS = "extract_preprocess"  # Extract → Preprocess
     CUSTOM = "custom"  # Custom step selection
+    FETCH = "fetch"
+    EXTRACT = "extract"
+    PREPROCESS = "preprocess"
+    TOPIC_MODEL = "topic_model"
 
 
 class PipelineStep(Enum):
@@ -53,4 +54,4 @@ class PipelineStep(Enum):
     FETCH = "fetch"
     EXTRACT = "extract"  
     PREPROCESS = "preprocess"
-    MODEL = "model"
+    TOPIC_MODEL = "topic_model"

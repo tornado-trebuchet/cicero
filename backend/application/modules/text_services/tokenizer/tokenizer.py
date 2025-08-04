@@ -7,7 +7,7 @@ from backend.infrastructure.repository.pgsql.text.rep_speech_text import SpeechT
 from backend.infrastructure.repository.pgsql.text.rep_text_tokenized import TokenizedTextRepository
 from backend.application.modules.text_services.tokenizer.tokenizer_spec import TokenizerSpec
 
-
+# FIXME: URGENT this should receive a corpora from spec !!!
 class PreprocessTextService:
     def __init__(self, spec: TokenizerSpec):
         self.spec = spec

@@ -21,7 +21,7 @@ def fetch_protocols(
     preset: Optional[str] = typer.Option(
         None,
         "--preset", "-p",
-        help="Use predefined preset: single, batch"
+        help="Use predefined preset: bundestag"
     ),
     limit: Optional[int] = typer.Option(
         None,
@@ -34,7 +34,7 @@ def fetch_protocols(
     Fetch protocols from external APIs.
     
     Examples:
-        cicero fetch protocols --preset batch --limit 5
+        cicero fetch protocols --preset bundestag --limit 5
         cicero fetch protocols --config /path/to/fetcher.yaml
     """
     
@@ -50,8 +50,7 @@ def fetch_protocols(
         
         if preset:
             preset_map = {
-                "single": "fetcher_single.yaml",
-                "batch": "fetcher_batch.yaml"
+                "bundestag": "fetch.yaml",
             }
             
             if preset not in preset_map:

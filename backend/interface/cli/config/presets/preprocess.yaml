@@ -5,11 +5,9 @@ batch_size: 10
 save_intermediate_results: true
 output_corpora_label: "Preprocessed Analysis"
 
-# Input: existing speech IDs (user must specify these)
+# Input: CORPORA
 speech_ids:
   - "EXAMPLE-SPEECH-UUID-1"
   - "EXAMPLE-SPEECH-UUID-2"
   - "EXAMPLE-SPEECH-UUID-3"
 
-topic_modeller:
-  # Will be filled with generated corpora_id during pipeline execution

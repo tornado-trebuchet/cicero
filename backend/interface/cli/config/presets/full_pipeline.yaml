@@ -19,4 +19,4 @@ extraction:
   protocol_type: "PLENARY"
   
 topic_modeller:
-  # Will be filled with generated corpora_id during pipeline execution
+  

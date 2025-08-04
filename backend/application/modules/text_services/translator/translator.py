@@ -6,8 +6,9 @@ from backend.infrastructure.repository.pgsql.text.rep_speech_text import SpeechT
 from backend.infrastructure.repository.pgsql.text.rep_text_translated import TranslatedTextRepository
 from backend.application.modules.text_services.translator.translator_spec import TranslatorSpec
 from backend.domain.services.text.translator.serv_translator_dto import TranslatedTextDTO
+from backend.domain.services.text.translator.serv_translator import TranslateCleanText
 
-
+# FIXME: URGENT this should receive a corpora from spec !!!
 class PreprocessTextService:
     def __init__(self, spec: TranslatorSpec):
         self.spec = spec
@@ -30,9 +31,8 @@ class PreprocessTextService:
         if clean_text is None:
             raise ValueError(f"No CleanText found for id: {speech_text.raw_text}")
         # 4. Get Translator
-        translator_cls = TranslateCleanText()
+        service = TranslateCleanText(clean_text, language_code=speech_text.language_code)
         # 5. Translate
-        service = TranslateCleanText(clean_text)
         translation_dto: TranslatedTextDTO = service.process()
         translated_text = TranslatedText(
             id=UUID.new(), speech_text_id=speech_text.id, translated_text=translation_dto.translation

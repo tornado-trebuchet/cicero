@@ -2,17 +2,18 @@
 pipeline_type: "CUSTOM"
 steps:
   - "FETCH"
-  - "EXTRACT"
 parallel_preprocessing: false
 save_intermediate_results: true
 output_corpora_label: "Custom Analysis"
 
 fetcher:
-  server_base: "https://search.dip.bundestag.de"
-  endpoint_spec: "/api/v1/plenarprotokoll"
+  server_base: "https://search.dip.bundestag.de/api/v1"
+  endpoint_spec: "plenarprotokoll-text"
   params:
-    limit: 2
     format: "json"
+    apikey: "OSOegLs.PR2lwJ1dwCeje9vTj7FPOt3hvpYKtwKkhw"
+    limit: 100
+    wahlperiode: 20
 
 extraction:
   country: "GERMANY"

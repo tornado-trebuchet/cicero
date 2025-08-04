@@ -1,6 +1,0 @@
-# Single protocol fetcher config
-server_base: "https://search.dip.bundestag.de"
-endpoint_spec: "/api/v1/plenarprotokoll"
-endpoint_val: "20057"
-params:
-  format: "json"

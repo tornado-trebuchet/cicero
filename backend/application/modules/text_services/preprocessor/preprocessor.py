@@ -8,6 +8,7 @@ from backend.domain.models.common.v_common import UUID
 from backend.domain.services.text.preprocessor.serv_preprocessor import PreprocessRawText
 
 # TODO: pass abstract classes for DI management
+# FIXME: URGENT this should receive a corpora from spec !!!!
 class PreprocessTextService:
     def __init__(self, spec: PreprocessorSpec):
         self.spec = spec

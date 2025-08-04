@@ -86,13 +86,15 @@ class Pipeline:
         if spec.config.pipeline_type == PipelineType.CUSTOM and spec.config.steps:
             return spec.config.steps
         elif spec.config.pipeline_type == PipelineType.FULL:
-            return [PipelineStep.FETCH, PipelineStep.EXTRACT, PipelineStep.PREPROCESS, PipelineStep.MODEL]
-        elif spec.config.pipeline_type == PipelineType.FETCH_EXTRACT:
-            return [PipelineStep.FETCH, PipelineStep.EXTRACT]
-        elif spec.config.pipeline_type == PipelineType.EXTRACT_PREPROCESS:
-            return [PipelineStep.EXTRACT, PipelineStep.PREPROCESS]
-        elif spec.config.pipeline_type == PipelineType.PREPROCESS_MODEL:
-            return [PipelineStep.PREPROCESS, PipelineStep.MODEL]
+            return [PipelineStep.FETCH, PipelineStep.EXTRACT, PipelineStep.PREPROCESS, PipelineStep.TOPIC_MODEL]
+        elif spec.config.pipeline_type == PipelineType.FETCH: 
+            return [PipelineStep.FETCH]
+        elif spec.config.pipeline_type == PipelineType.EXTRACT:
+            return [PipelineStep.EXTRACT]
+        elif spec.config.pipeline_type == PipelineType.PREPROCESS:
+            return [PipelineStep.PREPROCESS]
+        elif spec.config.pipeline_type == PipelineType.TOPIC_MODEL:
+            return [PipelineStep.TOPIC_MODEL]
         else:
             raise ValueError(f"Unknown pipeline type: {spec.config.pipeline_type}")
     
@@ -107,7 +109,7 @@ class Pipeline:
                 return self._execute_extract_step(spec, start_time)
             elif step == PipelineStep.PREPROCESS:
                 return self._execute_preprocess_step(spec, start_time)
-            elif step == PipelineStep.MODEL:
+            elif step == PipelineStep.TOPIC_MODEL:
                 return self._execute_model_step(spec, start_time)
             else:
                 raise ValueError(f"Unknown step: {step}")
@@ -200,7 +202,7 @@ class Pipeline:
             data=processed_speeches,
             execution_time_seconds=time.time() - start_time
         )
-    
+    # FIXME: get corpora instead of lists
     def _execute_preprocess_parallel(self, speech_ids: List[UUID], spec: PipelineSpec, start_time: float) -> StepResult:
         """Execute preprocessing in parallel batches"""
         from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -262,7 +264,7 @@ class Pipeline:
         result = modeller.build_model_and_annotate(spec.topic_modeller_spec)
         
         return StepResult(
-            step=PipelineStep.MODEL,
+            step=PipelineStep.TOPIC_MODEL,
             success=True,
             data=result,
             execution_time_seconds=time.time() - start_time
@@ -288,8 +290,8 @@ class Pipeline:
         if PipelineStep.PREPROCESS in self.results:
             preprocessed_speeches = self.results[PipelineStep.PREPROCESS].data
             
-        if PipelineStep.MODEL in self.results:
-            model_results = self.results[PipelineStep.MODEL].data
+        if PipelineStep.TOPIC_MODEL in self.results:
+            model_results = self.results[PipelineStep.TOPIC_MODEL].data
         
         # Collect error messages
         error_messages: List[str] = []

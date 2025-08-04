@@ -12,7 +12,7 @@ from backend.application.use_cases.common.corpora import CorporaManger
 def get_seed_defaults_use_case():
     return SeedDefaultsUseCase()
 
-
+# FIXME: outdated
 def get_corpora_by_id_use_case():
     return CorporaManger(
         corpora_repo=CorporaRepository(),
