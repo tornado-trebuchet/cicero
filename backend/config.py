@@ -2,9 +2,28 @@ import os
 from dataclasses import dataclass
 from typing import Tuple, List, Optional
 from dotenv import load_dotenv
-
 from backend.domain.models.common.v_enums import PipelineType, PipelineStep
+
 load_dotenv()
+
+# --------------------- Database Configurations ---------------------
+
+@dataclass
+class DatabaseConfig:
+    """Configuration for database integration."""
+
+    POSTGRES_USER: str = os.environ.get("POSTGRES_USER", "")
+    POSTGRES_PASSWORD: str = os.environ.get("POSTGRES_PASSWORD", "")
+    POSTGRES_DB: str = os.environ.get("POSTGRES_DB", "")
+    POSTGRES_HOST: str = os.environ.get("POSTGRES_HOST", "")
+    POSTGRES_PORT: str = os.environ.get("POSTGRES_PORT", "")
+    database_url: str = (
+        f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
+    )
+    echo: bool = False
+    pool_pre_ping: bool = True
+    pool_recycle: int = 3600
+
 
 # --------------------- Text Service Configurations ---------------------
 
@@ -64,25 +83,6 @@ class LoggingConfig:
 class APIConfig:
     TIMEOUT: int = 10
     MAX_RETRIES: int = 3
-
-# --------------------- Database Configurations ---------------------
-
-@dataclass
-class DatabaseConfig:
-    """Configuration for database integration."""
-
-    POSTGRES_USER: str = os.environ.get("POSTGRES_USER", "")
-    POSTGRES_PASSWORD: str = os.environ.get("POSTGRES_PASSWORD", "")
-    POSTGRES_DB: str = os.environ.get("POSTGRES_DB", "")
-    POSTGRES_HOST: str = os.environ.get("POSTGRES_HOST", "")
-    POSTGRES_PORT: str = os.environ.get("POSTGRES_PORT", "")
-    database_url: str = (
-        f"postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}:{POSTGRES_PORT}/{POSTGRES_DB}"
-    )
-    echo: bool = False
-    pool_pre_ping: bool = True
-    pool_recycle: int = 3600
-
 
 # --------------------- Topic Modeling Configurations ---------------------
 

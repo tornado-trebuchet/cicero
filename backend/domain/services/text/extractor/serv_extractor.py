@@ -12,10 +12,9 @@ logger = logging.getLogger(__name__)
 # TODO: Since we do not need a universal regex anymore.
 # And can easily swap them, then we should probably decouple this from regex implementation
 
-
 # also: (self, Protocol, Country, Institution, Language, PatternSpec)
 class ExtractSpeakersFromProtocol(TextService):
-    def __init__(self, protocol: Protocol, spec: ExtractionSpec):  # FIXME: SHOULD NOT DEPEND ON EXTERNALS
+    def __init__(self, protocol: Protocol, spec: ExtractionSpec):
         self.protocol = protocol
         self.country = spec.country
         self.institution = spec.institution
@@ -53,7 +52,7 @@ class ExtractSpeakersFromProtocol(TextService):
             else:
                 end = len(text)
             speech_text = text[start:end].strip()
-            # Add the first letter of the speech I AM SORRY FOR THAT!
+            # Add the first letter of the speech I AM SORRY FOR THAT! TODO: make universal regex contract
             first_letter = match.group(match.lastindex) if match.lastindex else ""
             if speech_text:
                 speech_text = (

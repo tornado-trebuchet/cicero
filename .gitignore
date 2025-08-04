@@ -1,5 +1,5 @@
 # Custom 
-.output/
+_output/
 .cache/
 instructions.md
 *.rst 
