@@ -9,5 +9,5 @@ fetcher:
   params:
     format: "json"
     apikey: "OSOegLs.PR2lwJ1dwCeje9vTj7FPOt3hvpYKtwKkhw"
-    limit:
-    wahlperiode: 20
+    wahlperiode:
+    limit: 1
