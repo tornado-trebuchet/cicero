@@ -9,7 +9,7 @@ from backend.domain.models.text.a_speech import Speech
 from backend.domain.models.text.a_speech_text import SpeechText
 from backend.domain.models.text.e_text_raw import RawText
 from backend.domain.models.context.e_period import Period
-
+from backend.domain.models.text.a_protocol import Protocol
 
 class IJointQRepository(ABC):
     """Interface for Joint Query Repository."""
@@ -24,6 +24,16 @@ class IJointQRepository(ABC):
     @abstractmethod
     def get_country_by_institution_id(self, institution_id: UUID) -> Optional[Country]:
         """Get country by institution ID."""
+        pass
+
+    @abstractmethod
+    def get_protocol_by_speech_id(self, speech_id: UUID) -> Optional[Protocol]:
+        """Get protocol by speech ID."""
+        pass
+
+    @abstractmethod
+    def get_speech_text_by_speech_id(self, speech_id: UUID) -> Optional[SpeechText]:
+        """Get speech text by speech ID."""
         pass
 
     @abstractmethod

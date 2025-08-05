@@ -4,13 +4,13 @@ from backend.domain.models.base_aggregate import AggregateRoot
 from backend.domain.models.common.v_common import UUID
 from backend.domain.models.context.v_label import Label
 
-
+# TODO: add a creation date / version or other value for automatic cleanup 
 class Corpora(AggregateRoot):
     def __init__(
         self,
         id: UUID,
         label: Label,
-        texts: Set[UUID],
+        texts: Set[UUID], #TODO: enforce to be SpeechText objects (Kind of used like that)
         countries: Optional[List[UUID]] = None,
         institutions: Optional[List[UUID]] = None,
         protocols: Optional[List[UUID]] = None,

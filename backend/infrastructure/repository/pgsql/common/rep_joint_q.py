@@ -9,18 +9,21 @@ from backend.domain.models.context.e_period import Period
 from backend.domain.models.text.a_speech import Speech
 from backend.domain.models.text.a_speech_text import SpeechText
 from backend.domain.models.text.e_text_raw import RawText
+from backend.domain.models.text.a_protocol import Protocol
 from backend.infrastructure.mappers.context.m_country import CountryMapper
 from backend.infrastructure.mappers.context.m_institution import InstitutionMapper
 from backend.infrastructure.mappers.text.m_speech import SpeechMapper
 from backend.infrastructure.mappers.text.m_speech_text import SpeechTextMapper
 from backend.infrastructure.mappers.text.m_text_raw import RawTextMapper
+from backend.infrastructure.mappers.text.m_protocol import ProtocolMapper
 from backend.infrastructure.orm.context.orm_country import CountryORM
 from backend.infrastructure.orm.context.orm_institution import InstitutionORM
 from backend.infrastructure.orm.context.orm_speaker import SpeakerORM
-from backend.infrastructure.orm.orm_session import session_scope
+from backend.infrastructure.orm.text.orm_speech_text import SpeechTextORM
 from backend.infrastructure.orm.text.orm_speech import SpeechORM
 from backend.infrastructure.orm.text.orm_protocol import ProtocolORM
 
+from backend.infrastructure.orm.orm_session import session_scope
 
 class JointQRepository(IJointQRepository):
     def get_institution_by_country_and_institution_enum(
@@ -54,6 +57,30 @@ class JointQRepository(IJointQRepository):
             orm_country = session.query(CountryORM).filter_by(id=orm_institution.country_id).one_or_none()
             if orm_country:
                 return CountryMapper.to_domain(orm_country)
+            return None
+
+    def get_protocol_by_speech_id(self, speech_id: UUID) -> Optional[Protocol]:
+        with session_scope() as session:
+            # Find the speech by id
+            orm_speech = session.query(SpeechORM).filter_by(id=speech_id.value).one_or_none()
+            if not orm_speech:
+                return None
+            # Get the protocol associated with the speech
+            orm_protocol = session.query(ProtocolORM).filter_by(id=orm_speech.protocol_id).one_or_none()
+            if orm_protocol:
+                return ProtocolMapper.to_domain(orm_protocol)
+            return None
+
+    def get_speech_text_by_speech_id(self, speech_id: UUID) -> Optional[SpeechText]:
+        with session_scope() as session:
+            # Find the speech by id
+            orm_speech = session.query(SpeechORM).filter_by(id=speech_id.value).one_or_none()
+            if not orm_speech:
+                return None
+            # Get the speech text associated with the speech
+            orm_speech_text = session.query(SpeechTextORM).filter_by(speech_id=orm_speech.id).one_or_none()
+            if orm_speech_text:
+                return SpeechTextMapper.to_domain(orm_speech_text)
             return None
 
     def add_speech_speech_text_and_raw_text(
