@@ -38,8 +38,8 @@ services:
     container_name: cicero_frontend_dev
     ports:
       - "127.0.0.1:4200:4200"
-    depends_on:
-      - api
+    # depends_on:
+    #   - api
 
 
 volumes:

@@ -1,0 +1,18 @@
+<div class="dashboard">
+  <h2>App Statistics</h2>
+  <div *ngIf="loading">Loading statistics...</div>
+  <div *ngIf="error">{{ error }}</div>
+  <div *ngIf="stats">
+    <ul class="dashboard__stats">
+      <li>Total Countries: {{ stats.total_countries }}</li>
+      <li>Total Institutions: {{ stats.total_institutions }}</li>
+      <li>Total Speeches: {{ stats.total_speeches }}</li>
+      <li>Total Speakers: {{ stats.total_speakers }}</li>
+      <li>Total Protocols: {{ stats.total_protocols }}</li>
+    </ul>
+    <div class="dashboard__graph-placeholder">
+      <!-- Graphical representation will go here -->
+      <p>Graphical representation placeholder</p>
+    </div>
+  </div>
+</div>

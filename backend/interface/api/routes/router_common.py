@@ -1,8 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends
+from backend.application.di.di_common import get_corpora_repository
 from backend.interface.api.dtos.dto_common import CorporaSpecDTO, UUIDResponse, CorporaDTO
 from backend.interface.api.mappers.mp_common import dto_to_corpora_spec, corpora_to_dto
 from backend.application.use_cases.common.corpora import CorporaManger
-from backend.application.di.di_common import get_corpora_by_id_use_case
 from backend.domain.models.common.v_common import UUID
 from backend.infrastructure.repository.pgsql.common.rep_corpora import CorporaRepository
 from backend.infrastructure.repository.pgsql.text.rep_text_raw import RawTextRepository
@@ -35,7 +35,7 @@ def assemble_corpora(spec_dto: CorporaSpecDTO):
 
 
 @common_router.get("/common/corpora/{corpora_id}", response_model=CorporaDTO)
-def get_corpora_by_id(corpora_id: str, corpora_manager: CorporaManger = Depends(get_corpora_by_id_use_case)):
+def get_corpora_by_id(corpora_id: str, corpora_manager: CorporaManger = Depends(get_corpora_repository)):
     try:
         corpora = corpora_manager.get_corpora_by_id(UUID(corpora_id))
         return corpora_to_dto(corpora)

@@ -1,5 +1,5 @@
 from backend.application.use_cases.common.seed_defaults import SeedDefaultsUseCase
-# from backend.infrastructure.repository.pgsql.common.rep_corpora import CorporaRepository
+from backend.infrastructure.repository.pgsql.common.rep_corpora import CorporaRepository
 # from backend.infrastructure.repository.pgsql.common.rep_joint_q import JointQRepository
 # from backend.infrastructure.repository.pgsql.text.rep_text_raw import RawTextRepository
 # from backend.infrastructure.repository.pgsql.text.rep_text_clean import CleanTextRepository
@@ -28,6 +28,9 @@ def get_seed_defaults_use_case():
 #         tokenized_text_repo=TokenizedTextRepository(),
 #         ngramized_text_repo=NGramizedTextRepository(),
 #     )
+
+def get_corpora_repository():
+    return CorporaRepository()
 
 def get_corpora_spec_repositories():
     return {
