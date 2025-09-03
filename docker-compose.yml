@@ -15,8 +15,10 @@ services:
       timeout: 5s
       retries: 5
 
-  api:
-    build: ./backend
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     container_name: cicero_backend_dev
     command: /opt/venv/bin/python -m uvicorn backend.interface.api.main:app --host 0.0.0.0 --port 8000 --reload
     volumes:
@@ -25,9 +27,9 @@ services:
       - .env
     ports:
       - "8000:8000"
-    depends_on:
-      postgres:
-        condition: service_healthy
+    # depends_on:
+    #   postgres:
+    #     condition: service_healthy
     dns:
       - 1.1.1.1
     environment:
@@ -39,7 +41,7 @@ services:
     ports:
       - "127.0.0.1:4200:4200"
     # depends_on:
-    #   - api
+    #   - backend
 
 
 volumes:
