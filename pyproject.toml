@@ -27,6 +27,8 @@ umap-learn = "^0.5.5"
 hdbscan = "^0.8.33"
 sentence-transformers = "^2.7.0"
 torch = "^2.3.0"
+aiologger = "^0.7.0"
+aiofiles = "^23.1.0"
 
 [tool.black]
 line-length = 110

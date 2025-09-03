@@ -34,8 +34,7 @@ class StatisticsUseCase:
         self.speaker_repo = speaker_repo
         self.protocol_repo = protocol_repo
         self.speech_repo = speech_repo
-
-    def execute(self) -> AppStatistics:
+#FIXME: relete and rework with proper query
         total_countries = len(self.country_repo.list())
         total_institutions = len(self.institution_repo.list())
         total_speeches = len(self.speech_repo.list())

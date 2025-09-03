@@ -7,7 +7,7 @@ from backend.infrastructure.external.germany.protocol_dto import GermanResponseP
 from backend.infrastructure.repository.pgsql.common.rep_joint_q import JointQRepository
 from backend.infrastructure.repository.pgsql.context.rep_country import CountryRepository
 from backend.infrastructure.repository.pgsql.context.rep_institution import InstitutionRepository
-from backend.infrastructure.repository.pgsql.text.rep_protocol import ProtocolRepository
+from backend.infrastructure.repository.pgsql.text.rep_protocol import ProtocolRepository # To interface
 from backend.domain.models.common.v_common import UUID, DateTime, HttpUrl
 from backend.domain.models.common.v_enums import CountryEnum, InstitutionTypeEnum, ProtocolTypeEnum
 from backend.domain.models.text.v_protocol_text import ProtocolText
@@ -15,6 +15,17 @@ from backend.domain.models.text.v_protocol_agenda import Agenda
 from backend.domain.models.context.v_label import Label
 from backend.domain.models.common.v_metadata_plugin import MetadataPlugin
 import logging
+
+"""
+to async: 
+1) Async function 
+2) Semaphore 
+3) Test event loop 
+4) Asynchttp
+5) Async DB session * 
+
+
+"""
 
 logger = logging.getLogger(__name__)
 
@@ -96,7 +107,7 @@ class BundestagFetcher(BaseFetcher):
                 continue
         
         return protocol_ids
-
+# TODO: abstract to get any country
     def _from_dto(self, dto: GermanResponseProtocolDTO) -> Protocol:
         # Get country (Germany)
         country = self._country_repo.get_by_country_enum(self._country)
@@ -134,7 +145,7 @@ class BundestagFetcher(BaseFetcher):
             agenda=agenda,
             metadata=metadata
         )
-
+# TODO: same
     def _map_institution_type(self, institution_str: str) -> InstitutionTypeEnum:
         if institution_str == "BT":
             return InstitutionTypeEnum.PARLIAMENT

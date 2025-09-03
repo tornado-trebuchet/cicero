@@ -6,6 +6,8 @@ Built with severe brain damage
 
 Docs are in docs used to generate docs which creates docs. Sphynx in makefile there.
 
+! Test async logger 
+
 TODO list (another one): 
 
 1) Assemble the pipeline 
